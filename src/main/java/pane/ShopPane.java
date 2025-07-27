@@ -29,7 +29,7 @@ public class ShopPane {
     }
 
     public static void showShop(Tower tower, String shopId) {
-        TowerPanel.canMove = false;
+        TowerPanel.CAN_MOVE = false;
         shopPane.removeAll();
         Shop shop = tower.getShopMap().get(shopId);
         init(shop);
@@ -69,7 +69,7 @@ public class ShopPane {
                             shopPane.removeKeyListener(this);
                             shopPane.setVisible(false);
                             TowerPanel.musicPlayer.upAndDown();
-                            TowerPanel.canMove = true;
+                            TowerPanel.CAN_MOVE = true;
                             TowerPanel.input.clear();
                             nowSelected = 0;
                             break;
@@ -92,7 +92,7 @@ public class ShopPane {
                         shopPane.removeKeyListener(this);
                         shopPane.setVisible(false);
                         TowerPanel.musicPlayer.upAndDown();
-                        TowerPanel.canMove = true;
+                        TowerPanel.CAN_MOVE = true;
                         TowerPanel.input.clear();
                         nowSelected = 0;
                         break;

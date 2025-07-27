@@ -19,7 +19,7 @@ public final class LoadMap {
 
         layer1 = new String[][]{
                 {"", "", "", "", "", "", "", "", "", "", ""},
-                {"", "", "", "", "", "", "", "", "", "", ""},
+                {"", "", "", "", "", "", "", "", "npc03_3", "", ""},
                 {"", "", "", "", "", "", "", "", "", "", ""},
                 {"", "", "", "", "", "", "", "", "", "", ""},
                 {"", "", "", "", "", "", "", "", "", "", ""},
@@ -44,23 +44,23 @@ public final class LoadMap {
                 {"", "", "", "", "", "", "", "", "", "", ""}};
 
         layer3 = new String[][]{
-                {"wall01", "wall05", "wall05", "wall05", "wall05", "stair02", "wall05", "wall05", "wall05", "wall05", "wall01"},
-                {"wall01", "wall05", "wall05", "wall05", "wall05", "", "wall05", "wall05", "wall05", "wall05", "wall01"},
-                {"wall01", "wall05", "wall05", "wall05", "wall05", "", "wall05", "wall05", "wall05", "wall05", "wall01"},
-                {"wall01", "wall05", "wall05", "wall05", "wall05", "", "wall05", "wall05", "wall05", "wall05", "wall01"},
-                {"wall01", "wall05", "wall05", "wall05", "wall05", "", "wall05", "wall05", "wall05", "wall05", "wall01"},
-                {"wall01", "wall05", "wall05", "wall05", "wall05", "", "wall05", "wall05", "wall05", "wall05", "wall01"},
-                {"wall01", "wall01", "wall05", "wall05", "wall05", "", "wall05", "wall05", "wall05", "wall01", "wall01"},
-                {"wall01", "wall01", "wall01", "wall01", "wall01", "door01", "wall01", "wall01", "wall01", "wall01", "wall01"},
-                {"wall06", "wall01", "wall06", "wall01", "", "", "", "wall01", "wall06", "wall01", "wall06"},
-                {"wall06", "wall06", "wall06", "wall06", "wall06", "", "wall06", "wall06", "wall06", "wall06", "wall06"},
-                {"wall06", "wall06", "wall06", "wall06", "wall06", "", "wall06", "wall06", "wall06", "wall06", "wall06"}};
+                {"wall01", "wall01", "wall01", "wall01", "wall01", "stair02", "wall01", "wall01", "wall01", "wall01", "wall01"},
+                {"wall01", "wall01", "", "", "wall01", "door05", "wall01", "", "", "wall01", "wall01"},
+                {"wall01", "", "", "", "", "", "", "", "", "", "wall01"},
+                {"wall01", "", "", "", "", "", "", "", "", "", "wall01"},
+                {"wall01", "", "", "", "", "", "", "", "", "", "wall01"},
+                {"wall01", "", "", "", "", "", "", "", "", "", "wall01"},
+                {"wall01", "wall01", "", "", "", "", "", "", "", "wall01", "wall01"},
+                {"wall01", "wall06", "wall01", "wall01", "wall01", "door01", "wall01", "wall01", "wall01", "wall06", "wall01"},
+                {"wall06", "wall06", "wall06", "wall01", "", "", "", "wall01", "wall06", "wall06", "wall06"},
+                {"wall06", "wall06", "wall06", "wall06", "wall01", "", "wall01", "wall06", "wall06", "wall06", "wall06"},
+                {"wall06", "wall06", "wall06", "wall06", "wall01", "", "wall01", "wall06", "wall06", "wall06", "wall06"}};
 
         gameMap = new GameMap(0, layer1, layer2, layer3);
         gameMap.upPositionX = 5;
-        gameMap.upPositionY = 9;
+        gameMap.upPositionY = 10;
         gameMap.downPositionX = 5;
-        gameMap.downPositionY = 1;
+        gameMap.downPositionY = 0;
         mapList.add(gameMap);
 
         layer1 = new String[][]{
@@ -73,7 +73,7 @@ public final class LoadMap {
                 {"", "", "", "", "", "", "", "", "", "", ""},
                 {"", "", "", "", "", "", "", "", "", "", ""},
                 {"", "monster03_2", "", "", "", "", "", "", "", "", ""},
-                {"", "", "", "", "", "", "npc03_3", "", "", "monster05_1", ""},
+                {"", "", "", "", "", "", "", "", "", "monster05_1", ""},
                 {"", "npc02_4", "", "", "", "", "", "", "", "", ""}};
 
         layer2 = new String[][]{
@@ -104,8 +104,8 @@ public final class LoadMap {
 
         gameMap = new GameMap(1, layer1, layer2, layer3);
         gameMap.upPositionX = 5;
-        gameMap.upPositionY = 9;
-        gameMap.downPositionX = 1;
+        gameMap.upPositionY = 10;
+        gameMap.downPositionX = 0;
         gameMap.downPositionY = 0;
         mapList.add(gameMap);
 
@@ -150,9 +150,9 @@ public final class LoadMap {
 
         gameMap = new GameMap(2, layer1, layer2, layer3);
         gameMap.upPositionX = 0;
-        gameMap.upPositionY = 1;
+        gameMap.upPositionY = 0;
         gameMap.downPositionX = 0;
-        gameMap.downPositionY = 9;
+        gameMap.downPositionY = 10;
         mapList.add(gameMap);
 
         layer1 = new String[][]{
@@ -195,10 +195,10 @@ public final class LoadMap {
                 {"stair01", "", "wall01", "wall01", "wall01", "wall01", "", "", "", "wall01", "stair02"}};
 
         gameMap = new GameMap(3, layer1, layer2, layer3);
-        gameMap.upPositionX = 1;
+        gameMap.upPositionX = 0;
         gameMap.upPositionY = 10;
         gameMap.downPositionX = 10;
-        gameMap.downPositionY = 9;
+        gameMap.downPositionY = 10;
         mapList.add(gameMap);
 
         layer1 = new String[][]{
@@ -242,9 +242,9 @@ public final class LoadMap {
 
         gameMap = new GameMap(4, layer1, layer2, layer3);
         gameMap.upPositionX = 10;
-        gameMap.upPositionY = 9;
+        gameMap.upPositionY = 10;
         gameMap.downPositionX = 0;
-        gameMap.downPositionY = 9;
+        gameMap.downPositionY = 10;
         mapList.add(gameMap);
 
         layer1 = new String[][]{

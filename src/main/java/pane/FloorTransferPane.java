@@ -30,7 +30,7 @@ public final class FloorTransferPane {
         if ((TowerPanel.nowSelectFloor = TowerPanel.floor) < 0) {
             TowerPanel.nowSelectFloor = 0;
         }
-        TowerPanel.canMove = false;
+        TowerPanel.CAN_MOVE = false;
         floorTransferPane.removeAll();
         init(tower);
         floorTransferPane.addKeyListener(new KeyListener() {
@@ -91,7 +91,7 @@ public final class FloorTransferPane {
                 if (closeFlag) {
                     floorTransferPane.removeKeyListener(this);
                     floorTransferPane.setVisible(false);
-                    TowerPanel.canMove = true;
+                    TowerPanel.CAN_MOVE = true;
                     TowerPanel.input.clear();
                 }
                 if (changeFlag) {

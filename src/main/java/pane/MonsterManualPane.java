@@ -32,7 +32,7 @@ public final class MonsterManualPane {
         if (fightCalcList.size() == 0) {
             return;
         }
-        TowerPanel.canMove = false;
+        TowerPanel.CAN_MOVE = false;
         monsterManualPane.removeAll();
         showPanel = new JPanel(null);
         showPanel.setSize(TowerPanel.CS * 11, TowerPanel.CS * 11);
@@ -73,7 +73,7 @@ public final class MonsterManualPane {
                 if (closeFlag) {
                     monsterManualPane.removeKeyListener(this);
                     monsterManualPane.setVisible(false);
-                    TowerPanel.canMove = true;
+                    TowerPanel.CAN_MOVE = true;
                     TowerPanel.input.clear();
                 }
                 if (changeFlag) {

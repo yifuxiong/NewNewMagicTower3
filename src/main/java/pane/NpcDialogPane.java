@@ -36,20 +36,20 @@ public class NpcDialogPane {
     }
 
     public static void showNpcDialog(Tower tower, String npcId, Byte x, Byte y) {
-        TowerPanel.canMove = false;
+        TowerPanel.CAN_MOVE = false;
         NPC npc;
         try {
             npc = tower.getNpcMap().get(npcId);
         } catch (Exception e) {
             System.err.println("layer1 (x=" + y + ",y=" + x + ") npcId(" + npcId + ") 不存在!");
-            TowerPanel.canMove = true;
+            TowerPanel.CAN_MOVE = true;
             return;
         }
         npc.script_start(tower);
         //重新获取一边,以防npc改变而这里没变
         npc = tower.getNpcMap().get(npcId);
         if (!npc.canMeet) {
-            TowerPanel.canMove = true;
+            TowerPanel.CAN_MOVE = true;
             return;
         }
         npcDialogPane.removeAll();
@@ -113,7 +113,7 @@ public class NpcDialogPane {
                     dialogNum = 0;
                     npcDialogPane.removeKeyListener(this);
                     npcDialogPane.setVisible(false);
-                    TowerPanel.canMove = true;
+                    TowerPanel.CAN_MOVE = true;
                     TowerPanel.input.clear();
                     if (finalNpc.canRemove && !(x == null || y == null)) {
                         if (TowerPanel.isNormalFloor()) {
@@ -126,14 +126,14 @@ public class NpcDialogPane {
                     if (npcId.equals("npc06_2_3") && !tower.specialFloor) {
                         //TODO towerPanel.over();    结局1
                         TowerPanel.end = 1;
-                        TowerPanel.running = false;
+                        TowerPanel.RUNNING = false;
                     } else if (npcId.equals("npc07_1_2")) {
                         //TODO towerPanel.over();    结局2
                         TowerPanel.end = 2;
-                        TowerPanel.running = false;
+                        TowerPanel.RUNNING = false;
                     } else if (npcId.equals("npc07_2_2")) {
                         //TODO towerPanel.over();    结局3
-                        TowerPanel.running = false;
+                        TowerPanel.RUNNING = false;
                         TowerPanel.end = 3;
                     }
                 }

@@ -24,7 +24,7 @@ public final class SpecialItemPane {
     }
 
     public static void showSpecialItem(Item item) {
-        TowerPanel.canMove = false;
+        TowerPanel.CAN_MOVE = false;
         specialItemPane.removeAll();
         showPanel = new JPanel(null);
         showPanel.setSize(400, 128);
@@ -72,7 +72,7 @@ public final class SpecialItemPane {
                     specialItemPane.removeKeyListener(this);
                     specialItemPane.setVisible(false);
                     TowerPanel.input.clear();
-                    TowerPanel.canMove = true;
+                    TowerPanel.CAN_MOVE = true;
                 }
             }
         });

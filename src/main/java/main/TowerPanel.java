@@ -49,7 +49,7 @@ public final class TowerPanel extends JPanel implements Runnable {
      * 窗体的宽和高
      */
     public static final int WINDOW_WIDTH = 18 * CS + 6;
-    public static final int WINDOW_HEIGHT = 14 * CS + 16 + 35;
+    public static final int WINDOW_HEIGHT = 14 * CS + 16 + TITLE_HEIGHT;
 
     /**
      * 人物方向
@@ -86,9 +86,9 @@ public final class TowerPanel extends JPanel implements Runnable {
     private byte frames = 0;
 
     //游戏运行
-    public static boolean running = false;
+    public static boolean RUNNING = false;
     //玩家是否可以移动
-    public static boolean canMove = true;
+    public static boolean CAN_MOVE = true;
     //按键监听器
     public static KeyInputHandler input;
     //音频工具类
@@ -128,6 +128,8 @@ public final class TowerPanel extends JPanel implements Runnable {
         //初始化玩家位置
         this.tower.getPlayer().x = this.tower.getGameMapList().get(floor).upPositionX;
         this.tower.getPlayer().y = this.tower.getGameMapList().get(floor).upPositionY;
+        this.tower.getPlayer().lastX = this.tower.getPlayer().x;
+        this.tower.getPlayer().lastY = this.tower.getPlayer().y;
         //TODO 初始化玩家到过的最高和最低楼层,正式版这里要改为 0
         this.tower.getPlayer().maxFloor = 0;
         this.tower.getPlayer().minFloor = 0;
@@ -167,7 +169,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     }
 
     public void start() {
-        running = true;
+        RUNNING = true;
         new Thread(this).start();
     }
 
@@ -182,7 +184,7 @@ public final class TowerPanel extends JPanel implements Runnable {
         double nsPerTick = 1000000000.0 / 10;
         double then = System.nanoTime();
         double needTick = 0;
-        while (running) {
+        while (RUNNING) {
             double now = System.nanoTime();
             needTick += (now - then) / nsPerTick;
             then = now;
@@ -191,7 +193,7 @@ public final class TowerPanel extends JPanel implements Runnable {
                 needTick--;
             }
             try {
-                Thread.sleep(20);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -255,7 +257,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     //玩家上次移动时间
     public long lastMove = System.currentTimeMillis();
     //不动多久后玩家动作停止
-    private static final short STOP_TIME = 180;
+    private static final short STOP_TIME = 100;
     //玩家动作帧数计数
     private byte moveNo = 0;
     //当前怪物手册的页数(仅当层数切换时重置为0)
@@ -263,19 +265,26 @@ public final class TowerPanel extends JPanel implements Runnable {
     //当前选择的层数
     public static int nowSelectFloor = 0;
 
+    private boolean doNotUpStairOrDownStair(byte x, byte y, byte lastX, byte lastY) {
+        return (x == lastX) && (y == lastY);
+    }
+
     public void tick() {
-        if (!canMove) {
+        if (!CAN_MOVE) {
             lastMove = System.currentTimeMillis();
             moveNo = 0;
             return;
         }
         if (isNormalFloor()) {
             String stair = this.tower.getGameMapList().get(floor).layer3[this.tower.getPlayer().y][this.tower.getPlayer().x];
-            if (stair.equals("stair01")) {
+            if (stair.equals("stair01") && !doNotUpStairOrDownStair(this.tower.getPlayer().x, this.tower.getPlayer().y, this.tower.getPlayer().lastX, this.tower.getPlayer().lastY)) {
+                floorChangeScene();
                 musicPlayer.upAndDown();
                 floor--;
                 this.tower.getPlayer().x = this.tower.getGameMapList().get(floor).downPositionX;
                 this.tower.getPlayer().y = this.tower.getGameMapList().get(floor).downPositionY;
+                this.tower.getPlayer().lastX = this.tower.getPlayer().x;
+                this.tower.getPlayer().lastY = this.tower.getPlayer().y;
                 updateFloorNum();
                 DIRECTION = DIRECTION_DOWN;
                 musicPlayer.playBackgroundMusic(floor);
@@ -283,11 +292,14 @@ public final class TowerPanel extends JPanel implements Runnable {
                     this.tower.getPlayer().minFloor = floor;
                 }
                 return;
-            } else if (stair.equals("stair02")) {
+            } else if (stair.equals("stair02") && !doNotUpStairOrDownStair(this.tower.getPlayer().x, this.tower.getPlayer().y, this.tower.getPlayer().lastX, this.tower.getPlayer().lastY)) {
+                floorChangeScene();
                 musicPlayer.upAndDown();
                 floor++;
                 this.tower.getPlayer().x = this.tower.getGameMapList().get(floor).upPositionX;
                 this.tower.getPlayer().y = this.tower.getGameMapList().get(floor).upPositionY;
+                this.tower.getPlayer().lastX = this.tower.getPlayer().x;
+                this.tower.getPlayer().lastY = this.tower.getPlayer().y;
                 updateFloorNum();
                 DIRECTION = DIRECTION_DOWN;
                 musicPlayer.playBackgroundMusic(floor);
@@ -315,6 +327,7 @@ public final class TowerPanel extends JPanel implements Runnable {
                 return;
             }
             musicPlayer.walk();
+            this.tower.getPlayer().lastY = this.tower.getPlayer().y;
             this.tower.getPlayer().y--;
             this.tower.getPlayer().stepNum++;
             lastMove = System.currentTimeMillis();
@@ -325,6 +338,7 @@ public final class TowerPanel extends JPanel implements Runnable {
                 return;
             }
             musicPlayer.walk();
+            this.tower.getPlayer().lastY = this.tower.getPlayer().y;
             this.tower.getPlayer().y++;
             this.tower.getPlayer().stepNum++;
             lastMove = System.currentTimeMillis();
@@ -335,6 +349,7 @@ public final class TowerPanel extends JPanel implements Runnable {
             }
             musicPlayer.walk();
             moveNo = (byte) ((moveNo + 1) % 4);
+            this.tower.getPlayer().lastX = this.tower.getPlayer().x;
             this.tower.getPlayer().x--;
             this.tower.getPlayer().stepNum++;
             lastMove = System.currentTimeMillis();
@@ -345,6 +360,7 @@ public final class TowerPanel extends JPanel implements Runnable {
             }
             musicPlayer.walk();
             moveNo = (byte) ((moveNo + 1) % 4);
+            this.tower.getPlayer().lastX = this.tower.getPlayer().x;
             this.tower.getPlayer().x++;
             this.tower.getPlayer().stepNum++;
             lastMove = System.currentTimeMillis();
@@ -357,12 +373,12 @@ public final class TowerPanel extends JPanel implements Runnable {
                 musicPlayer.fail();
                 return;
             }
-            canMove = false;
+            CAN_MOVE = false;
             mainExecutor.execute(() -> showFloorTransfer(this.tower));
         }
         //TODO 正式版这里要去掉
         else if (input.escape.down) {
-            //running = false;
+            //RUNNING = false;
         } else if (input.save.down) {
             save();
         } else if (input.load.down) {
@@ -374,18 +390,22 @@ public final class TowerPanel extends JPanel implements Runnable {
         if (isNormalFloor()) {
             if (this.tower.getGameMapList().get(floor).layer3[this.tower.getPlayer().y][this.tower.getPlayer().x].contains("door") && !this.tower.getGameMapList().get(floor).layer3[this.tower.getPlayer().y][this.tower.getPlayer().x].contains("open")) {
                 this.tower.getGameMapList().get(floor).layer3[this.tower.getPlayer().y][this.tower.getPlayer().x] += "open";
-                return;
             }
         } else {
             if (this.tower.getSpecialMap().get(specialGameMapNo).layer3[this.tower.getPlayer().y][this.tower.getPlayer().x].contains("door") && !this.tower.getSpecialMap().get(specialGameMapNo).layer3[this.tower.getPlayer().y][this.tower.getPlayer().x].contains("open")) {
                 this.tower.getSpecialMap().get(specialGameMapNo).layer3[this.tower.getPlayer().y][this.tower.getPlayer().x] += "open";
-                return;
             }
         }
     }
 
-    //开门时间(ms)
-    private static final byte DOOR_OPEN_TIME = 40;
+    // 开门后等待时间(ms)
+    private static final int DOOR_OPEN_SLEEP_TIME = 30;
+    // 楼层切换转场等待时间
+    private static final int FLOOR_CHANGE_SLEEP_TIME = 300;
+    // 获得道具后等待时间
+    private static final int ITEM_GET_SLEEP_TIME = 300;
+    // 击败怪物等待时间
+    private static final int MONSTER_BEAT_SLEEP_TIME = 300;
 
     /**
      * 判断能否移动到 (x,y)
@@ -487,11 +507,13 @@ public final class TowerPanel extends JPanel implements Runnable {
                                     this.tower.getGameMapList().get(f).layer3[y][x] = "";
                                 }
                             }
+                            CAN_MOVE = false;
                             try {
-                                Thread.sleep(DOOR_OPEN_TIME);
+                                Thread.sleep(DOOR_OPEN_SLEEP_TIME);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
+                            CAN_MOVE = true;
                         }
                         this.tower.getGameMapList().get(f).layer3[y][x] = "";
                     } else {
@@ -513,11 +535,13 @@ public final class TowerPanel extends JPanel implements Runnable {
                                     this.tower.getSpecialMap().get(f).layer3[y][x] = "";
                                 }
                             }
+                            CAN_MOVE = false;
                             try {
-                                Thread.sleep(DOOR_OPEN_TIME);
+                                Thread.sleep(DOOR_OPEN_SLEEP_TIME);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
+                            CAN_MOVE = true;
                         }
                         this.tower.getSpecialMap().get(f).layer3[y][x] = "";
                     }
@@ -720,7 +744,14 @@ public final class TowerPanel extends JPanel implements Runnable {
                 Item item = this.tower.getItemMap().get(layer2[y][x]);
                 if (item.msg != null) {
                     musicPlayer.getSpecialItem();
-                    mainExecutor.execute(() -> showSpecialItem(item));
+                    mainExecutor.execute(() -> {
+                        showSpecialItem(item);
+                        try {
+                            Thread.sleep(ITEM_GET_SLEEP_TIME);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    });
                 } else {
                     musicPlayer.getItem();
                 }
@@ -755,6 +786,15 @@ public final class TowerPanel extends JPanel implements Runnable {
             if (pHP > 0) {
                 musicPlayer.fight();
                 showMesLabel.setText("击杀:" + monster.getName() + ",损失" + (this.tower.getPlayer().hp - pHP) + "HP");
+                mainExecutor.execute(() -> {
+                    CAN_MOVE = false;
+                    try {
+                        Thread.sleep(MONSTER_BEAT_SLEEP_TIME);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    CAN_MOVE = true;
+                });
                 if (isNormalFloor()) {
                     this.tower.getGameMapList().get(floor).layer1[y][x] = "";
                 } else {
@@ -779,7 +819,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     @Override
     public void paintComponent(Graphics g) {// 描绘窗体，此处在默认JPanel基础上构建底层地图
         super.paintComponent(g);
-        if (running) {
+        if (RUNNING) {
             drawBackGround(g);
             drawAttribute(g);
             drawMap(g);
@@ -978,21 +1018,21 @@ public final class TowerPanel extends JPanel implements Runnable {
         for (int i = 0; i <= 15; i++) {
             for (int j = 0; j <= 18; j++) {
                 if (i == 7 && (j == 1 || j == 2 || j == 3 || j == 4)) {
-                    g.drawImage(this.tower.getWallImage()[1], j * CS, i * CS, this);
+                    g.drawImage(this.tower.getWallImage()[1], j * CS, i * CS, CS, CS, this);
                     continue;
                 }
                 if (i == 13 || i == 14 || i == 15) {
-                    g.drawImage(this.tower.getFloorImage()[0], j * CS, i * CS, this);
+                    g.drawImage(this.tower.getFloorImage()[0], j * CS, i * CS, CS, CS, this);
                     continue;
                 }
                 if (i == 0 || i == 12 || j == 0 || j == 5 || j == 17 || j == 18) {
                     if (i == 0 && (j == 10 || j == 11 || j == 12)) {
-                        g.drawImage(this.tower.getFloorImage()[0], j * CS, i * CS, this);
+                        g.drawImage(this.tower.getFloorImage()[0], j * CS, i * CS, CS, CS, this);
                     } else {
-                        g.drawImage(this.tower.getWallImage()[1], j * CS, i * CS, this);
+                        g.drawImage(this.tower.getWallImage()[1], j * CS, i * CS, CS, CS, this);
                     }
                 } else {
-                    g.drawImage(this.tower.getFloorImage()[0], j * CS, i * CS, this);
+                    g.drawImage(this.tower.getFloorImage()[0], j * CS, i * CS, CS, CS, this);
                 }
             }
         }
@@ -1130,10 +1170,23 @@ public final class TowerPanel extends JPanel implements Runnable {
         }
     }
 
+    // 楼层切换转场贴图
+    public void floorChangeScene() {
+        mainExecutor.execute(() -> {
+            CAN_MOVE = false;
+            try {
+                Thread.sleep(FLOOR_CHANGE_SLEEP_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            CAN_MOVE = true;
+        });
+    }
+
     /*********************************************** 结尾字幕 ***********************************************/
 
     public void end() {
-        running = false;
+        RUNNING = false;
         musicPlayer.playEndBackgroundMusic();
         this.removeAll();
         if (end == 1) {
