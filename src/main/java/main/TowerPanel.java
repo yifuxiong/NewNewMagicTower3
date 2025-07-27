@@ -29,20 +29,13 @@ import static pane.SpecialItemPane.specialItemPane;
  * 游戏主窗体绘制类
  */
 public final class TowerPanel extends JPanel implements Runnable {
-
-    /**
-     * 单个图像大小,默认采用CSxCS图形,可根据需要调整比例
-     * 当然,应始终和窗体大小比例协调;比如CSxCS的图片,
-     * 如果一行设置15个,那么就是480
-     */
+    // 单块边长cubesize，采用CSxCS，可根据需要调整比例
     public static final byte CS = 40;
-
-    //标题栏高度
+    // 标题栏高度
     public static int TITLE_HEIGHT = 35;
-
-    //行
+    // 地图大小：行
     public static final int GAME_ROW = 11;
-    //列
+    // 地图大小：列
     public static final int GAME_COL = 11;
 
     /**
@@ -72,43 +65,45 @@ public final class TowerPanel extends JPanel implements Runnable {
     JLabel atkPicLabel, atkLabel;
     JLabel defPicLabel, defLabel;
     JLabel expPicLabel, expLabel;
-    //乘号
+    // 钥匙右侧的乘号
     JLabel symbol1, symbol2, symbol3, symbol4;
+    // 钥匙icon和数量
     JLabel yKeyPicLabel, yKeyLabel;
     JLabel bKeyPicLabel, bKeyLabel;
     JLabel rKeyPicLabel, rKeyLabel;
     JLabel monPicLabel, monLabel;
-
+    // 最底下的信息框
     JLabel showMesLabel;
+    // fps信息框
     JLabel fpsLabel, showFpsLabel;
 
-    //当前帧数 (每秒8帧)
+    // 当前帧数（每秒8帧）
     private byte frames = 0;
 
-    //游戏运行
+    // 游戏运行
     public static boolean RUNNING = false;
-    //玩家是否可以移动
+    // 玩家是否可以移动
     public static boolean CAN_MOVE = true;
-    //按键监听器
+    // 按键监听器
     public static KeyInputHandler input;
-    //音频工具类
+    // 音频工具类
     public static MusicPlayer musicPlayer;
-    //TODO 是否可以使用楼层跳跃,正式版这里要改为 false
+    // 是否可以使用楼层跳跃，初始状态为false
     public static boolean canUseFloorTransfer = false;
-    //是否可以查看怪物手册
+    // 是否可以查看怪物手册
     public static boolean canUseMonsterManual = true;
-    //特殊楼层 (若玩家处于特殊楼层,则使用这个变量记录当前所在楼层索引)
+    // 特殊楼层（若玩家处于特殊楼层，则使用这个变量记录当前所在楼层索引）
     public static String specialGameMapNo;
-    //结局
+    // 结局
     public static byte end;
-    //TODO 当前所在楼层,正式版这里要改为 0
+    // 当前所在楼层
     public static int floor = 0;
 
-    //线程池
+    // 线程池
     public static ExecutorService mainExecutor;
-    //保存的魔塔
+    // 保存的魔塔
     private List<Tower> gameSave;
-    //当前魔塔
+    // 当前魔塔
     private Tower tower;
 
     public static JFrame mainframe = new JFrame("新新魔塔3");
@@ -122,47 +117,50 @@ public final class TowerPanel extends JPanel implements Runnable {
         this.add(npcDialogPane);
         this.tower = tower;
         this.gameSave = new LinkedList<>();
-        //初始化线程池
+        // 初始化线程池
         this.mainExecutor = new ThreadPoolExecutor(0, Integer.MAX_VALUE,
                 1L, TimeUnit.SECONDS, new SynchronousQueue<>());
-        //初始化玩家位置
+        // 初始化玩家位置
         this.tower.getPlayer().x = this.tower.getGameMapList().get(floor).upPositionX;
         this.tower.getPlayer().y = this.tower.getGameMapList().get(floor).upPositionY;
+        // 上一步的位置
         this.tower.getPlayer().lastX = this.tower.getPlayer().x;
         this.tower.getPlayer().lastY = this.tower.getPlayer().y;
-        //TODO 初始化玩家到过的最高和最低楼层,正式版这里要改为 0
+        // 初始化玩家到过的最高和最低楼层
         this.tower.getPlayer().maxFloor = 0;
         this.tower.getPlayer().minFloor = 0;
-        //初始化音频
+        // 初始化音频
         musicPlayer = new MusicPlayer();
-        //播放当前楼层音频
+        // 播放当前楼层音频
 //        musicPlayer.playBackgroundMusic(floor);
-        //初始化人物方向
+        // 初始化人物方向
         DIRECTION = DIRECTION_UP;
-        //初始化按键监听器
+        // 初始化按键监听器
         input = new KeyInputHandler(this);
 
         /********************UI部分********************/
         this.setLayout(null);
-        //设定初始构造时面板大小
-        //this.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-        //this.createMenuBar();// 创建游戏菜单栏
-        this.showAttribute();// 属性展示界面
-        //设定焦点在本窗体
+        // 设定初始构造时面板大小
+        // this.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        // 创建游戏菜单栏
+        // this.createMenuBar();
+        // 属性展示界面
+        this.showAttribute();
+        // 设定焦点在本窗体
         this.setFocusable(true);
-        //主窗体
+        // 主窗体
         mainframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainframe.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         ScreenUtil screenUtil = new ScreenUtil();
         mainframe.setLocation((screenUtil.getScreenWidth() - WINDOW_WIDTH) / 2, (screenUtil.getScreenHeight() - WINDOW_HEIGHT - 100) / 2);
-        //得到一个Toolkit对象
+        // 得到一个Toolkit对象
         Toolkit tool = this.getToolkit();
         Image image = tool.getImage(this.getClass().getResource("/image/icon/mt.png"));
         mainframe.setIconImage(image);
         Container contentPane = mainframe.getContentPane();
         contentPane.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         contentPane.add(this, BorderLayout.CENTER);
-        //mainframe.pack();
+        // mainframe.pack();
         this.setFocusable(true);
         mainframe.setResizable(false);
         mainframe.setVisible(true);
@@ -176,9 +174,6 @@ public final class TowerPanel extends JPanel implements Runnable {
     @Override
     public void run() {
         TITLE_HEIGHT = (int) (mainframe.getBounds().getSize().getHeight() - this.getSize().getHeight());
-        if (TITLE_HEIGHT != 35) {
-            mainframe.setSize(WINDOW_WIDTH, WINDOW_HEIGHT - 35 + TITLE_HEIGHT);
-        }
         Short fps = 0;
         double fpsTimer = System.currentTimeMillis();
         double nsPerTick = 1000000000.0 / 10;
@@ -192,6 +187,7 @@ public final class TowerPanel extends JPanel implements Runnable {
                 tick();
                 needTick--;
             }
+            // 2帧图片替换频率
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
@@ -254,17 +250,18 @@ public final class TowerPanel extends JPanel implements Runnable {
 
     /*********************************************** 主要逻辑 ***********************************************/
 
-    //玩家上次移动时间
+    // 玩家上次移动时间
     public long lastMove = System.currentTimeMillis();
-    //不动多久后玩家动作停止
+    // 不动多久后玩家动作停止
     private static final short STOP_TIME = 100;
-    //玩家动作帧数计数
+    // 玩家动作帧数计数
     private byte moveNo = 0;
-    //当前怪物手册的页数(仅当层数切换时重置为0)
+    // 当前怪物手册的页数（仅当层数切换时重置为0）
     public static byte nowMonsterManual = 0;
-    //当前选择的层数
+    // 当前选择的层数
     public static int nowSelectFloor = 0;
 
+    // 判断上一步动作不是上下楼操作
     private boolean doNotUpStairOrDownStair(byte x, byte y, byte lastX, byte lastY) {
         return (x == lastX) && (y == lastY);
     }
@@ -277,12 +274,14 @@ public final class TowerPanel extends JPanel implements Runnable {
         }
         if (isNormalFloor()) {
             String stair = this.tower.getGameMapList().get(floor).layer3[this.tower.getPlayer().y][this.tower.getPlayer().x];
+            // 通过比较当前和上一步的位置，判断是否已经执行过上楼动作
             if (stair.equals("stair01") && !doNotUpStairOrDownStair(this.tower.getPlayer().x, this.tower.getPlayer().y, this.tower.getPlayer().lastX, this.tower.getPlayer().lastY)) {
                 floorChangeScene();
                 musicPlayer.upAndDown();
                 floor--;
                 this.tower.getPlayer().x = this.tower.getGameMapList().get(floor).downPositionX;
                 this.tower.getPlayer().y = this.tower.getGameMapList().get(floor).downPositionY;
+                // 到达新的楼层后，上一步位置重置，和当前位置保持一致
                 this.tower.getPlayer().lastX = this.tower.getPlayer().x;
                 this.tower.getPlayer().lastY = this.tower.getPlayer().y;
                 updateFloorNum();
@@ -298,6 +297,7 @@ public final class TowerPanel extends JPanel implements Runnable {
                 floor++;
                 this.tower.getPlayer().x = this.tower.getGameMapList().get(floor).upPositionX;
                 this.tower.getPlayer().y = this.tower.getGameMapList().get(floor).upPositionY;
+                // 到达新的楼层后，上一步位置重置，和当前位置保持一致
                 this.tower.getPlayer().lastX = this.tower.getPlayer().x;
                 this.tower.getPlayer().lastY = this.tower.getPlayer().y;
                 updateFloorNum();
@@ -376,9 +376,9 @@ public final class TowerPanel extends JPanel implements Runnable {
             CAN_MOVE = false;
             mainExecutor.execute(() -> showFloorTransfer(this.tower));
         }
-        //TODO 正式版这里要去掉
+        // TODO 正式版这里要去掉
         else if (input.escape.down) {
-            //RUNNING = false;
+            // RUNNING = false;
         } else if (input.save.down) {
             save();
         } else if (input.load.down) {
@@ -408,7 +408,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     private static final int MONSTER_BEAT_SLEEP_TIME = 300;
 
     /**
-     * 判断能否移动到 (x,y)
+     * 判断能否移动到指定位置(x,y)
      *
      * @param x
      * @param y
@@ -815,7 +815,7 @@ public final class TowerPanel extends JPanel implements Runnable {
         return true;
     }
 
-    /*********************************************** 绘制方法 ***********************************************/
+    /************************************************** 绘制方法 **************************************************/
 
     @Override
     public void paintComponent(Graphics g) {// 描绘窗体，此处在默认JPanel基础上构建底层地图
@@ -1015,7 +1015,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     }
 
     private void drawBackGround(Graphics g) {
-        //构造背景界面
+        // 构造背景界面
         for (int i = 0; i <= 15; i++) {
             for (int j = 0; j <= 18; j++) {
                 if (i == 7 && (j == 1 || j == 2 || j == 3 || j == 4)) {
@@ -1040,7 +1040,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     }
 
     private void drawAttribute(Graphics g) {
-        //构造属性界面
+        // 构造属性界面
         if (this.tower.getPlayer().hp > 999999) {
             hpLabel.setText(Math.floor(this.tower.getPlayer().hp / 1000) / 10 + "w");
         } else {
@@ -1120,15 +1120,15 @@ public final class TowerPanel extends JPanel implements Runnable {
         g.drawImage(this.tower.getPlayer().getPlayerIcon()[DIRECTION][moveNo].getImage(), startX + x * CS, startY + y * CS, CS, CS, this);
     }
 
-    /*********************************************** 工具方法 ***********************************************/
+    /************************************************** 工具方法 **************************************************/
 
     /**
      * @param icons
-     * @param interval 间隔多少帧切换一次 当间隔大于每秒帧数时,不会改变
+     * @param interval 间隔多少帧切换一次，当间隔大于每秒帧数时，不会改变
      * @return
      */
     private Image getImageFromIcons(ImageIcon[] icons, byte interval) {
-        //a << b = a * 2^b
+        // a << b = a * 2^b
         if (frames <= interval - 1) {
             return icons[0].getImage();
         } else if (frames <= (interval << 1) - 1) {
@@ -1152,7 +1152,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     /**
      * 判断是否在普通法楼层
      *
-     * @return 如果在普通楼层, 则返回true;反之,则返回false
+     * @return 如果在普通楼层，则返回true；反之则返回false
      */
     public static boolean isNormalFloor() {
         return specialGameMapNo == null || "".equals(specialGameMapNo);
@@ -1171,6 +1171,8 @@ public final class TowerPanel extends JPanel implements Runnable {
         }
     }
 
+    /************************************************** 楼层切换转场 **************************************************/
+
     // 楼层切换转场贴图
     public void floorChangeScene() {
         mainExecutor.execute(() -> {
@@ -1184,7 +1186,7 @@ public final class TowerPanel extends JPanel implements Runnable {
         });
     }
 
-    /*********************************************** 结尾字幕 ***********************************************/
+    /************************************************** 结尾动画 **************************************************/
 
     public void end() {
         RUNNING = false;
