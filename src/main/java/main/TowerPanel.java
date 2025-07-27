@@ -32,7 +32,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     // 单块边长cubesize，采用CSxCS，可根据需要调整比例
     public static final byte CS = 40;
     // 标题栏高度
-    public static int TITLE_HEIGHT = 35;
+    public static int TITLE_HEIGHT = 30;
     // 地图大小：行
     public static final int GAME_ROW = 11;
     // 地图大小：列
@@ -42,7 +42,7 @@ public final class TowerPanel extends JPanel implements Runnable {
      * 窗体的宽和高
      */
     public static final int WINDOW_WIDTH = 18 * CS + 6;
-    public static final int WINDOW_HEIGHT = 14 * CS + 16 + TITLE_HEIGHT;
+    public static final int WINDOW_HEIGHT = 14 * CS + TITLE_HEIGHT;
 
     /**
      * 人物方向
@@ -118,8 +118,7 @@ public final class TowerPanel extends JPanel implements Runnable {
         this.tower = tower;
         this.gameSave = new LinkedList<>();
         // 初始化线程池
-        this.mainExecutor = new ThreadPoolExecutor(0, Integer.MAX_VALUE,
-                1L, TimeUnit.SECONDS, new SynchronousQueue<>());
+        this.mainExecutor = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 1L, TimeUnit.SECONDS, new SynchronousQueue<>());
         // 初始化玩家位置
         this.tower.getPlayer().x = this.tower.getGameMapList().get(floor).upPositionX;
         this.tower.getPlayer().y = this.tower.getGameMapList().get(floor).upPositionY;
@@ -828,163 +827,186 @@ public final class TowerPanel extends JPanel implements Runnable {
         }
     }
 
+    // 字体信息
+    private static final String FONT_FAMILY = "微软雅黑";
+    private static final int FONT_SIZE = 20;
+    private static final int SMALL_FONT_SIZE = 12;
+
+    // 排布信息
+    private static final int WIDTH = 50;
+    private static final int HEIGHT = 50;
+    private static final int BIAS = 20;
+
+    // 信息边框线条
+    private static final int LINE_BOUND = 3;
+    private static final int THICKNESS = 3;
+
     /**
      * 创建属性界面
      */
     public void showAttribute() {
-        // 各属性的显示
+        // 玩家icon
         playerPicLabel = new JLabel();
-        playerPicLabel.setBounds(CS + 14, CS + 12, 36, 38);
-        //playerPicLabel.setIcon(new ImageIcon(getClass().getResource("/image/icon/role.png")));
+        playerPicLabel.setBounds(CS + BIAS, CS + BIAS, WIDTH, HEIGHT);
+        // playerPicLabel.setIcon(new ImageIcon(getClass().getResource("/image/icon/role.png")));
 
+        // 左侧信息窗口
         playerWindowLine = new JLabel();
-        playerWindowLine.setBounds(CS - 3, CS - 3, CS * 4 + 6, CS * 6 + 6);
-        playerWindowLine.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), 3));
+        playerWindowLine.setBounds(CS - LINE_BOUND, CS - LINE_BOUND, CS * 4 + LINE_BOUND * 2, CS * 6 + LINE_BOUND * 2);
+        playerWindowLine.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), THICKNESS));
 
         infoWindowLine = new JLabel();
-        infoWindowLine.setBounds(CS - 3, CS * 8 - 3, CS * 4 + 6, CS * 4 + 6);
-        infoWindowLine.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), 3));
+        infoWindowLine.setBounds(CS - LINE_BOUND, CS * 8 - LINE_BOUND, CS * 4 + LINE_BOUND * 2, CS * 4 + LINE_BOUND * 2);
+        infoWindowLine.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), THICKNESS));
 
         mapWindowLine = new JLabel();
-        mapWindowLine.setBounds(CS * 6 - 3, CS - 3, CS * 11 + 6, CS * 11 + 6);
-        mapWindowLine.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), 3));
+        mapWindowLine.setBounds(CS * 6 - LINE_BOUND, CS - LINE_BOUND, CS * 11 + LINE_BOUND * 2, CS * 11 + LINE_BOUND * 2);
+        mapWindowLine.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), THICKNESS));
 
+        // 最上面的楼层信息
         floorLabel = new JLabel("魔塔", JLabel.CENTER);
-        floorLabel.setBounds(CS * 10 + 10, 0, CS, CS - 3);
+        floorLabel.setBounds(CS * 10 + BIAS, 0, WIDTH, HEIGHT - LINE_BOUND);
         floorLabel.setForeground(Color.white);
-        floorLabel.setFont(new Font("宋体", Font.BOLD, 14));
+        floorLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
         floorNumLabel = new JLabel(floor + "F", JLabel.CENTER);
-        floorNumLabel.setBounds(358, 0, CS + 24, CS - 3);
+        floorNumLabel.setBounds(CS * 11 + BIAS, -1, WIDTH, HEIGHT);
         floorNumLabel.setForeground(Color.white);
-        floorNumLabel.setFont(new Font("微软雅黑", Font.BOLD, 14));
+        floorNumLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
-
+        /**
+         * 人物基础信息
+         */
         lvLabel = new JLabel("Lv." + this.tower.getPlayer().level, JLabel.LEFT);
-        lvLabel.setBounds(96 - 10, CS + 17, 70, CS);
+        lvLabel.setBounds(CS * 3, CS + BIAS, WIDTH, HEIGHT);
         lvLabel.setForeground(Color.white);
-        lvLabel.setFont(new Font("微软雅黑", Font.BOLD, 18));
-        //lvLabel.setOpaque(true);
-        //lvLabel.setBackground(new Color(255, 255, 255, 100));
+        lvLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
+        // lvLabel.setOpaque(true);
+        // lvLabel.setBackground(new Color(255, 255, 255, 100));
 
         hpPicLabel = new JLabel("生命:");
-        hpPicLabel.setBounds(CS + 5, 90, 45, CS);
+        hpPicLabel.setBounds(CS + BIAS, CS * 2 + BIAS, WIDTH, HEIGHT);
         hpPicLabel.setForeground(Color.white);
-        hpPicLabel.setFont(new Font("微软雅黑", Font.BOLD, 15));
+        hpPicLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
         hpLabel = new JLabel(String.valueOf(this.tower.getPlayer().hp), JLabel.CENTER);
-        hpLabel.setBounds(CS + 5 + 45, 90 + 1, 75, CS);
+        hpLabel.setBounds(CS + BIAS * 3, CS * 2 + BIAS, WIDTH * 2, HEIGHT);
         hpLabel.setForeground(Color.white);
-        hpLabel.setFont(new Font("微软雅黑", Font.BOLD, 18));
+        hpLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
         atkPicLabel = new JLabel("攻击:");
-        atkPicLabel.setBounds(CS + 5, 122, 45, CS);
+        atkPicLabel.setBounds(CS + BIAS, CS * 3 + BIAS, WIDTH, HEIGHT);
         atkPicLabel.setForeground(Color.white);
-        atkPicLabel.setFont(new Font("微软雅黑", Font.BOLD, 15));
+        atkPicLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
         atkLabel = new JLabel(String.valueOf(this.tower.getPlayer().attack), JLabel.CENTER);
-        atkLabel.setBounds(CS + 5 + 45, 122 + 1, 75, CS);
+        atkLabel.setBounds(CS + BIAS * 3, CS * 3 + BIAS, WIDTH * 2, HEIGHT);
         atkLabel.setForeground(Color.white);
-        atkLabel.setFont(new Font("微软雅黑", Font.BOLD, 18));
+        atkLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
         defPicLabel = new JLabel("防御:");
-        defPicLabel.setBounds(CS + 5, 154, 45, CS);
+        defPicLabel.setBounds(CS + BIAS, CS * 4 + BIAS, WIDTH, HEIGHT);
         defPicLabel.setForeground(Color.white);
-        defPicLabel.setFont(new Font("微软雅黑", Font.BOLD, 15));
+        defPicLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
         defLabel = new JLabel(String.valueOf(this.tower.getPlayer().defense), JLabel.CENTER);
-        defLabel.setBounds(CS + 5 + 45, 154 + 1, 75, CS);
+        defLabel.setBounds(CS + BIAS * 3, CS * 4 + BIAS, WIDTH * 2, HEIGHT);
         defLabel.setForeground(Color.white);
-        defLabel.setFont(new Font("微软雅黑", Font.BOLD, 18));
+        defLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
         expPicLabel = new JLabel("经验:");
-        expPicLabel.setBounds(CS + 5, 186, 45, CS);
+        expPicLabel.setBounds(CS + BIAS, CS * 5 + BIAS, WIDTH, HEIGHT);
         expPicLabel.setForeground(Color.white);
-        expPicLabel.setFont(new Font("微软雅黑", Font.BOLD, 15));
+        expPicLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
         expLabel = new JLabel(String.valueOf(this.tower.getPlayer().exp), JLabel.CENTER);
-        expLabel.setBounds(CS + 5 + 45, 186 + 1, 75, CS);
+        expLabel.setBounds(CS + BIAS * 3, CS * 5 + BIAS, WIDTH * 2, HEIGHT);
         expLabel.setForeground(Color.white);
-        expLabel.setFont(new Font("微软雅黑", Font.BOLD, 18));
+        expLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
+        /**
+         * 钥匙信息
+         */
         symbol1 = new JLabel("×", JLabel.CENTER);
-        symbol1.setBounds(25, 0, CS, 26);
+        symbol1.setBounds(BIAS, 1, WIDTH, HEIGHT);
         symbol1.setForeground(Color.white);
-        symbol1.setFont(new Font("微软雅黑", Font.PLAIN, CS));
+        symbol1.setFont(new Font(FONT_FAMILY, Font.PLAIN, CS));
 
         yKeyPicLabel = new JLabel();
         yKeyPicLabel.setIcon(new ImageIcon(getClass().getResource("/image/item/item01_1.png")));
-        yKeyPicLabel.setBounds(CS, 256, 64, CS);
+        yKeyPicLabel.setBounds(CS + BIAS, CS * 8, WIDTH * 2, HEIGHT);
         yKeyPicLabel.setForeground(Color.white);
         yKeyPicLabel.add(symbol1, BorderLayout.CENTER);
 
         yKeyLabel = new JLabel(String.valueOf(this.tower.getPlayer().yKey), JLabel.CENTER);
-        yKeyLabel.setBounds(96 - 15, 256, 64 + 15, 30);
+        yKeyLabel.setBounds(CS * 2 + BIAS, CS * 8, WIDTH + BIAS, HEIGHT);
         yKeyLabel.setForeground(Color.white);
-        yKeyLabel.setFont(new Font("微软雅黑", Font.BOLD, 22));
+        yKeyLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
         symbol2 = new JLabel("×", JLabel.CENTER);
-        symbol2.setBounds(25, 0, CS, 26);
+        symbol2.setBounds(BIAS, 1, WIDTH, HEIGHT);
         symbol2.setForeground(Color.white);
-        symbol2.setFont(new Font("微软雅黑", Font.PLAIN, CS));
+        symbol2.setFont(new Font(FONT_FAMILY, Font.PLAIN, CS));
 
         bKeyPicLabel = new JLabel();
         bKeyPicLabel.setIcon(new ImageIcon(getClass().getResource("/image/item/item01_2.png")));
-        bKeyPicLabel.setBounds(CS, 288, 64, CS);
+        bKeyPicLabel.setBounds(CS + BIAS, CS * 9, WIDTH * 2, HEIGHT);
         bKeyPicLabel.setForeground(Color.white);
         bKeyPicLabel.add(symbol2, BorderLayout.CENTER);
 
         bKeyLabel = new JLabel(String.valueOf(this.tower.getPlayer().bKey), JLabel.CENTER);
-        bKeyLabel.setBounds(96 - 15, 288, 64 + 15, 30);
+        bKeyLabel.setBounds(CS * 2 + BIAS, CS * 9, WIDTH + BIAS, HEIGHT);
         bKeyLabel.setForeground(Color.white);
-        bKeyLabel.setFont(new Font("微软雅黑", Font.BOLD, 22));
+        bKeyLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
         symbol3 = new JLabel("×", JLabel.CENTER);
-        symbol3.setBounds(25, 0, CS, 26);
+        symbol3.setBounds(BIAS, 1, WIDTH, HEIGHT);
         symbol3.setForeground(Color.white);
-        symbol3.setFont(new Font("微软雅黑", Font.PLAIN, CS));
+        symbol3.setFont(new Font(FONT_FAMILY, Font.PLAIN, CS));
 
         rKeyPicLabel = new JLabel();
         rKeyPicLabel.setIcon(new ImageIcon(getClass().getResource("/image/item/item01_3.png")));
-        rKeyPicLabel.setBounds(CS, CS * 10, 64, CS);
+        rKeyPicLabel.setBounds(CS + BIAS, CS * 10, WIDTH * 2, HEIGHT);
         rKeyPicLabel.setForeground(Color.white);
         rKeyPicLabel.add(symbol3, BorderLayout.CENTER);
 
         rKeyLabel = new JLabel(String.valueOf(this.tower.getPlayer().rKey), JLabel.CENTER);
-        rKeyLabel.setBounds(96 - 15, CS * 10, 64 + 15, 30);
+        rKeyLabel.setBounds(CS * 2 + BIAS, CS * 10, WIDTH + BIAS, HEIGHT);
         rKeyLabel.setForeground(Color.white);
-        rKeyLabel.setFont(new Font("微软雅黑", Font.BOLD, 22));
+        rKeyLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
         symbol4 = new JLabel("×", JLabel.CENTER);
-        symbol4.setBounds(25, 0, CS, 26);
+        symbol4.setBounds(BIAS, 1, WIDTH, HEIGHT);
         symbol4.setForeground(Color.white);
-        symbol4.setFont(new Font("微软雅黑", Font.PLAIN, CS));
+        symbol4.setFont(new Font(FONT_FAMILY, Font.PLAIN, CS));
 
         monPicLabel = new JLabel();
         monPicLabel.setIcon(new ImageIcon(getClass().getResource("/image/icon/money.png")));
-        monPicLabel.setBounds(CS, 352, 64, CS);
+        monPicLabel.setBounds(CS + BIAS, CS * 11, WIDTH * 2, HEIGHT);
         monPicLabel.setForeground(Color.white);
         monPicLabel.add(symbol4, BorderLayout.CENTER);
 
         monLabel = new JLabel(String.valueOf(this.tower.getPlayer().money), JLabel.CENTER);
-        monLabel.setBounds(96 - 15, 352, 64 + 15, 30);
+        monLabel.setBounds(CS * 2 + BIAS, CS * 11, WIDTH + BIAS, HEIGHT);
         monLabel.setForeground(Color.white);
-        monLabel.setFont(new Font("微软雅黑", Font.BOLD, 22));
+        monLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
-        showMesLabel = new JLabel("魔塔(v1.13)", JLabel.LEFT);
+        // 最下面的消息框
+        showMesLabel = new JLabel("新新魔塔3", JLabel.LEFT);
+        showMesLabel.setBounds(BIAS, CS * 13, WIDTH * 11, HEIGHT);
         showMesLabel.setForeground(Color.white);
-        showMesLabel.setFont(new Font(null, Font.BOLD, 22));
-        showMesLabel.setBounds(16, CS * 13 + 8 - 1, 478, CS);
+        showMesLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
+        // fps信息框
         fpsLabel = new JLabel("FPS:", JLabel.RIGHT);
-        fpsLabel.setBounds(512, 420, CS, 20);
+        fpsLabel.setBounds(CS * 15, CS * 13, WIDTH, HEIGHT);
         fpsLabel.setForeground(Color.white);
-        fpsLabel.setFont(new Font("微软雅黑", Font.BOLD, 12));
+        fpsLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, SMALL_FONT_SIZE));
 
         showFpsLabel = new JLabel("???", JLabel.CENTER);
-        showFpsLabel.setBounds(544, 420, 25, 20);
+        showFpsLabel.setBounds(CS * 16, CS * 13, WIDTH, HEIGHT);
         showFpsLabel.setForeground(Color.white);
-        showFpsLabel.setFont(new Font("方正桃体", Font.BOLD, 12));
+        showFpsLabel.setFont(new Font("方正桃体", Font.BOLD, SMALL_FONT_SIZE));
 
         this.add(playerPicLabel);
         this.add(playerWindowLine);

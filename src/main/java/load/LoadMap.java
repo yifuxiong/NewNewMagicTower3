@@ -51,8 +51,8 @@ public final class LoadMap {
                 {"wall01", "", "", "", "", "", "", "", "", "", "wall01"},
                 {"wall01", "", "", "", "", "", "", "", "", "", "wall01"},
                 {"wall01", "wall01", "", "", "", "", "", "", "", "wall01", "wall01"},
-                {"wall01", "wall06", "wall01", "wall01", "wall01", "door01", "wall01", "wall01", "wall01", "wall06", "wall01"},
-                {"wall06", "wall06", "wall06", "wall01", "", "", "", "wall01", "wall06", "wall06", "wall06"},
+                {"wall01", "wall01", "wall01", "wall01", "wall01", "door01", "wall01", "wall01", "wall01", "wall01", "wall01"},
+                {"wall06", "wall01", "wall06", "wall01", "", "", "", "wall01", "wall06", "wall01", "wall06"},
                 {"wall06", "wall06", "wall06", "wall06", "wall01", "", "wall01", "wall06", "wall06", "wall06", "wall06"},
                 {"wall06", "wall06", "wall06", "wall06", "wall01", "", "wall01", "wall06", "wall06", "wall06", "wall06"}};
 
