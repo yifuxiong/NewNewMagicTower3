@@ -1,6 +1,5 @@
 package main;
 
-import com.jogamp.opengl.awt.GLJPanel;
 import end.NormalEnd;
 import entity.*;
 import score.ScoreApplication;
@@ -28,8 +27,6 @@ import static pane.SpecialItemPane.specialItemPane;
 
 /**
  * 游戏主窗体绘制类
- * @author xuehy
- * @since 2020/6/9
  */
 public final class TowerPanel extends JPanel implements Runnable {
 
@@ -38,7 +35,7 @@ public final class TowerPanel extends JPanel implements Runnable {
      * 当然,应始终和窗体大小比例协调;比如CSxCS的图片,
      * 如果一行设置15个,那么就是480
      */
-    public static final byte CS = 32;
+    public static final byte CS = 40;
 
     //标题栏高度
     public static int TITLE_HEIGHT = 35;
@@ -51,8 +48,8 @@ public final class TowerPanel extends JPanel implements Runnable {
     /**
      * 窗体的宽和高
      */
-    public static final int WINDOW_WIDTH = 582;//18 * CS + 6;
-    public static final int WINDOW_HEIGHT = 499;//14 * CS + 16 + 35;
+    public static final int WINDOW_WIDTH = 18 * CS + 6;
+    public static final int WINDOW_HEIGHT = 14 * CS + 16 + 35;
 
     /**
      * 人物方向
@@ -114,7 +111,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     //当前魔塔
     private Tower tower;
 
-    public static JFrame mainframe = new JFrame("魔塔v1.13  (复刻者:Vip、疯子)");
+    public static JFrame mainframe = new JFrame("新新魔塔3");
     public static ScreenUtil screenUtil = new ScreenUtil();
 
     public TowerPanel(Tower tower) {
@@ -137,7 +134,7 @@ public final class TowerPanel extends JPanel implements Runnable {
         //初始化音频
         musicPlayer = new MusicPlayer();
         //播放当前楼层音频
-        musicPlayer.playBackgroundMusic(floor);
+//        musicPlayer.playBackgroundMusic(floor);
         //初始化人物方向
         DIRECTION = DIRECTION_UP;
         //初始化按键监听器
@@ -392,6 +389,7 @@ public final class TowerPanel extends JPanel implements Runnable {
 
     /**
      * 判断能否移动到 (x,y)
+     *
      * @param x
      * @param y
      * @return
@@ -1112,6 +1110,7 @@ public final class TowerPanel extends JPanel implements Runnable {
 
     /**
      * 判断是否在普通法楼层
+     *
      * @return 如果在普通楼层, 则返回true;反之,则返回false
      */
     public static boolean isNormalFloor() {
@@ -1139,8 +1138,7 @@ public final class TowerPanel extends JPanel implements Runnable {
         this.removeAll();
         if (end == 1) {
             NormalEnd.end(this);
-        }
-        else if (end == 2) {
+        } else if (end == 2) {
             NormalEnd.end(this);
         } else {
             NormalEnd.end(this);

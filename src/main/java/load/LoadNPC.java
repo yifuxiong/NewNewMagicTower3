@@ -3,18 +3,15 @@ package load;
 import entity.Dialogue;
 import entity.NPC;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  * NPC加载类
- * @author xuehy
- * @since 2020/6/9
  */
 public final class LoadNPC {
-
     //01-elf:精灵
     //02-elder:老者
     //03-businessman:商人
@@ -52,11 +49,11 @@ public final class LoadNPC {
         dialogues.add(new Dialogue("elf", "\b我这里有3把钥匙,你先拿去,在塔里面还有很多这样的钥匙,你一定要珍惜使用。"));
         dialogues.add(new Dialogue("elf", "\b勇敢的去吧,勇士!"));
 
-    NPC npc = new NPC("npc01_1_1", "仙子", true, true,
-            new ImageIcon(getClass().getResource("/image/npc/npc01_1.png")),
-            new ImageIcon(getClass().getResource("/image/npc/npc01_2.png")),
-            dialogues);
-    npcMap.put(npc.getId(), npc);
+        NPC npc = new NPC("npc01_1_1", "仙子", true, true,
+                new ImageIcon(getClass().getResource("/image/npc/npc01_1.png")),
+                new ImageIcon(getClass().getResource("/image/npc/npc01_2.png")),
+                dialogues);
+        npcMap.put(npc.getId(), npc);
 
         dialogues = new ArrayList<>(4);
         dialogues.add(new Dialogue("player", "\b仙子,我已经将那个十字架找到了。"));
@@ -376,5 +373,4 @@ public final class LoadNPC {
 
         return npcMap;
     }
-
 }

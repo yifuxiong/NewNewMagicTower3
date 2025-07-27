@@ -16,8 +16,6 @@ import java.util.Set;
 
 /**
  * 怪物手册绘制类
- * @author xuehy
- * @since 2020/6/9
  */
 public final class MonsterManualPane {
 
@@ -42,11 +40,9 @@ public final class MonsterManualPane {
         update(fightCalcList, tower.getFloorImage()[0]);
         monsterManualPane.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent arg0) {
-
             }
 
             public void keyReleased(KeyEvent arg0) {
-
             }
 
             public void keyPressed(KeyEvent arg0) {
@@ -263,5 +259,4 @@ public final class MonsterManualPane {
         fightCalcList.addAll(dieAttackList);
         return fightCalcList;
     }
-
 }

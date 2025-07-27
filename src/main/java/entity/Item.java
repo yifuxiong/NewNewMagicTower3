@@ -1,14 +1,11 @@
 package entity;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 
 /**
- * 游戏道具
- * @author xuehy
- * @since 2020/6/9
+ * 游戏道具类
  */
 public final class Item extends Entity {
-
     public String msg;
 
     public Item(String id, String name, String msg, ImageIcon imageIcon) {
@@ -18,5 +15,4 @@ public final class Item extends Entity {
         this.icon = new ImageIcon[1];
         this.icon[0] = imageIcon;
     }
-
 }

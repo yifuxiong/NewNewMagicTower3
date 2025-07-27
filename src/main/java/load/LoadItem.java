@@ -2,16 +2,13 @@ package load;
 
 import entity.Item;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 import java.util.HashMap;
 
 /**
  * 道具加载类
- * @author xuehy
- * @since 2020/6/9
  */
 public final class LoadItem {
-
     public HashMap<String, Item> initItem() {
         HashMap<String, Item> itemMap = new HashMap<>(64);
 
@@ -225,5 +222,4 @@ public final class LoadItem {
 
         return itemMap;
     }
-
 }

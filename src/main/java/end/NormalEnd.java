@@ -1,19 +1,21 @@
 package end;
 
+import entity.Tower;
 import main.TowerPanel;
 import util.ImageUtil;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Color;
 
 /**
- * @author xuehy
- * @since 2020/6/9
+ * 游戏普通结局
  */
 public class NormalEnd {
-
     /**
      * 游戏普通结局字幕
+     *
      * @param towerPanel 游戏窗体
      */
     public static void end(TowerPanel towerPanel) {
@@ -186,4 +188,15 @@ public class NormalEnd {
         });
     }
 
+    /**
+     * 测试
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        Tower tower = new Tower();
+        TowerPanel towerPanel = new TowerPanel(tower);
+        towerPanel.removeAll();
+        NormalEnd.end(towerPanel);
+    }
 }

@@ -1,15 +1,12 @@
 package entity;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 import java.io.Serializable;
 
 /**
- * 实体
- * @author xuehy
- * @since 2020/6/9
+ * 实体基类
  */
 public class Entity implements Cloneable, Serializable {
-
     String id;
     int hp, attack, defense, exp, money;
     String name;
@@ -19,7 +16,6 @@ public class Entity implements Cloneable, Serializable {
     ImageIcon[] icon;
 
     public Entity() {
-
     }
 
     public String getId() {
@@ -93,5 +89,4 @@ public class Entity implements Cloneable, Serializable {
     public void setIcon(ImageIcon[] icon) {
         this.icon = icon;
     }
-
 }

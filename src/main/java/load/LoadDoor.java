@@ -2,16 +2,13 @@ package load;
 
 import entity.Door;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 import java.util.HashMap;
 
 /**
  * 门加载类
- * @author xuehy
- * @since 2020/6/9
  */
 public final class LoadDoor {
-
     public HashMap<String, Door> initDoor() {
         HashMap<String, Door> doorMap = new HashMap<>(16);
 
@@ -48,23 +45,23 @@ public final class LoadDoor {
         /**
          * 特殊门
          */
-        //可以直接打开
+        // 可以直接打开
         door = new Door("door04", true,
                 new ImageIcon(getClass().getResource("/image/door/door04_1.png")),
                 new ImageIcon(getClass().getResource("/image/door/door04_2.png")),
                 new ImageIcon(getClass().getResource("/image/door/door04_3.png")),
                 new ImageIcon(getClass().getResource("/image/door/door04_4.png")));
         doorMap.put(door.getId(), door);
-        //不能直接打开
-        //第2层的门
+        // 不能直接打开
+        // 第2层的门
         door = new Door("door04_1", false,
                 new ImageIcon(getClass().getResource("/image/door/door04_1.png")),
                 new ImageIcon(getClass().getResource("/image/door/door04_2.png")),
                 new ImageIcon(getClass().getResource("/image/door/door04_3.png")),
                 new ImageIcon(getClass().getResource("/image/door/door04_4.png")));
         doorMap.put(door.getId(), door);
-        //不能直接打开
-        //第23层的门
+        // 不能直接打开
+        // 第23层的门
         door = new Door("door04_2", false,
                 new ImageIcon(getClass().getResource("/image/door/door04_1.png")),
                 new ImageIcon(getClass().getResource("/image/door/door04_2.png")),
@@ -75,14 +72,14 @@ public final class LoadDoor {
         /**
          * 特殊门
          */
-        //可以直接打开
+        // 可以直接打开
         door = new Door("door05", true,
                 new ImageIcon(getClass().getResource("/image/door/door05_1.png")),
                 new ImageIcon(getClass().getResource("/image/door/door05_2.png")),
                 new ImageIcon(getClass().getResource("/image/door/door05_3.png")),
                 new ImageIcon(getClass().getResource("/image/door/door05_4.png")));
         doorMap.put(door.getId(), door);
-        //不能直接打开
+        // 不能直接打开
         door = new Door("door05_1", false,
                 new ImageIcon(getClass().getResource("/image/door/door05_1.png")),
                 new ImageIcon(getClass().getResource("/image/door/door05_2.png")),
@@ -132,5 +129,4 @@ public final class LoadDoor {
 
         return doorMap;
     }
-
 }

@@ -3,12 +3,9 @@ package entity;
 import java.io.Serializable;
 
 /**
- * 对话内容
- * @author xuehy
- * @since 2020/6/9
+ * 对话实体类
  */
 public final class Dialogue implements Cloneable, Serializable {
-
     public String name;
     public String text;
 
@@ -16,5 +13,4 @@ public final class Dialogue implements Cloneable, Serializable {
         this.name = name;
         this.text = text;
     }
-
 }

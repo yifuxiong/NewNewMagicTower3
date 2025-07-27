@@ -3,17 +3,17 @@ package end;
 import main.TowerPanel;
 import util.ImageUtil;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import java.awt.Color;
 
 /**
- * @author xuehy
- * @since 2020/6/9
+ * 游戏结束，左侧滑动图片
  */
 public class ImageScript {
-
     /**
-     * 游戏结束字幕左侧图片显示脚本,需要在线程中调用
+     * 游戏结束字幕左侧图片显示脚本，需要在线程中调用
+     *
      * @param towerPanel 游戏窗体
      */
     public static void imageScript(TowerPanel towerPanel) {
@@ -59,5 +59,4 @@ public class ImageScript {
             }
         }
     }
-
 }

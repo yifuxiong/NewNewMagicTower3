@@ -7,11 +7,8 @@ import java.util.List;
 
 /**
  * 地图加载类
- * @author xuehy
- * @since 2020/6/9
  */
 public final class LoadMap {
-
     public List<GameMap> initMap() {
         List<GameMap> mapList = new ArrayList<>(24);
 
@@ -1127,5 +1124,4 @@ public final class LoadMap {
 
         return mapList;
     }
-
 }

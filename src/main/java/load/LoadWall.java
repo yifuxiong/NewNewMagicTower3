@@ -2,21 +2,18 @@ package load;
 
 import entity.Wall;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 import java.util.HashMap;
 
 /**
- * 墙加载类
- * @author xuehy
- * @since 2020/6/9
+ * 墙体加载类
  */
 public final class LoadWall {
-
     public HashMap<String, Wall> initWall() {
         HashMap<String, Wall> wallMap = new HashMap<>(8);
 
         Wall wall = new Wall("wall01",
-                new ImageIcon(getClass().getResource("/image/wall/wall01_1.png")));
+                new ImageIcon(getClass().getResource("/image/wall/wall03_1.png")));
         wallMap.put(wall.getId(), wall);
 
         wall = new Wall("wall02",
@@ -24,18 +21,20 @@ public final class LoadWall {
         wallMap.put(wall.getId(), wall);
 
         wall = new Wall("wall03",
-                new ImageIcon(getClass().getResource("/image/wall/wall03_1.png")));
+                new ImageIcon(getClass().getResource("/image/wall/wall01_1.png")));
         wallMap.put(wall.getId(), wall);
 
         wall = new Wall("wall04",
                 new ImageIcon(getClass().getResource("/image/wall/wall04_1.png")));
         wallMap.put(wall.getId(), wall);
 
+        // 星空
         wall = new Wall("wall05",
                 new ImageIcon(getClass().getResource("/image/wall/wall05_1.png")),
                 new ImageIcon(getClass().getResource("/image/wall/wall05_2.png")));
         wallMap.put(wall.getId(), wall);
 
+        // 熔岩
         wall = new Wall("wall06",
                 new ImageIcon(getClass().getResource("/image/wall/wall06_1.png")),
                 new ImageIcon(getClass().getResource("/image/wall/wall06_2.png")));
@@ -51,5 +50,4 @@ public final class LoadWall {
 
         return wallMap;
     }
-
 }

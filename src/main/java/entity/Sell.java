@@ -4,15 +4,16 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 商店的商品
- * @author xuehy
- * @since 2020/6/9
+ * 商店的商品类
  */
 public final class Sell implements Cloneable, Serializable {
-
+    // 商品名称
     public List<String> name;
+    // 商品属性
     public List<String> attribute;
+    // 加多少属性值
     public List<Short> val;
+    // 需要的价格
     public List<Integer> price;
 
     public Sell(List<String> name, List<String> attribute, List<Short> val) {
@@ -27,5 +28,4 @@ public final class Sell implements Cloneable, Serializable {
         this.val = val;
         this.price = price;
     }
-
 }

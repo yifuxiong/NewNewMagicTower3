@@ -2,16 +2,13 @@ package load;
 
 import entity.Monster;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 import java.util.HashMap;
 
 /**
  * 怪物加载类
- * @author xuehy
- * @since 2020/6/9
  */
 public final class LoadMonster {
-
     public HashMap<String, Monster> initMonster() {
         HashMap<String, Monster> monsterMap = new HashMap<>(128);
 
@@ -522,7 +519,7 @@ public final class LoadMonster {
         monster = new Monster("monster11_3", "血影", 9999, 5000, 4000, 0, 0,
                 new ImageIcon(getClass().getResource("/image/monster/monster11_3_1.png")),
                 new ImageIcon(getClass().getResource("/image/monster/monster11_3_2.png")),
-        true, true);
+                true, true);
         monsterMap.put(monster.getId(), monster);
 
         monster = new Monster("monster11_4", "血影", 9999, 5000, 4000, 0, 0,
@@ -617,5 +614,4 @@ public final class LoadMonster {
 
         return monsterMap;
     }
-
 }

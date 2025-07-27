@@ -2,18 +2,15 @@ package entity;
 
 import main.TowerPanel;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 import java.io.Serializable;
 
 import static pane.NpcDialogPane.showNpcDialog;
 
 /**
- * 怪物
- * @author xuehy
- * @since 2020/6/9
+ * 怪物类
  */
-public final class Monster extends Entity implements Cloneable,Serializable {
-
+public final class Monster extends Entity implements Cloneable, Serializable {
     public boolean scriptStart;
     public boolean scriptEnd;
 
@@ -53,12 +50,13 @@ public final class Monster extends Entity implements Cloneable,Serializable {
         this.money = money;
     }
 
+    // 接触前事件
     public void script_start(Tower tower) {
         if (!scriptStart) {
-            return;
         }
     }
 
+    // 接触后事件
     public void script_end(Tower tower) {
         if (!scriptEnd) {
             return;
@@ -70,14 +68,12 @@ public final class Monster extends Entity implements Cloneable,Serializable {
                 tower.getMonsterMap().get("monster07_4").updateAttribute(1600, 1306, 1200, 117, 100);
                 this.updateAttribute(20000, 1333, 1333, 133, 133);
             }
-        }
-        else if (this.getId().equals("monster10_15")) {
+        } else if (this.getId().equals("monster10_15")) {
             if (TowerPanel.floor == 19) {
                 this.updateAttribute(45000, 2550, 2250, 375, 330);
                 showNpcDialog(tower, "npc06_2_2", null, null);
                 tower.getNpcMap().get("npc06_2_2").canMeet = false;
-            }
-            else if (TowerPanel.floor == 21) {
+            } else if (TowerPanel.floor == 21) {
                 tower.getPlayer().killBossNum++;
                 tower.getMonsterMap().get("monster03_4").updateAttribute(4999, 2400, 2266, 140, 125);
                 tower.getMonsterMap().get("monster04_13").updateAttribute(3000, 2212, 1946, 132, 116);
@@ -95,8 +91,7 @@ public final class Monster extends Entity implements Cloneable,Serializable {
                     tower.getGameMapList().get(21).upPositionY = 6;
                 }
             }
-        }
-        else if (this.getId().contains("monster11")) {
+        } else if (this.getId().contains("monster11")) {
             tower.getPlayer().killBoss2Num++;
             if (this.getId().equals("monster11_8")) {
                 String[][] monsterLayer = tower.getSpecialMap().get(TowerPanel.specialGameMapNo).layer1;
@@ -110,13 +105,11 @@ public final class Monster extends Entity implements Cloneable,Serializable {
                     }
                 }
                 showNpcDialog(tower, "npc07_1_2", null, null);
-            }
-            else if (tower.getNpcMap().get("npc07_1_1").canMeet) {
+            } else if (tower.getNpcMap().get("npc07_1_1").canMeet) {
                 showNpcDialog(tower, "npc07_1_1", null, null);
                 tower.getNpcMap().get("npc07_1_1").canMeet = false;
             }
-        }
-        else if (this.getId().contains("monster12")) {
+        } else if (this.getId().contains("monster12")) {
             tower.getPlayer().killBoss3Num++;
             if (this.getId().equals("monster12_8")) {
                 String[][] monsterLayer = tower.getSpecialMap().get(TowerPanel.specialGameMapNo).layer1;
@@ -130,12 +123,10 @@ public final class Monster extends Entity implements Cloneable,Serializable {
                     }
                 }
                 showNpcDialog(tower, "npc07_2_2", null, null);
-            }
-            else if (tower.getNpcMap().get("npc07_2_1").canMeet) {
+            } else if (tower.getNpcMap().get("npc07_2_1").canMeet) {
                 showNpcDialog(tower, "npc07_2_1", null, null);
                 tower.getNpcMap().get("npc07_2_1").canMeet = false;
             }
         }
     }
-
 }

@@ -2,16 +2,13 @@ package load;
 
 import entity.Stair;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 import java.util.HashMap;
 
 /**
  * 楼梯加载类
- * @author xuehy
- * @since 2020/6/9
  */
 public final class LoadStair {
-
     public HashMap<String, Stair> initStair() {
         HashMap<String, Stair> stairMap = new HashMap<>(16);
 
@@ -57,5 +54,4 @@ public final class LoadStair {
 
         return stairMap;
     }
-
 }

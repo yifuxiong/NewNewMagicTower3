@@ -3,12 +3,9 @@ package entity;
 import java.io.Serializable;
 
 /**
- * 游戏地图
- * @author xuehy
- * @since 2020/6/9
+ * 游戏地图类
  */
 public final class GameMap implements Cloneable, Serializable {
-
     /**
      * 楼层
      */
@@ -27,15 +24,17 @@ public final class GameMap implements Cloneable, Serializable {
     public byte downPositionY;
 
     /**
-     * 上图层(包括玩家player,怪物monster,NPC,商店shop)
+     * 上图层：玩家player，怪物monster，NPC，商店shop
      */
     public String[][] layer1;
+
     /**
-     * 中图层(包括道具item)
+     * 中图层：道具item
      */
     public String[][] layer2;
+
     /**
-     * 下图层(门door,墙wall,楼梯stair)
+     * 下图层：门door，墙wall，楼梯stair
      */
     public String[][] layer3;
 
@@ -52,5 +51,4 @@ public final class GameMap implements Cloneable, Serializable {
         this.layer2 = layer2;
         this.layer3 = layer3;
     }
-
 }
