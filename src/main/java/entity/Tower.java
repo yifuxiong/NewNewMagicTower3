@@ -26,8 +26,10 @@ public final class Tower implements Cloneable, Serializable {
     private HashMap<String, Shop> shopMap;
     private HashMap<String, NPC> npcMap;
 
-    private Image[] floorImage = new Image[3];
-    private Image[] wallImage = new Image[8];
+    private static final int FLOOR_NUM = 6;
+    private Image[] floorImage = new Image[FLOOR_NUM];
+    private static final int WALL_NUM = 12;
+    private Image[] wallImage = new Image[WALL_NUM];
 
     // 需要保存的东西
     public boolean canUseFloorTransfer;
@@ -77,13 +79,13 @@ public final class Tower implements Cloneable, Serializable {
 
     private void loadIcon() {
         ImageIcon icon;
-        for (int i = 1; i < 4; i++) {
+        for (int i = 1; i <= FLOOR_NUM; i++) {
             icon = new ImageIcon(getClass().getResource("/image/wall/floor0" + i + "_1.png"));
             // 地板
             floorImage[i - 1] = icon.getImage();
         }
-        for (int i = 1; i < 9; i++) {
-            icon = new ImageIcon(getClass().getResource("/image/wall/wall0" + i + "_1.png"));
+        for (int i = 1; i <= WALL_NUM; i++) {
+            icon = new ImageIcon(getClass().getResource("/image/wall/wall" + String.format("%0" + 2 + "d", i) + "_1.png"));
             // 墙体
             wallImage[i - 1] = icon.getImage();
         }
@@ -92,7 +94,7 @@ public final class Tower implements Cloneable, Serializable {
         for (int i = 0; i < 4; i++) {
             // 帧数从1-4
             for (int j = 1; j <= 4; j++) {
-                playerIcon[i][j - 1] = new ImageIcon(getClass().getResource("/image/player/player01_" + i + "_" + j + ".png"));
+                playerIcon[i][j - 1] = new ImageIcon(getClass().getResource("/image/player/player05_" + i + "_" + j + ".png"));
             }
         }
         player.setPlayerIcon(playerIcon);

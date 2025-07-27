@@ -1225,6 +1225,4 @@ public final class TowerPanel extends JPanel implements Runnable {
         app.setPlayer(this.tower.getPlayer());
         app.launch(ScoreApplication.class);
     }
-
-
 }
