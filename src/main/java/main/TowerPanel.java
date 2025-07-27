@@ -805,11 +805,10 @@ public final class TowerPanel extends JPanel implements Runnable {
                 this.tower.getPlayer().exp += monster.getExp();
                 this.tower.getPlayer().killNum++;
                 monster.script_end(this.tower);
-                return true;
             } else {
                 showMesLabel.setText("无法击杀:" + this.tower.getMonsterMap().get(layer1[y][x]).getName());
-                return false;
             }
+            return false;
         }
         return true;
     }
