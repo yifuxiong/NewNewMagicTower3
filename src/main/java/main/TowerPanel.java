@@ -744,16 +744,18 @@ public final class TowerPanel extends JPanel implements Runnable {
                 Item item = this.tower.getItemMap().get(layer2[y][x]);
                 if (item.msg != null) {
                     musicPlayer.getSpecialItem();
+                    showSpecialItem(item);
+                } else {
                     mainExecutor.execute(() -> {
-                        showSpecialItem(item);
+                        CAN_MOVE = false;
+                        musicPlayer.getItem();
                         try {
                             Thread.sleep(ITEM_GET_SLEEP_TIME);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                        CAN_MOVE = true;
                     });
-                } else {
-                    musicPlayer.getItem();
                 }
             } else {
                 try {
