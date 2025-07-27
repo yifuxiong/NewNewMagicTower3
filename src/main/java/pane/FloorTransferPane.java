@@ -72,12 +72,18 @@ public final class FloorTransferPane {
                         if (TowerPanel.floor < TowerPanel.nowSelectFloor) {
                             tower.getPlayer().x = tower.getGameMapList().get(TowerPanel.nowSelectFloor).upPositionX;
                             tower.getPlayer().y = tower.getGameMapList().get(TowerPanel.nowSelectFloor).upPositionY;
+                            // 飞行至新楼层之后上一步的位置重置（防止在楼梯口不停切换）
+                            tower.getPlayer().lastX = tower.getPlayer().x;
+                            tower.getPlayer().lastY = tower.getPlayer().y;
                             TowerPanel.DIRECTION = TowerPanel.DIRECTION_DOWN;
                             TowerPanel.musicPlayer.playBackgroundMusic(TowerPanel.nowSelectFloor);
                             TowerPanel.nowMonsterManual = 0;
                         } else if (TowerPanel.floor > TowerPanel.nowSelectFloor) {
                             tower.getPlayer().x = tower.getGameMapList().get(TowerPanel.nowSelectFloor).downPositionX;
                             tower.getPlayer().y = tower.getGameMapList().get(TowerPanel.nowSelectFloor).downPositionY;
+                            // 飞行至新楼层之后上一步的位置重置（防止在楼梯口不停切换）
+                            tower.getPlayer().lastX = tower.getPlayer().x;
+                            tower.getPlayer().lastY = tower.getPlayer().y;
                             TowerPanel.DIRECTION = TowerPanel.DIRECTION_DOWN;
                             TowerPanel.musicPlayer.playBackgroundMusic(TowerPanel.nowSelectFloor);
                             TowerPanel.nowMonsterManual = 0;
