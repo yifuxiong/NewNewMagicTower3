@@ -10,13 +10,9 @@ import java.util.List;
 /**
  * 按键输入工具类
  * 注意: JPanel可以这样用
- * @author xuehy
- * @since 2020/6/9
  */
 public final class KeyInputHandler implements KeyListener {
-
     public class Key {
-
         public int presses, absorbs;
         public boolean down, pressed;
 
@@ -32,7 +28,6 @@ public final class KeyInputHandler implements KeyListener {
                 presses++;
             }
         }
-
     }
 
     public List<Key> keys = new ArrayList<Key>();
@@ -56,7 +51,6 @@ public final class KeyInputHandler implements KeyListener {
     }
 
     public void keyTyped(KeyEvent e) {
-        
     }
 
     public void keyPressed(KeyEvent e) {
@@ -69,16 +63,11 @@ public final class KeyInputHandler implements KeyListener {
 
     public void toggle(KeyEvent ke, boolean pressed) {
         int k = ke.getKeyCode();
-        //System.out.println("按下了:" + k);
+        // System.out.println("按下了：" + k);
         if(k == KeyEvent.VK_UP) up.toggle(pressed);
         if(k == KeyEvent.VK_DOWN) down.toggle(pressed);
         if(k == KeyEvent.VK_LEFT) left.toggle(pressed);
         if(k == KeyEvent.VK_RIGHT) right.toggle(pressed);
-
-//        if(k == KeyEvent.VK_W) up.toggle(pressed);
-//        if(k == KeyEvent.VK_S) down.toggle(pressed);
-//        if(k == KeyEvent.VK_A) left.toggle(pressed);
-//        if(k == KeyEvent.VK_D) right.toggle(pressed);
 
         if(k == KeyEvent.VK_2) cursor_up.toggle(pressed);
         if(k == KeyEvent.VK_8) cursor_down.toggle(pressed);
@@ -89,8 +78,8 @@ public final class KeyInputHandler implements KeyListener {
         if(k == KeyEvent.VK_D) use_rod.toggle(pressed);
         if(k == KeyEvent.VK_F) use_floor_transfer.toggle(pressed);
 
-        if(k == KeyEvent.VK_OPEN_BRACKET) save.toggle(pressed);
-        if(k == KeyEvent.VK_CLOSE_BRACKET) load.toggle(pressed);
+        if(k == KeyEvent.VK_S) save.toggle(pressed);
+        if(k == KeyEvent.VK_A) load.toggle(pressed);
     }
 
     public void clear() {
@@ -103,5 +92,4 @@ public final class KeyInputHandler implements KeyListener {
         save.toggle(false);
         load.toggle(false);
     }
-
 }
