@@ -76,6 +76,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     JLabel showMesLabel;
     // fps信息框
     JLabel fpsLabel, showFpsLabel;
+    JLabel imgLabel;
 
     // 当前帧数（每秒8帧）
     private byte frames = 0;
@@ -108,6 +109,7 @@ public final class TowerPanel extends JPanel implements Runnable {
 
     public static JFrame mainframe = new JFrame("新新魔塔3");
     public static ScreenUtil screenUtil = new ScreenUtil();
+    public static ImageUtil imageUtil = new ImageUtil();
 
     public TowerPanel(Tower tower) {
         this.add(monsterManualPane);
@@ -275,7 +277,7 @@ public final class TowerPanel extends JPanel implements Runnable {
             String stair = this.tower.getGameMapList().get(floor).layer3[this.tower.getPlayer().y][this.tower.getPlayer().x];
             // 通过比较当前和上一步的位置，判断是否已经执行过上楼动作
             if (stair.equals("stair01") && !doNotUpStairOrDownStair(this.tower.getPlayer().x, this.tower.getPlayer().y, this.tower.getPlayer().lastX, this.tower.getPlayer().lastY)) {
-                floorChangeScene();
+                floorChangeScene(imgLabel);
                 musicPlayer.upAndDown();
                 floor--;
                 this.tower.getPlayer().x = this.tower.getGameMapList().get(floor).downPositionX;
@@ -291,7 +293,7 @@ public final class TowerPanel extends JPanel implements Runnable {
                 }
                 return;
             } else if (stair.equals("stair02") && !doNotUpStairOrDownStair(this.tower.getPlayer().x, this.tower.getPlayer().y, this.tower.getPlayer().lastX, this.tower.getPlayer().lastY)) {
-                floorChangeScene();
+                floorChangeScene(imgLabel);
                 musicPlayer.upAndDown();
                 floor++;
                 this.tower.getPlayer().x = this.tower.getGameMapList().get(floor).upPositionX;
@@ -400,7 +402,8 @@ public final class TowerPanel extends JPanel implements Runnable {
     // 开门后等待时间(ms)
     private static final int DOOR_OPEN_SLEEP_TIME = 30;
     // 楼层切换转场等待时间
-    private static final int FLOOR_CHANGE_SLEEP_TIME = 300;
+    private static final int FLOOR_CHANGE_SLEEP_TIME = 1;
+    private static final int FLOOR_CHANGE_DISPLAY_TIME = 20;
     // 获得道具后等待时间
     private static final int ITEM_GET_SLEEP_TIME = 300;
     // 击败怪物等待时间
@@ -1008,6 +1011,12 @@ public final class TowerPanel extends JPanel implements Runnable {
         showFpsLabel.setForeground(Color.white);
         showFpsLabel.setFont(new Font("方正桃体", Font.BOLD, SMALL_FONT_SIZE));
 
+        // 楼层切换转场图片
+        imgLabel = new JLabel();
+        imgLabel.setForeground(Color.white);
+        imgLabel.setBounds(CS * 6, CS, CS * 11, CS * 11);
+        imgLabel.setVisible(true);
+
         this.add(playerPicLabel);
         this.add(playerWindowLine);
         this.add(infoWindowLine);
@@ -1034,6 +1043,7 @@ public final class TowerPanel extends JPanel implements Runnable {
         this.add(showMesLabel);
         this.add(fpsLabel);
         this.add(showFpsLabel);
+        this.add(imgLabel);
     }
 
     private void drawBackGround(Graphics g) {
@@ -1196,13 +1206,25 @@ public final class TowerPanel extends JPanel implements Runnable {
     /************************************************** 楼层切换转场 **************************************************/
 
     // 楼层切换转场贴图
-    public void floorChangeScene() {
+    public void floorChangeScene(JLabel imgLabel) {
         mainExecutor.execute(() -> {
             CAN_MOVE = false;
+            // 直接出现
+            imgLabel.setIcon(new ImageIcon(imageUtil.changeAlpha("/image/icon/background_s.png", 240)));
+            // 停留展示时间
             try {
-                Thread.sleep(FLOOR_CHANGE_SLEEP_TIME);
+                Thread.sleep(FLOOR_CHANGE_DISPLAY_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+            // 逐渐消失
+            for (int i = 60; i >= 0; i--) {
+                imgLabel.setIcon(new ImageIcon(imageUtil.changeAlpha("/image/icon/background_s.png", i * 4)));
+                try {
+                    Thread.sleep(FLOOR_CHANGE_SLEEP_TIME);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             CAN_MOVE = true;
         });
