@@ -782,7 +782,7 @@ public final class TowerPanel extends JPanel implements Runnable {
             }
             monster.script_start(this.tower);
             FightCalc fightCalc = new FightCalc(this.tower.getPlayer(), monster);
-            if (!fightCalc.canAttack) {
+            if (!fightCalc.canWin) {
                 showMesLabel.setText("无法击杀:" + this.tower.getMonsterMap().get(layer1[y][x]).getName());
                 return false;
             }

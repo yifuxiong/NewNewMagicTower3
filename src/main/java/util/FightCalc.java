@@ -5,14 +5,14 @@ import entity.Player;
 
 /**
  * 战斗结果计算器
- * @author xuehy
- * @since 2020/6/9
  */
 public final class FightCalc {
-
     private Monster monster;
-    public boolean canAttack;
     public int mDamageTotal;
+    // 可以攻击怪物
+    public boolean canAttack;
+    // 可以战胜怪物
+    public boolean canWin;
 
     /**
      * 玩家伤害临界值
@@ -35,14 +35,16 @@ public final class FightCalc {
         }
         int pDamage = player.attack - monster.getDefense();
         //-20为怪物伤害临界值
-        if (mDamage <= 0 && mDamage > -20) {
+        if (mDamage <= 0 && mDamage > -playerCriticalVal) {
             mDamage = 1;
-        } else if (mDamage <= -20) {
+        } else if (mDamage <= -playerCriticalVal) {
             mDamage = 0;
         }
         if (pDamage <= 0 && pDamage > -playerCriticalVal) {
+            canAttack = true;
             pDamage = 1;
-        } else if (pDamage <= -20) {
+        } else if (pDamage <= -playerCriticalVal) {
+            canAttack = false;
             pDamage = 0;
         }
         //System.out.println("怪物攻击一次的伤害:" + mDamage);
@@ -72,19 +74,18 @@ public final class FightCalc {
         //System.out.println("怪物攻击次数:" + (attackNo - pAttackNo));
         if (monster.getId().equals("monster04_13") && (mDamageTotal == 0 || mDamage == 1)) {
             this.mDamageTotal = (int) Math.round(player.hp / 3.0);
-        }
-        else if (monster.getId().equals("monster10_1") && (mDamageTotal == 0 || mDamage == 1)) {
+        } else if (monster.getId().equals("monster10_1") && (mDamageTotal == 0 || mDamage == 1)) {
             this.mDamageTotal = (int) Math.round(player.hp / 4.0);
         } else {
             this.mDamageTotal = mDamageTotal;
         }
         if (mDamageTotal < player.hp) {
             canAttack = true;
+            canWin = true;
         }
     }
 
     public Monster getMonster() {
         return monster;
     }
-
 }

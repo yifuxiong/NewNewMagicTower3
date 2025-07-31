@@ -14,17 +14,34 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static main.TowerPanel.CS;
+
 /**
  * 怪物手册绘制类
  */
-public final class MonsterManualPane {
-
+public final class MonsterManualPane extends JPanel {
+    // 界面
     public static JLayeredPane monsterManualPane = new JLayeredPane();
+    // 怪物展示页面
     private static JPanel showPanel;
+    // 背景图片
+    private static JLabel backgroundLabel;
+
+    // 每页显示怪物数量
+    private static final int Mon3tNumPerPage = 3;
+    // 设置
+    private static final int FONT_SIZE = 16;
+    private static final String FONT_FAMILY = "微软雅黑";
+    private static final int WIDTH = 80;
+    private static final int HEIGHT = 20;
 
     static {
-        monsterManualPane.setBounds(TowerPanel.CS * 6, TowerPanel.CS, TowerPanel.CS * 11, TowerPanel.CS * 11);
-        monsterManualPane.setBackground(Color.black);
+        // 怪物展示时的背景图片
+        ImageIcon bgIcon = new ImageIcon(MonsterManualPane.class.getResource("/image/icon/background_s_grey.png"));
+        backgroundLabel = new JLabel(bgIcon);
+        backgroundLabel.setBounds(0,0,CS * 11, CS * 11);
+        monsterManualPane.setBounds(CS * 6, CS, CS * 11, CS * 11);
+        monsterManualPane.setBackground(Color.white);
     }
 
     public static void showMonsterManual(Tower tower) {
@@ -35,8 +52,8 @@ public final class MonsterManualPane {
         TowerPanel.CAN_MOVE = false;
         monsterManualPane.removeAll();
         showPanel = new JPanel(null);
-        showPanel.setSize(TowerPanel.CS * 11, TowerPanel.CS * 11);
-        showPanel.setBackground(Color.black);
+        showPanel.setSize(CS * 11, CS * 11);
+//        showPanel.setBackground(Color.black);
         update(fightCalcList, tower.getFloorImage()[0]);
         monsterManualPane.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent arg0) {
@@ -62,7 +79,7 @@ public final class MonsterManualPane {
                         }
                         break;
                     case KeyEvent.VK_RIGHT:
-                        if (TowerPanel.nowMonsterManual < fightCalcList.size() / 8.0 - 1) {
+                        if (TowerPanel.nowMonsterManual < fightCalcList.size() / Mon3tNumPerPage) {
                             TowerPanel.nowMonsterManual++;
                             changeFlag = true;
                         }
@@ -89,105 +106,202 @@ public final class MonsterManualPane {
 
     private static void update(List<FightCalc> fightCalcList, Image floorImage) {
         showPanel.removeAll();
-        for (int i = TowerPanel.nowMonsterManual << 3, length = fightCalcList.size(); i < length && i < TowerPanel.nowMonsterManual + 1 << 3; i++) {
+
+        for (int i = TowerPanel.nowMonsterManual * Mon3tNumPerPage, length = fightCalcList.size(); i < length && i < (TowerPanel.nowMonsterManual + 1) * Mon3tNumPerPage; i++) {
             Monster monster = fightCalcList.get(i).getMonster();
+
+            /************************************************** 手册主页面 **************************************************/
+
             JLabel mainLabel = new JLabel();
-            mainLabel.setBounds(3, 8 + 42 * (i % 8), 346, 40);
+            mainLabel.setBounds(10, 10 + (CS * 3) * (i % Mon3tNumPerPage), CS * 10, CS * 3);
             mainLabel.setForeground(Color.white);
-            mainLabel.setFont(new Font("微软雅黑", Font.BOLD, 16));
+            mainLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
+            // 怪物名称
+            JLabel nameLabel = new JLabel("名称：", JLabel.LEFT);
+            nameLabel.setBounds(20, 10, WIDTH - 20, HEIGHT);
+            nameLabel.setForeground(Color.white);
+            nameLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
+
+            JLabel nameValLabel = new JLabel(monster.getName(), JLabel.LEFT);
+            nameValLabel.setBounds(20 + (WIDTH - 20), 10, 20 + WIDTH, HEIGHT);
+            nameValLabel.setForeground(Color.white);
+            nameValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
+
+            // 特殊能力
+            JLabel abilityLabel = new JLabel("特殊：", JLabel.LEFT);
+            abilityLabel.setBounds(180, 10, WIDTH - 20, HEIGHT);
+            abilityLabel.setForeground(Color.white);
+            abilityLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
+
+            JLabel abilityValLabel = new JLabel(String.valueOf("无"), JLabel.LEFT);
+            abilityValLabel.setBounds(180 + (WIDTH - 20), 10, 20 + WIDTH, HEIGHT);
+            abilityValLabel.setForeground(Color.white);
+            abilityValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
+
+            // 怪物头像
             JLabel picLabel = new JLabel();
-            picLabel.setBounds(3, 4, TowerPanel.CS, TowerPanel.CS);
+            picLabel.setBounds(20, 30, CS, CS);
             picLabel.setIcon(monster.getIcon()[0]);
-
+            // 头像后面的背景图片
             ImageIcon background = new ImageIcon(floorImage);
             background.setImage(background.getImage().getScaledInstance(background.getIconWidth(), background.getIconHeight(), Image.SCALE_DEFAULT));
-
             JLabel backgroundLabel = new JLabel();
             backgroundLabel.setIcon(background);
-            backgroundLabel.setBounds(3, 4, TowerPanel.CS, TowerPanel.CS);
+            backgroundLabel.setBounds(20, 30, CS, CS);
 
-            JLabel nameLabel = new JLabel("名称", JLabel.CENTER);
-            nameLabel.setBounds(38, 3, 30, 15);
-            nameLabel.setForeground(Color.white);
-            nameLabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
-
-            JLabel nameValLabel = new JLabel(monster.getName(), JLabel.CENTER);
-            nameValLabel.setBounds(68, 3, 95, 15);
-            nameValLabel.setForeground(Color.white);
-            nameValLabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
-
-            JLabel hpLabel = new JLabel("生命", JLabel.CENTER);
-            hpLabel.setBounds(38, 21, 30, 15);
+            // 怪物体力
+            JLabel hpLabel = new JLabel("体力：", JLabel.LEFT);
+            hpLabel.setBounds(20 + WIDTH, 30, WIDTH, HEIGHT);
             hpLabel.setForeground(Color.white);
-            hpLabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+            hpLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
-            JLabel hpValLabel = new JLabel(String.valueOf(monster.getHp()), JLabel.CENTER);
-            hpValLabel.setBounds(68, 21, 95, 15);
-            hpValLabel.setForeground(Color.white);
-            hpValLabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+            JLabel hpValLabel = new JLabel(String.valueOf(monster.getHp()), JLabel.LEFT);
+            hpValLabel.setBounds(20 + WIDTH, 50, WIDTH, HEIGHT);
+            hpValLabel.setForeground(new Color(109,232,5));
+            hpValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
-            JLabel attackLabel = new JLabel("攻击", JLabel.CENTER);
-            attackLabel.setBounds(163, 3, 30, 15);
+            // 怪物攻击力
+            JLabel attackLabel = new JLabel("攻击力：", JLabel.LEFT);
+            attackLabel.setBounds(20 + WIDTH * 2, 30, WIDTH, HEIGHT);
             attackLabel.setForeground(Color.white);
-            attackLabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+            attackLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
-            JLabel attackValLabel = new JLabel(String.valueOf(monster.getAttack()), JLabel.RIGHT);
-            attackValLabel.setBounds(193, 3, 35, 15);
-            attackValLabel.setForeground(Color.white);
-            attackValLabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+            JLabel attackValLabel = new JLabel(String.valueOf(monster.getAttack()), JLabel.LEFT);
+            attackValLabel.setBounds(20 + WIDTH * 2, 50, WIDTH, HEIGHT);
+            attackValLabel.setForeground(new Color(123,60,118));
+            attackValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
-            JLabel defenseLabel = new JLabel("防御", JLabel.CENTER);
-            defenseLabel.setBounds(163, 21, 30, 15);
+            // 怪物防御力
+            JLabel defenseLabel = new JLabel("防御力：", JLabel.LEFT);
+            defenseLabel.setBounds(20 + WIDTH * 3, 30, WIDTH, HEIGHT);
             defenseLabel.setForeground(Color.white);
-            defenseLabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+            defenseLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
-            JLabel defenseValLabel = new JLabel(String.valueOf(monster.getDefense()), JLabel.RIGHT);
-            defenseValLabel.setBounds(193, 21, 35, 15);
-            defenseValLabel.setForeground(Color.white);
-            defenseValLabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+            JLabel defenseValLabel = new JLabel(String.valueOf(monster.getDefense()), JLabel.LEFT);
+            defenseValLabel.setBounds(20 + WIDTH * 3, 50, WIDTH, HEIGHT);
+            defenseValLabel.setForeground(new Color(231,164,123));
+            defenseValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
-            JLabel rewardLabel = new JLabel("金·经", JLabel.CENTER);
-            rewardLabel.setBounds(228, 3, 45, 15);
-            rewardLabel.setForeground(Color.white);
-            rewardLabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+            // 怪物敏捷
+            JLabel agilityLabel = new JLabel("敏捷：", JLabel.LEFT);
+            agilityLabel.setBounds(20 + WIDTH * 4, 30, WIDTH, HEIGHT);
+            agilityLabel.setForeground(Color.white);
+            agilityLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
-            JLabel rewardValLabel = new JLabel(monster.getMoney() + "·" + monster.getExp(), JLabel.CENTER);
-            rewardValLabel.setBounds(273, 3, 70, 15);
-            rewardValLabel.setForeground(Color.white);
-            rewardValLabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+            JLabel agilityValLabel = new JLabel(String.valueOf(monster.getDefense()), JLabel.LEFT);
+            agilityValLabel.setBounds(20 + WIDTH * 4, 50, WIDTH, HEIGHT);
+            agilityValLabel.setForeground(new Color(37,136,40));
+            agilityValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
-            JLabel damageLabel = new JLabel("损失", JLabel.CENTER);
-            damageLabel.setBounds(228, 21, 45, 15);
+            // 攻击次数
+            JLabel attackTimesLabel = new JLabel("攻击次数：", JLabel.LEFT);
+            attackTimesLabel.setBounds(20 + WIDTH, 70, WIDTH, HEIGHT);
+            attackTimesLabel.setForeground(new Color(14,146,192));
+            attackTimesLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
+
+            JLabel attackTimesValLabel = new JLabel(String.valueOf(1), JLabel.LEFT);
+            attackTimesValLabel.setBounds(20 + WIDTH, 90, WIDTH, HEIGHT);
+            attackTimesValLabel.setForeground(Color.white);
+            attackTimesValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
+
+            // 造成损失
+            JLabel damageLabel = new JLabel("估计损失：", JLabel.LEFT);
+            damageLabel.setBounds(20 + WIDTH * 2, 70, WIDTH, HEIGHT);
             damageLabel.setForeground(Color.white);
-            damageLabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+            damageLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
-            JLabel damageValLabel = new JLabel("", JLabel.CENTER);
-            if (fightCalcList.get(i).canAttack) {
-                damageValLabel.setText(String.valueOf(fightCalcList.get(i).mDamageTotal));
+            JLabel damageValLabel = new JLabel("", JLabel.LEFT);
+            if (!fightCalcList.get(i).canAttack) {
+                damageValLabel.setText("???");
             } else {
-                damageValLabel.setText("DIE");
+                if (fightCalcList.get(i).canWin) {
+                    damageValLabel.setText(String.valueOf(fightCalcList.get(i).mDamageTotal));
+                } else {
+                    damageValLabel.setText("DIE");
+                }
             }
-            damageValLabel.setBounds(273, 21, 70, 15);
-            damageValLabel.setForeground(Color.white);
-            damageValLabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+            damageValLabel.setBounds(20 + WIDTH * 2, 90, WIDTH, HEIGHT);
+            damageValLabel.setForeground(new Color(244,7,27));
+            damageValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
-            mainLabel.add(picLabel);
-            mainLabel.add(backgroundLabel);
+            // 怪物经验值
+            JLabel expLabel = new JLabel("Exp：", JLabel.LEFT);
+            expLabel.setBounds(20 + WIDTH * 3, 70, WIDTH, HEIGHT);
+            expLabel.setForeground(Color.white);
+            expLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
+
+            JLabel expValLabel = new JLabel(String.valueOf(monster.getExp()), JLabel.LEFT);
+            expValLabel.setBounds(20 + WIDTH * 3, 90, WIDTH, HEIGHT);
+            expValLabel.setForeground(new Color(139,238,233));
+            expValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
+
+            // 怪物金币数
+            JLabel goldLabel = new JLabel("Gold：", JLabel.LEFT);
+            goldLabel.setBounds(20 + WIDTH * 4, 70, WIDTH, HEIGHT);
+            goldLabel.setForeground(Color.white);
+            goldLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
+
+            JLabel goldValLabel = new JLabel(String.valueOf(monster.getMoney()), JLabel.LEFT);
+            goldValLabel.setBounds(20 + WIDTH * 4, 90, WIDTH, HEIGHT);
+            goldValLabel.setForeground(new Color(249,251,69));
+            goldValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
+
+            /************************************************** 翻页按钮 **************************************************/
+
+            JLabel leftPicLabel = new JLabel();
+            if (TowerPanel.nowMonsterManual == 0) {
+                leftPicLabel.setIcon(new ImageIcon(FloorTransferPane.class.getResource("/image/icon/left_2.png")));
+            } else {
+                leftPicLabel.setIcon(new ImageIcon(FloorTransferPane.class.getResource("/image/icon/left_1.png")));
+            }
+            leftPicLabel.setBounds(CS * 9, HEIGHT * 17, CS, CS * 3 / 2);
+            leftPicLabel.setForeground(Color.WHITE);
+
+            JLabel rightPicLabel = new JLabel();
+            if (TowerPanel.nowMonsterManual == (length + Mon3tNumPerPage - 1) / Mon3tNumPerPage - 1) {
+                rightPicLabel.setIcon(new ImageIcon(FloorTransferPane.class.getResource("/image/icon/right_2.png")));
+            } else {
+                rightPicLabel.setIcon(new ImageIcon(FloorTransferPane.class.getResource("/image/icon/right_1.png")));
+            }
+            rightPicLabel.setBounds(CS * 10, HEIGHT * 17, CS, CS * 3 / 2);
+            rightPicLabel.setForeground(Color.WHITE);
+
+            JLabel enterLabel = new JLabel("-Enter-", JLabel.CENTER);
+            enterLabel.setBounds(CS * 9, HEIGHT * 19, WIDTH, CS * 3 / 2);
+            enterLabel.setForeground(Color.GRAY);
+            enterLabel.setFont(new Font(FONT_FAMILY, Font.PLAIN, 20));
+
+            /************************************************** 添加到画板 **************************************************/
+
             mainLabel.add(nameLabel);
             mainLabel.add(nameValLabel);
+            mainLabel.add(abilityLabel);
+            mainLabel.add(abilityValLabel);
+            mainLabel.add(picLabel);
+            mainLabel.add(backgroundLabel);
             mainLabel.add(hpLabel);
             mainLabel.add(hpValLabel);
             mainLabel.add(attackLabel);
             mainLabel.add(attackValLabel);
             mainLabel.add(defenseLabel);
             mainLabel.add(defenseValLabel);
-            mainLabel.add(rewardLabel);
-            mainLabel.add(rewardValLabel);
+            mainLabel.add(agilityLabel);
+            mainLabel.add(agilityValLabel);
+            mainLabel.add(attackTimesLabel);
+            mainLabel.add(attackTimesValLabel);
             mainLabel.add(damageLabel);
             mainLabel.add(damageValLabel);
+            mainLabel.add(expLabel);
+            mainLabel.add(expValLabel);
+            mainLabel.add(goldLabel);
+            mainLabel.add(goldValLabel);
             showPanel.add(mainLabel);
+            showPanel.add(leftPicLabel);
+            showPanel.add(rightPicLabel);
+            showPanel.add(enterLabel);
         }
+        showPanel.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
         showPanel.repaint();
     }
 
@@ -230,7 +344,7 @@ public final class MonsterManualPane {
             }
             FightCalc fightCalc = new FightCalc(tower.getPlayer(), monster);
             int no = 0;
-            if (fightCalc.canAttack) {
+            if (fightCalc.canWin) {
                 for (int j = 0; j < fightCalcList.size(); j++) {
                     if (fightCalcList.get(j).mDamageTotal >= fightCalc.mDamageTotal) {
                         no = j;
