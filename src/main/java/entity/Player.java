@@ -18,6 +18,16 @@ public final class Player implements Cloneable {
     public int hp;
     public int attack;
     public int defense;
+    // 新增暴击
+    public int critical;
+    // 新增敏捷
+    public int agility;
+    // 新增闪避
+    public int dodgo;
+    // 新增攻击次数
+    public int attackTimes;
+    // 新增特殊能力：反伤、吸血
+    public int ability;
     public int exp;
     public int money;
     public int level;
