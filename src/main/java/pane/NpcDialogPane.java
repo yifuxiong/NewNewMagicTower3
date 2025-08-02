@@ -2,7 +2,6 @@ package pane;
 
 import entity.Dialogue;
 import entity.NPC;
-import entity.Shop;
 import entity.Tower;
 import main.TowerPanel;
 
@@ -10,29 +9,46 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
+
+import static main.TowerPanel.CS;
 
 /**
  * NPC对话框绘制类
- * @author xuehy
- * @since 2020/6/9
  */
 public class NpcDialogPane {
-
     public static JLayeredPane npcDialogPane = new JLayeredPane();
     private static JPanel showPanel;
     private static JLabel name;
     private static JTextArea content;
-    private static JLabel pict;
+    private static JLabel picture;
 
     //秘籍彩蛋
     private static String secretScript = "";
-    static byte nowDialog = 0;
-    static int dialogNum = 0;
+    private static byte nowDialog = 0;
+    private static int dialogNum = 0;
+
+    private static final int WIDTH = 80;
+    private static final int HEIGHT = 25;
+    private static final int MARGIN = 15;
+    private static final int LINE_BOUND = 3;
+    private static final String FONT_FAMILY = "宋体";
+    private static final int FONT_SIZE = 16;
+    private static final int SMALL_SIZE = 14;
+
+    private static final ImageIcon background;
+    private static final JLabel backgroundLabel;
 
     static {
-        npcDialogPane.setBounds(240, 96, 256, 128);
+        background = new ImageIcon(NpcDialogPane.class.getResource("/image/wall/floor01_1.png"));
+        background.setImage(background.getImage().getScaledInstance(CS, CS, Image.SCALE_DEFAULT));
+        backgroundLabel = new JLabel();
+        backgroundLabel.setIcon(background);
+        backgroundLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), LINE_BOUND));
+
+        npcDialogPane.setBounds(CS * 15 / 2 - LINE_BOUND, CS * 11 / 2 - LINE_BOUND, CS * 8 + LINE_BOUND * 2, CS * 4 + LINE_BOUND * 2);
         npcDialogPane.setBackground(Color.black);
+        npcDialogPane.setBorder(BorderFactory.createLineBorder(new Color(0, 153, 204), LINE_BOUND));
+        npcDialogPane.setVisible(false);
     }
 
     public static void showNpcDialog(Tower tower, String npcId, Byte x, Byte y) {
@@ -58,11 +74,9 @@ public class NpcDialogPane {
         //必须将监听器设置给content 否则可能出现无法响应Key的情况
         content.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent arg0) {
-
             }
 
             public void keyReleased(KeyEvent arg0) {
-
             }
 
             public void keyPressed(KeyEvent arg0) {
@@ -70,6 +84,7 @@ public class NpcDialogPane {
                 boolean next = false;
                 switch (arg0.getKeyCode()) {
                     case KeyEvent.VK_SPACE:
+                    case KeyEvent.VK_ENTER:
                         if (dialogNum <= ++nowDialog) {
                             close = true;
                         } else {
@@ -147,32 +162,37 @@ public class NpcDialogPane {
 
     private static void init(NPC npc, Image playerImg) {
         dialogNum = npc.dialogues.size();
+
         showPanel = new JPanel(null);
-        showPanel.setSize(256, 128);
+        showPanel.setBounds(LINE_BOUND, LINE_BOUND, CS * 8, CS * 4);
         showPanel.setBackground(Color.black);
+
         name = new JLabel();
-        name.setFont(new Font("宋体", Font.BOLD, 13));
+        name.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
         name.setBackground(Color.white);
         name.setForeground(Color.white);
+
         content = new JTextArea();
-        content.setBorder(BorderFactory.createLineBorder(Color.white));
+        content.setBounds(CS * 2, CS + 10, WIDTH * 5 / 2, HEIGHT * 3 + 10);
+        content.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
+        content.setBackground(Color.black);
+        content.setForeground(Color.white);
         content.setLineWrap(true);
         content.setEditable(false);
-        content.setBounds(4, 48, 248, 58);
-        content.setFont(new Font("宋体", Font.BOLD, 16));
-        content.setBackground(Color.black);
-        content.setForeground(Color.WHITE);
-        JLabel tip = new JLabel("Space...");
-        tip.setBounds(212, 105, 50, 25);
-        tip.setFont(new Font("微软雅黑", Font.BOLD, 11));
-        tip.setForeground(Color.white);
-        tip.setBackground(Color.white);
-        pict = new JLabel();
+
+        JLabel enterLabel = new JLabel("-Enter-");
+        enterLabel.setBounds(CS * 6 + 10, CS * 3 + 10, WIDTH, HEIGHT);
+        enterLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, SMALL_SIZE));
+        enterLabel.setForeground(Color.white);
+        enterLabel.setBackground(Color.white);
+
+        picture = new JLabel();
         updateDialog(npc, playerImg);
         showPanel.add(name);
         showPanel.add(content);
-        showPanel.add(tip);
-        showPanel.add(pict);
+        showPanel.add(enterLabel);
+        showPanel.add(picture);
+        showPanel.add(backgroundLabel);
     }
 
     private static void updateDialog(NPC npc, Image playerImg) {
@@ -180,19 +200,24 @@ public class NpcDialogPane {
         content.setText(dialogue.text);
         ImageIcon photo;
         if (dialogue.name.contains("player")) {
-            pict.setBounds(208, 8, TowerPanel.CS, TowerPanel.CS);
-            name.setText("勇士");
-            name.setBounds(176, 16, 32, 16);
             photo = new ImageIcon(playerImg);
-            System.out.println("勇士:\n" + dialogue.text);
+            photo.setImage(playerImg.getScaledInstance(CS, CS, Image.SCALE_DEFAULT));
+            // 这里可以调整头像和背景的位置
+            picture.setBounds(MARGIN, MARGIN, CS, CS);
+            backgroundLabel.setBounds(MARGIN - LINE_BOUND, MARGIN - LINE_BOUND, CS + LINE_BOUND * 2, CS + LINE_BOUND * 2);
+            name.setText("勇士");
+            name.setBounds(CS * 4, MARGIN, WIDTH, HEIGHT);
+            // System.out.println("勇士:\n" + dialogue.text);
         } else {
-            pict.setBounds(13, 8, TowerPanel.CS, TowerPanel.CS);
-            name.setText(npc.getName());
-            name.setBounds(48, 16, 120, 16);
             photo = new ImageIcon(npc.getIcon()[0].getImage());
-            System.out.println(npc.getName() + ":\n" + dialogue.text);
+            photo.setImage(npc.getIcon()[0].getImage().getScaledInstance(CS, CS, Image.SCALE_DEFAULT));
+            // 这里可以调整头像和背景的位置
+            picture.setBounds(MARGIN, MARGIN, CS, CS);
+            backgroundLabel.setBounds(MARGIN - LINE_BOUND, MARGIN - LINE_BOUND, CS + LINE_BOUND * 2, CS + LINE_BOUND * 2);
+            name.setText(npc.getName());
+            name.setBounds(CS * 4, MARGIN, WIDTH, HEIGHT);
+            // System.out.println(npc.getName() + ":\n" + dialogue.text);
         }
-        pict.setIcon(photo);
+        picture.setIcon(photo);
     }
-
 }
