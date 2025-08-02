@@ -94,7 +94,7 @@ public final class Tower implements Cloneable, Serializable {
         for (int i = 0; i < 4; i++) {
             // 帧数从1-4
             for (int j = 1; j <= 4; j++) {
-                playerIcon[i][j - 1] = new ImageIcon(getClass().getResource("/image/player/player06_" + i + "_" + j + ".png"));
+                playerIcon[i][j - 1] = new ImageIcon(getClass().getResource("/image/player/player03_" + i + "_" + j + ".png"));
             }
         }
         player.setPlayerIcon(playerIcon);

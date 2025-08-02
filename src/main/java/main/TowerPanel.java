@@ -79,7 +79,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     JLabel imgLabel;
 
     // 当前帧数（每秒8帧）
-    private byte frames = 0;
+    private static byte frames = 0;
 
     // 游戏运行
     public static boolean RUNNING = false;
@@ -403,7 +403,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     private static final int DOOR_OPEN_SLEEP_TIME = 30;
     // 楼层切换转场等待时间
     private static final int FLOOR_CHANGE_SLEEP_TIME = 1;
-    private static final int FLOOR_CHANGE_DISPLAY_TIME = 20;
+    private static final int FLOOR_CHANGE_DISPLAY_TIME = 0;
     // 获得道具后等待时间
     private static final int ITEM_GET_SLEEP_TIME = 300;
     // 击败怪物等待时间
@@ -411,10 +411,6 @@ public final class TowerPanel extends JPanel implements Runnable {
 
     /**
      * 判断能否移动到指定位置(x,y)
-     *
-     * @param x
-     * @param y
-     * @return
      */
     private boolean canMove(byte x, byte y) {
         GameMap gameMap;
@@ -841,8 +837,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     private static final int BIAS = 20;
 
     // 信息边框线条
-    private static final int LINE_BOUND = 3;
-    private static final int THICKNESS = 3;
+    private static final int LINE_THICKNESS = 3;
 
     /**
      * 创建属性界面
@@ -855,20 +850,20 @@ public final class TowerPanel extends JPanel implements Runnable {
 
         // 左侧信息窗口
         playerWindowLine = new JLabel();
-        playerWindowLine.setBounds(CS - LINE_BOUND, CS - LINE_BOUND, CS * 4 + LINE_BOUND * 2, CS * 6 + LINE_BOUND * 2);
-        playerWindowLine.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), THICKNESS));
+        playerWindowLine.setBounds(CS - LINE_THICKNESS, CS - LINE_THICKNESS, CS * 4 + LINE_THICKNESS * 2, CS * 6 + LINE_THICKNESS * 2);
+        playerWindowLine.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), LINE_THICKNESS));
 
         infoWindowLine = new JLabel();
-        infoWindowLine.setBounds(CS - LINE_BOUND, CS * 8 - LINE_BOUND, CS * 4 + LINE_BOUND * 2, CS * 4 + LINE_BOUND * 2);
-        infoWindowLine.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), THICKNESS));
+        infoWindowLine.setBounds(CS - LINE_THICKNESS, CS * 8 - LINE_THICKNESS, CS * 4 + LINE_THICKNESS * 2, CS * 4 + LINE_THICKNESS * 2);
+        infoWindowLine.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), LINE_THICKNESS));
 
         mapWindowLine = new JLabel();
-        mapWindowLine.setBounds(CS * 6 - LINE_BOUND, CS - LINE_BOUND, CS * 11 + LINE_BOUND * 2, CS * 11 + LINE_BOUND * 2);
-        mapWindowLine.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), THICKNESS));
+        mapWindowLine.setBounds(CS * 6 - LINE_THICKNESS, CS - LINE_THICKNESS, CS * 11 + LINE_THICKNESS * 2, CS * 11 + LINE_THICKNESS * 2);
+        mapWindowLine.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), LINE_THICKNESS));
 
         // 最上面的楼层信息
         floorLabel = new JLabel("魔塔", JLabel.CENTER);
-        floorLabel.setBounds(CS * 10 + BIAS, 0, WIDTH, HEIGHT - LINE_BOUND);
+        floorLabel.setBounds(CS * 10 + BIAS, 0, WIDTH, HEIGHT - LINE_THICKNESS);
         floorLabel.setForeground(Color.white);
         floorLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
@@ -1109,7 +1104,7 @@ public final class TowerPanel extends JPanel implements Runnable {
             for (int j = 0; j < GAME_COL; j++) {
                 if (layer3[i][j].contains("wall")) {
                     String wallId = this.tower.getWallMap().get(layer3[i][j]).getId();
-                    g.drawImage(getImageFromIcons(this.tower.getWallMap().get(wallId).getIcon(), INTERVAL_2), startX + j * CS, startY + i * CS, CS, CS, this);
+                    g.drawImage(getImageFromIcons(this.tower.getWallMap().get(wallId).getIcon(), INTERVAL_2, frames), startX + j * CS, startY + i * CS, CS, CS, this);
                 } else if (layer3[i][j].contains("door")) {
                     if (!layer3[i][j].contains("open")) {
                         String doorId = this.tower.getDoorMap().get(layer3[i][j]).getId();
@@ -1121,7 +1116,7 @@ public final class TowerPanel extends JPanel implements Runnable {
                     }
                 } else if (layer3[i][j].contains("stair")) {
                     String stairId = this.tower.getStairMap().get(layer3[i][j]).getId();
-                    g.drawImage(getImageFromIcons(this.tower.getStairMap().get(stairId).getIcon(), INTERVAL_2), startX + j * CS, startY + i * CS, CS, CS, this);
+                    g.drawImage(getImageFromIcons(this.tower.getStairMap().get(stairId).getIcon(), INTERVAL_2, frames), startX + j * CS, startY + i * CS, CS, CS, this);
                 }
                 if (layer2[i][j].contains("item")) {
                     String itemId = this.tower.getItemMap().get(layer2[i][j]).getId();
@@ -1129,13 +1124,13 @@ public final class TowerPanel extends JPanel implements Runnable {
                 }
                 if (layer1[i][j].contains("monster")) {
                     String monsterId = this.tower.getMonsterMap().get(layer1[i][j]).getId();
-                    g.drawImage(getImageFromIcons(this.tower.getMonsterMap().get(monsterId).getIcon(), INTERVAL_2), startX + j * CS, startY + i * CS, CS, CS, this);
+                    g.drawImage(getImageFromIcons(this.tower.getMonsterMap().get(monsterId).getIcon(), INTERVAL_2, frames), startX + j * CS, startY + i * CS, CS, CS, this);
                 } else if (layer1[i][j].contains("npc")) {
                     String npcId = this.tower.getNpcMap().get(layer1[i][j]).getId();
-                    g.drawImage(getImageFromIcons(this.tower.getNpcMap().get(npcId).getIcon(), INTERVAL_2), startX + j * CS, startY + i * CS, CS, CS, this);
+                    g.drawImage(getImageFromIcons(this.tower.getNpcMap().get(npcId).getIcon(), INTERVAL_2, frames), startX + j * CS, startY + i * CS, CS, CS, this);
                 } else if (layer1[i][j].contains("shop")) {
                     String shopId = this.tower.getShopMap().get(layer1[i][j]).getId();
-                    g.drawImage(getImageFromIcons(this.tower.getShopMap().get(shopId).getIcon(), INTERVAL_2), startX + j * CS, startY + i * CS, CS, CS, this);
+                    g.drawImage(getImageFromIcons(this.tower.getShopMap().get(shopId).getIcon(), INTERVAL_2, frames), startX + j * CS, startY + i * CS, CS, CS, this);
                 }
             }
         }
@@ -1155,11 +1150,10 @@ public final class TowerPanel extends JPanel implements Runnable {
     /************************************************** 工具方法 **************************************************/
 
     /**
-     * @param icons
+     * @param icons    icon数组
      * @param interval 间隔多少帧切换一次，当间隔大于每秒帧数时，不会改变
-     * @return
      */
-    private Image getImageFromIcons(ImageIcon[] icons, byte interval) {
+    public static Image getImageFromIcons(ImageIcon[] icons, byte interval, byte frames) {
         // a << b = a * 2^b
         if (frames <= interval - 1) {
             return icons[0].getImage();

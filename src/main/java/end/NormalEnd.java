@@ -190,8 +190,6 @@ public class NormalEnd {
 
     /**
      * 测试
-     *
-     * @param args
      */
     public static void main(String[] args) {
         Tower tower = new Tower();

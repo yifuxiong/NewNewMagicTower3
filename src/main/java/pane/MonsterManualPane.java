@@ -29,17 +29,19 @@ public final class MonsterManualPane extends JPanel {
 
     // 每页显示怪物数量
     private static final int Mon3tNumPerPage = 3;
+
     // 设置
     private static final int FONT_SIZE = 16;
     private static final String FONT_FAMILY = "微软雅黑";
     private static final int WIDTH = 80;
     private static final int HEIGHT = 20;
+    private static final int LINE_THICKNESS = 2;
 
     static {
         // 怪物展示时的背景图片
         ImageIcon bgIcon = new ImageIcon(MonsterManualPane.class.getResource("/image/icon/background_s_grey.png"));
         backgroundLabel = new JLabel(bgIcon);
-        backgroundLabel.setBounds(0,0,CS * 11, CS * 11);
+        backgroundLabel.setBounds(0, 0, CS * 11, CS * 11);
         monsterManualPane.setBounds(CS * 6, CS, CS * 11, CS * 11);
         monsterManualPane.setBackground(Color.white);
     }
@@ -134,21 +136,24 @@ public final class MonsterManualPane extends JPanel {
             abilityLabel.setForeground(Color.white);
             abilityLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
-            JLabel abilityValLabel = new JLabel(String.valueOf("无"), JLabel.LEFT);
+            JLabel abilityValLabel = new JLabel("无", JLabel.LEFT);
             abilityValLabel.setBounds(180 + (WIDTH - 20), 10, 20 + WIDTH, HEIGHT);
             abilityValLabel.setForeground(Color.white);
             abilityValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
             // 怪物头像
+            ImageIcon mon3tFigure = new ImageIcon();
+            mon3tFigure.setImage(monster.getIcon()[0].getImage().getScaledInstance(CS, CS, Image.SCALE_DEFAULT));
             JLabel picLabel = new JLabel();
-            picLabel.setBounds(20, 30, CS, CS);
-            picLabel.setIcon(monster.getIcon()[0]);
+            picLabel.setBounds(20 + LINE_THICKNESS, 30 + LINE_THICKNESS, CS, CS);
+            picLabel.setIcon(mon3tFigure);
             // 头像后面的背景图片
             ImageIcon background = new ImageIcon(floorImage);
-            background.setImage(background.getImage().getScaledInstance(background.getIconWidth(), background.getIconHeight(), Image.SCALE_DEFAULT));
+            background.setImage(background.getImage().getScaledInstance(CS, CS, Image.SCALE_DEFAULT));
             JLabel backgroundLabel = new JLabel();
             backgroundLabel.setIcon(background);
-            backgroundLabel.setBounds(20, 30, CS, CS);
+            backgroundLabel.setBounds(20, 30, CS + LINE_THICKNESS * 2, CS + LINE_THICKNESS * 2);
+            backgroundLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), LINE_THICKNESS));
 
             // 怪物体力
             JLabel hpLabel = new JLabel("体力：", JLabel.LEFT);
@@ -158,7 +163,7 @@ public final class MonsterManualPane extends JPanel {
 
             JLabel hpValLabel = new JLabel(String.valueOf(monster.getHp()), JLabel.LEFT);
             hpValLabel.setBounds(20 + WIDTH, 50, WIDTH, HEIGHT);
-            hpValLabel.setForeground(new Color(109,232,5));
+            hpValLabel.setForeground(new Color(109, 232, 5));
             hpValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
             // 怪物攻击力
@@ -169,7 +174,7 @@ public final class MonsterManualPane extends JPanel {
 
             JLabel attackValLabel = new JLabel(String.valueOf(monster.getAttack()), JLabel.LEFT);
             attackValLabel.setBounds(20 + WIDTH * 2, 50, WIDTH, HEIGHT);
-            attackValLabel.setForeground(new Color(123,60,118));
+            attackValLabel.setForeground(new Color(123, 60, 118));
             attackValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
             // 怪物防御力
@@ -180,7 +185,7 @@ public final class MonsterManualPane extends JPanel {
 
             JLabel defenseValLabel = new JLabel(String.valueOf(monster.getDefense()), JLabel.LEFT);
             defenseValLabel.setBounds(20 + WIDTH * 3, 50, WIDTH, HEIGHT);
-            defenseValLabel.setForeground(new Color(231,164,123));
+            defenseValLabel.setForeground(new Color(231, 164, 123));
             defenseValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
             // 怪物敏捷
@@ -189,15 +194,15 @@ public final class MonsterManualPane extends JPanel {
             agilityLabel.setForeground(Color.white);
             agilityLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
-            JLabel agilityValLabel = new JLabel(String.valueOf(monster.getDefense()), JLabel.LEFT);
+            JLabel agilityValLabel = new JLabel(String.valueOf(1), JLabel.LEFT);
             agilityValLabel.setBounds(20 + WIDTH * 4, 50, WIDTH, HEIGHT);
-            agilityValLabel.setForeground(new Color(37,136,40));
+            agilityValLabel.setForeground(new Color(37, 136, 40));
             agilityValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
             // 攻击次数
             JLabel attackTimesLabel = new JLabel("攻击次数：", JLabel.LEFT);
             attackTimesLabel.setBounds(20 + WIDTH, 70, WIDTH, HEIGHT);
-            attackTimesLabel.setForeground(new Color(14,146,192));
+            attackTimesLabel.setForeground(new Color(14, 146, 192));
             attackTimesLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
             JLabel attackTimesValLabel = new JLabel(String.valueOf(1), JLabel.LEFT);
@@ -222,7 +227,7 @@ public final class MonsterManualPane extends JPanel {
                 }
             }
             damageValLabel.setBounds(20 + WIDTH * 2, 90, WIDTH, HEIGHT);
-            damageValLabel.setForeground(new Color(244,7,27));
+            damageValLabel.setForeground(new Color(244, 7, 27));
             damageValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
             // 怪物经验值
@@ -233,7 +238,7 @@ public final class MonsterManualPane extends JPanel {
 
             JLabel expValLabel = new JLabel(String.valueOf(monster.getExp()), JLabel.LEFT);
             expValLabel.setBounds(20 + WIDTH * 3, 90, WIDTH, HEIGHT);
-            expValLabel.setForeground(new Color(139,238,233));
+            expValLabel.setForeground(new Color(139, 238, 233));
             expValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
             // 怪物金币数
@@ -244,7 +249,7 @@ public final class MonsterManualPane extends JPanel {
 
             JLabel goldValLabel = new JLabel(String.valueOf(monster.getMoney()), JLabel.LEFT);
             goldValLabel.setBounds(20 + WIDTH * 4, 90, WIDTH, HEIGHT);
-            goldValLabel.setForeground(new Color(249,251,69));
+            goldValLabel.setForeground(new Color(249, 251, 69));
             goldValLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
             /************************************************** 翻页按钮 **************************************************/
