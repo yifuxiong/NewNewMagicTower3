@@ -8,20 +8,29 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import static main.TowerPanel.CS;
+
 /**
  * 楼层传送绘制类
- * @author xuehy
- * @since 2020/6/9
  */
 public final class FloorTransferPane {
-
     public static JLayeredPane floorTransferPane = new JLayeredPane();
+    // 楼层数字
     private static JLabel floorNoLabel;
+    // 下楼键
     private static JLabel downPicLabel;
+    // 上楼键
     private static JLabel upPicLabel;
     private static JPanel showPanel;
 
+    // 背景图片
+    private static JLabel backgroundLabel;
+
     static {
+        // 怪物展示时的背景图片
+        ImageIcon bgIcon = new ImageIcon(MonsterManualPane.class.getResource("/image/icon/background_s_grey.png"));
+        backgroundLabel = new JLabel(bgIcon);
+        backgroundLabel.setBounds(0, 0, CS * 11, CS * 11);
         floorTransferPane.setBounds(TowerPanel.CS * 6, TowerPanel.CS, TowerPanel.CS * 11, TowerPanel.CS * 11);
         floorTransferPane.setBackground(Color.black);
     }
@@ -35,11 +44,9 @@ public final class FloorTransferPane {
         init(tower);
         floorTransferPane.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent arg0) {
-
             }
 
             public void keyReleased(KeyEvent arg0) {
-
             }
 
             public void keyPressed(KeyEvent arg0) {
@@ -111,25 +118,32 @@ public final class FloorTransferPane {
         floorTransferPane.repaint();
     }
 
+    private static final int WIDTH = 100;
+    private static final int HEIGHT = 80;
+    private static final int LINE_BOUND = 5;
+    private static final String FONT_FAMILY = "微软雅黑";
+    private static final int FONT_SIZE = 52;
+    private static final int SMALL_SIZE = 20;
+
     private static void init(Tower tower) {
         showPanel = new JPanel(null);
         showPanel.setSize(TowerPanel.CS * 11, TowerPanel.CS * 11);
         showPanel.setBackground(Color.black);
 
         JLabel mainLabel = new JLabel();
-        mainLabel.setBounds(50, 135, 250, 80);
+        mainLabel.setBounds(CS * 3 / 2 + 5, CS * 9 / 2 + 5, WIDTH * 3 + 10, HEIGHT + 10);
         mainLabel.setForeground(Color.white);
-        mainLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 153, 204), 3));
+        mainLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 153, 204), LINE_BOUND));
 
         floorNoLabel = new JLabel(String.valueOf(TowerPanel.nowSelectFloor), JLabel.CENTER);
-        floorNoLabel.setBounds(75, 0, 100, 80);
+        floorNoLabel.setBounds(CS * 5 / 2, LINE_BOUND, WIDTH, HEIGHT);
         floorNoLabel.setForeground(Color.white);
-        floorNoLabel.setFont(new Font("微软雅黑", Font.PLAIN, 38));
+        floorNoLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
         JLabel floorLabel = new JLabel("F", JLabel.CENTER);
-        floorLabel.setBounds(140, 0, 100, 80);
+        floorLabel.setBounds(CS * 9 / 2, LINE_BOUND, WIDTH, HEIGHT);
         floorLabel.setForeground(Color.white);
-        floorLabel.setFont(new Font("微软雅黑", Font.PLAIN, 38));
+        floorLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
 
         upPicLabel = new JLabel();
         if (TowerPanel.nowSelectFloor + 1 <= tower.getPlayer().maxFloor) {
@@ -137,7 +151,7 @@ public final class FloorTransferPane {
         } else {
             upPicLabel.setIcon(new ImageIcon(FloorTransferPane.class.getResource("/image/icon/up_2.png")));
         }
-        upPicLabel.setBounds(160, 85, TowerPanel.CS, TowerPanel.CS);
+        upPicLabel.setBounds(CS * 5, CS * 3 + 10, TowerPanel.CS, TowerPanel.CS);
         upPicLabel.setForeground(Color.white);
 
         downPicLabel = new JLabel();
@@ -146,18 +160,18 @@ public final class FloorTransferPane {
         } else {
             downPicLabel.setIcon(new ImageIcon(FloorTransferPane.class.getResource("/image/icon/down_2.png")));
         }
-        downPicLabel.setBounds(160, 233, TowerPanel.CS, TowerPanel.CS);
+        downPicLabel.setBounds(CS * 5, CS * 7 + 10, TowerPanel.CS, TowerPanel.CS);
         downPicLabel.setForeground(Color.white);
 
         JLabel enterLabel = new JLabel("-Enter-", JLabel.CENTER);
-        enterLabel.setBounds(220, 230, 80, 30);
+        enterLabel.setBounds(CS * 7, CS * 7 + 10, WIDTH, HEIGHT / 2);
         enterLabel.setForeground(Color.white);
-        enterLabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
+        enterLabel.setFont(new Font(FONT_FAMILY, Font.PLAIN, SMALL_SIZE));
 
         JLabel quitLabel = new JLabel("-Quit(F)-", JLabel.CENTER);
-        quitLabel.setBounds(240, 310, 100, 30);
+        quitLabel.setBounds(CS * 17 / 2, CS * 10, WIDTH, HEIGHT / 2);
         quitLabel.setForeground(Color.white);
-        quitLabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
+        quitLabel.setFont(new Font(FONT_FAMILY, Font.PLAIN, SMALL_SIZE));
 
         mainLabel.add(floorNoLabel);
         mainLabel.add(floorLabel);
@@ -167,6 +181,7 @@ public final class FloorTransferPane {
         showPanel.add(downPicLabel);
         showPanel.add(enterLabel);
         showPanel.add(quitLabel);
+        showPanel.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
         showPanel.repaint();
     }
 
@@ -183,5 +198,4 @@ public final class FloorTransferPane {
             upPicLabel.setIcon(new ImageIcon(FloorTransferPane.class.getResource("/image/icon/up_2.png")));
         }
     }
-
 }
