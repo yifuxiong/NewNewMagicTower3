@@ -92,7 +92,7 @@ public final class LoadItem {
                 new ImageIcon(getClass().getResource("/image/item/item04_2.png")));
         itemMap.put(item.getId(), item);
 
-        item = new Item("item04_3", "武士剑", null,
+        item = new Item("item04_3", "骑士剑", null,
                 new ImageIcon(getClass().getResource("/image/item/item04_3.png")));
         itemMap.put(item.getId(), item);
 
@@ -112,7 +112,7 @@ public final class LoadItem {
                 new ImageIcon(getClass().getResource("/image/item/item05_2.png")));
         itemMap.put(item.getId(), item);
 
-        item = new Item("item05_3", "武士盾", null,
+        item = new Item("item05_3", "骑士盾", null,
                 new ImageIcon(getClass().getResource("/image/item/item05_3.png")));
         itemMap.put(item.getId(), item);
 
@@ -128,11 +128,11 @@ public final class LoadItem {
                 new ImageIcon(getClass().getResource("/image/item/item06_1.png")));
         itemMap.put(item.getId(), item);
 
-        item = new Item("item06_2", "抗衰弱药水", null,
+        item = new Item("item06_2", "解衰药水", null,
                 new ImageIcon(getClass().getResource("/image/item/item06_2.png")));
         itemMap.put(item.getId(), item);
 
-        item = new Item("item06_3", "圣水瓶", "可以将自身的生命值增加一倍",
+        item = new Item("item06_3", "圣水", "可以将自身的生命值增加一倍",
                 new ImageIcon(getClass().getResource("/image/item/item06_3.png")));
         itemMap.put(item.getId(), item);
 
@@ -200,24 +200,32 @@ public final class LoadItem {
                 new ImageIcon(getClass().getResource("/image/item/item09_3.png")));
         itemMap.put(item.getId(), item);
 
-        item = new Item("item09_4", "风之罗盘", "按\bF\b键在已经走过的楼层间跳跃",
+        item = new Item("item09_4", "罗盘", "按\bF\b键在已经走过的楼层间跳跃",
                 new ImageIcon(getClass().getResource("/image/item/item09_4.png")));
         itemMap.put(item.getId(), item);
 
-        item = new Item("item09_5", "幸运十字架", "把他交给仙子，可以提升一些自身的能力",
+        item = new Item("item09_5", "十字架", "把他交给仙子，可以提升一些自身的能力",
                 new ImageIcon(getClass().getResource("/image/item/item09_5.png")));
         itemMap.put(item.getId(), item);
 
-        item = new Item("item09_6", "圣光徽", "按\bD\b键查看怪物的基本信息",
+        item = new Item("item09_6", "怪物手册", "按\bD\b键查看怪物的基本信息",
                 new ImageIcon(getClass().getResource("/image/item/item09_6.png")));
         itemMap.put(item.getId(), item);
 
-        item = new Item("item09_7", "稿子", null,
+        item = new Item("item09_7", "破墙镐", null,
                 new ImageIcon(getClass().getResource("/image/item/item09_7.png")));
         itemMap.put(item.getId(), item);
 
         item = new Item("item09_8", "星光神锒", "把它交给第四层的小偷，用它打开18层的隐藏楼层",
                 new ImageIcon(getClass().getResource("/image/item/item09_8.png")));
+        itemMap.put(item.getId(), item);
+
+        item = new Item("item09_9", "雪花", "可以将熔岩变为普通地面",
+                new ImageIcon(getClass().getResource("/image/item/item09_9.png")));
+        itemMap.put(item.getId(), item);
+
+        item = new Item("item09_10", "屠龙匕首", "和魔龙作战时造成双倍伤害",
+                new ImageIcon(getClass().getResource("/image/item/item09_10.png")));
         itemMap.put(item.getId(), item);
 
         return itemMap;
