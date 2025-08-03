@@ -33,6 +33,7 @@ public final class Tower implements Cloneable, Serializable {
     private Image[] wallImage = new Image[WALL_NUM];
 
     // 需要保存的东西
+    public boolean hasWeapon;
     public boolean canUseFloorTransfer;
     public boolean canUseMonsterManual;
     public String specialGameMapNo;

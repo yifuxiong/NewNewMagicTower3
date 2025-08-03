@@ -12,7 +12,7 @@ public final class MusicPlayer {
     private ExecutorService musicExecutor;
 
     private Thread openDoor, openSpecialDoor, upAndDown, specialStair, fall, dialogueSpace, getItem, getSpecialItem,
-                    fight, walk, walkOnLava, mon3tManualSelect, floorTransferSelect, shopSelect, shopBuySuc, shopExpBuySuc, shopBuyFail,
+                    fight, swordAttack, walk, walkOnLava, mon3tManualSelect, floorTransferSelect, shopSelect, shopBuySuc, shopExpBuySuc, shopBuyFail,
                     fail, save, load, close, underground, undergroundEnd, undergroundPostScript;
 
     private String openDoorSoundURL = "/audio/OpenDoor.mp3";
@@ -24,6 +24,7 @@ public final class MusicPlayer {
     private String getItemSoundURL = "/audio/GetItem.mp3";
     private String getSpecialItemSoundURL = "/audio/GetSpecialItem.mp3";
     private String fightSoundURL = "/audio/Fight.mp3";
+    private String swordAttackSoundURL = "/audio/SwordAttack.mp3";
     private String walkSoundURL = "/audio/Walk.mp3";
     private String walkOnLavaSoundURL = "/audio/WalkOnLava.mp3";
     private String mon3tManualSelectSoundURL = "/audio/FloorTransferSelect.mp3";
@@ -59,6 +60,7 @@ public final class MusicPlayer {
         getItem = creatSoundThread(getClass().getResource(getItemSoundURL), false);
         getSpecialItem = creatSoundThread(getClass().getResource(getSpecialItemSoundURL), false);
         fight = creatSoundThread(getClass().getResource(fightSoundURL), false);
+        swordAttack = creatSoundThread(getClass().getResource(swordAttackSoundURL), false);
         walk = creatSoundThread(getClass().getResource(walkSoundURL), false);
         walkOnLava = creatSoundThread(getClass().getResource(walkOnLavaSoundURL), false);
         mon3tManualSelect = creatSoundThread(getClass().getResource(mon3tManualSelectSoundURL), false);
@@ -125,6 +127,11 @@ public final class MusicPlayer {
     public void fight() {
         musicExecutor.execute(fight);
         fight = creatSoundThread(getClass().getResource(fightSoundURL), false);
+    }
+
+    public void swordAttack() {
+        musicExecutor.execute(swordAttack);
+        swordAttack = creatSoundThread(getClass().getResource(swordAttackSoundURL), false);
     }
 
     public void walk() {

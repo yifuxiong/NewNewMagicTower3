@@ -15,9 +15,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import static pane.FloorTransferPane.floorTransferPane;
+import static pane.FloorTransferPane.showFloorTransfer;
 import static pane.MonsterManualPane.monsterManualPane;
 import static pane.MonsterManualPane.showMonsterManual;
-import static pane.FloorTransferPane.showFloorTransfer;
 import static pane.NpcDialogPane.npcDialogPane;
 import static pane.NpcDialogPane.showNpcDialog;
 import static pane.ShopPane.shopPane;
@@ -89,7 +89,9 @@ public final class TowerPanel extends JPanel implements Runnable {
     public static KeyInputHandler input;
     // 音频工具类
     public static MusicPlayer musicPlayer;
-    // 是否可以使用楼层跳跃，初始状态为false
+    // 是否持有武器
+    public static boolean hasWeapon = false;
+    // 是否可以使用楼层跳跃
     public static boolean canUseFloorTransfer = false;
     // 是否可以查看怪物手册
     public static boolean canUseMonsterManual = false;
@@ -215,6 +217,7 @@ public final class TowerPanel extends JPanel implements Runnable {
      * 保存游戏
      */
     private void save() {
+        this.tower.hasWeapon = hasWeapon;
         this.tower.canUseFloorTransfer = canUseFloorTransfer;
         this.tower.canUseMonsterManual = canUseMonsterManual;
         this.tower.specialGameMapNo = specialGameMapNo;
@@ -240,6 +243,7 @@ public final class TowerPanel extends JPanel implements Runnable {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
+        hasWeapon = this.tower.hasWeapon;
         canUseFloorTransfer = this.tower.canUseFloorTransfer;
         canUseMonsterManual = this.tower.canUseMonsterManual;
         specialGameMapNo = this.tower.specialGameMapNo;
@@ -367,6 +371,8 @@ public final class TowerPanel extends JPanel implements Runnable {
             this.tower.getPlayer().x++;
             this.tower.getPlayer().stepNum++;
             lastMove = System.currentTimeMillis();
+        } else if (hasWeapon) {
+            // TODO: 修改为武器攻击特效
         } else if (canUseMonsterManual && input.use_rod.down) {
             mainExecutor.execute(() -> {
                 showMonsterManual(this.tower);
@@ -625,6 +631,7 @@ public final class TowerPanel extends JPanel implements Runnable {
                         break;
                 }
             } else if (layer2[y][x].contains("item04")) {
+                hasWeapon = true;
                 switch (layer2[y][x]) {
                     case "item04_1":
                         showMesLabel.setText("获得铁剑,攻击+10");
@@ -797,7 +804,13 @@ public final class TowerPanel extends JPanel implements Runnable {
             }
             int pHP = this.tower.getPlayer().hp - fightCalc.mDamageTotal;
             if (pHP > 0) {
-                musicPlayer.fight();
+                if (hasWeapon) {
+                    musicPlayer.swordAttack();
+                    // TODO: attack animation
+                } else {
+                    musicPlayer.fight();
+                    // TODO: attack animation
+                }
                 showMesLabel.setText("击杀:" + monster.getName() + ",损失" + (this.tower.getPlayer().hp - pHP) + "HP");
                 mainExecutor.execute(() -> {
                     CAN_MOVE = false;
