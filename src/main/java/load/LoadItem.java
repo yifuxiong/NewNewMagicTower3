@@ -200,7 +200,7 @@ public final class LoadItem {
                 new ImageIcon(getClass().getResource("/image/item/item09_3.png")));
         itemMap.put(item.getId(), item);
 
-        item = new Item("item09_4", "罗盘", "按\bF\b键在已经走过的楼层间跳跃",
+        item = new Item("item09_4", "风之罗盘", "按\bF\b键在已经走过的楼层间跳跃",
                 new ImageIcon(getClass().getResource("/image/item/item09_4.png")));
         itemMap.put(item.getId(), item);
 

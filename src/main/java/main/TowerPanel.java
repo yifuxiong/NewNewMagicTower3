@@ -742,12 +742,12 @@ public final class TowerPanel extends JPanel implements Runnable {
                         flag = true;
                         break;
                     case "item09_5":
-                        showMesLabel.setText("获得幸运十字架");
+                        showMesLabel.setText("获得十字架");
                         this.tower.getPlayer().inventory.put("item09_5", 1);
                         flag = true;
                         break;
                     case "item09_6":
-                        showMesLabel.setText("获得圣光徽,可以查看怪物信息");
+                        showMesLabel.setText("获得怪物手册,可以查看怪物信息");
                         canUseMonsterManual = true;
                         flag = true;
                         break;
