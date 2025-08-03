@@ -35,7 +35,7 @@ public final class MonsterManualPane extends JPanel {
     private static final String FONT_FAMILY = "微软雅黑";
     private static final int WIDTH = 80;
     private static final int HEIGHT = 20;
-    private static final int LINE_THICKNESS = 2;
+    private static final int LINE_THICKNESS = 3;
 
     static {
         // 怪物展示时的背景图片

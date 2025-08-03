@@ -13,7 +13,7 @@ import static main.TowerPanel.CS;
 /**
  * 楼层传送绘制类
  */
-public final class FloorTransferPane {
+public final class FloorTransferPane extends JPanel{
     public static JLayeredPane floorTransferPane = new JLayeredPane();
     // 楼层数字
     private static JLabel floorNoLabel;
@@ -26,11 +26,20 @@ public final class FloorTransferPane {
     // 背景图片
     private static JLabel backgroundLabel;
 
-    static {
+    // 排布设置
+    private static final int WIDTH = 100;
+    private static final int HEIGHT = 80;
+    private static final int LINE_BOUND = 5;
+    private static final String FONT_FAMILY = "微软雅黑";
+    private static final int FONT_SIZE = 52;
+    private static final int SMALL_SIZE = 20;
+
+    public FloorTransferPane() {
         // 怪物展示时的背景图片
         ImageIcon bgIcon = new ImageIcon(MonsterManualPane.class.getResource("/image/icon/background_s_grey.png"));
         backgroundLabel = new JLabel(bgIcon);
         backgroundLabel.setBounds(0, 0, CS * 11, CS * 11);
+        // 楼层传送器主界面
         floorTransferPane.setBounds(TowerPanel.CS * 6, TowerPanel.CS, TowerPanel.CS * 11, TowerPanel.CS * 11);
         floorTransferPane.setBackground(Color.black);
     }
@@ -118,17 +127,10 @@ public final class FloorTransferPane {
         floorTransferPane.repaint();
     }
 
-    private static final int WIDTH = 100;
-    private static final int HEIGHT = 80;
-    private static final int LINE_BOUND = 5;
-    private static final String FONT_FAMILY = "微软雅黑";
-    private static final int FONT_SIZE = 52;
-    private static final int SMALL_SIZE = 20;
-
     private static void init(Tower tower) {
-        showPanel = new JPanel(null);
-        showPanel.setSize(TowerPanel.CS * 11, TowerPanel.CS * 11);
-        showPanel.setBackground(Color.black);
+        showPanel = new FloorTransferPane();
+        showPanel.setLayout(null);
+        showPanel.setBounds(0, 0, TowerPanel.CS * 11, TowerPanel.CS * 11);
 
         JLabel mainLabel = new JLabel();
         mainLabel.setBounds(CS * 3 / 2 + 5, CS * 9 / 2 + 5, WIDTH * 3 + 10, HEIGHT + 10);

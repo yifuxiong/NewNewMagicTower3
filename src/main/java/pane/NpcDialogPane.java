@@ -26,10 +26,10 @@ public class NpcDialogPane extends JPanel {
     private static final int WIDTH = 80;
     private static final int HEIGHT = 25;
     private static final int MARGIN = 15;
-    private static final int LINE_BOUND = 2;
+    private static final int LINE_BOUND = 3;
     private static final String FONT_FAMILY = "宋体";
     private static final int FONT_SIZE = 16;
-    private static final int SMALL_SIZE = 14;
+    private static final int SMALL_SIZE = 16;
 
     // NPC头像和背景框
     private static ImageIcon background;

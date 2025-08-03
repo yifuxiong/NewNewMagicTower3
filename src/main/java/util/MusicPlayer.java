@@ -13,7 +13,7 @@ public final class MusicPlayer {
 
     private Thread openDoor, openSpecialDoor, upAndDown, specialStair, fall, dialogueSpace, getItem, getSpecialItem,
                     fight, walk, mon3tManualSelect, floorTransferSelect, shopSelect, shopBuySuc, shopExpBuySuc, shopBuyFail,
-                    fail, save, load, underground, undergroundEnd, undergroundPostScript;
+                    fail, save, load, close, underground, undergroundEnd, undergroundPostScript;
 
     private String openDoorSoundURL = "/audio/OpenDoor.mp3";
     private String openSpecialDoorSoundURL = "/audio/OpenSpecialDoor.mp3";
@@ -34,6 +34,7 @@ public final class MusicPlayer {
     private String failSoundURL = "/audio/Fail.mp3";
     private String saveSoundURL = "/audio/GetItem.mp3";
     private String loadSoundURL = "/audio/UpAndDown.mp3";
+    private String closeSoundURL = "/audio/GetItem.mp3";
 
     private String undergroundSound0URL = "/audio/Underground0.mp3";
     private String undergroundSound1URL = "/audio/Underground1.mp3";
@@ -67,6 +68,7 @@ public final class MusicPlayer {
         fail = creatSoundThread(getClass().getResource(failSoundURL), false);
         save = creatSoundThread(getClass().getResource(saveSoundURL), false);
         load = creatSoundThread(getClass().getResource(loadSoundURL), false);
+        close = creatSoundThread(getClass().getResource(closeSoundURL), false);
 
         underground = creatSoundThread(getClass().getResource(undergroundSound0URL), true);
         undergroundEnd = creatSoundThread(getClass().getResource(undergroundSoundEndURL), true);
@@ -172,6 +174,13 @@ public final class MusicPlayer {
         musicExecutor.execute(load);
         load = creatSoundThread(getClass().getResource(loadSoundURL), false);
     }
+
+    public void close() {
+        musicExecutor.execute(close);
+        close = creatSoundThread(getClass().getResource(closeSoundURL), false);
+    }
+
+    /************************************************** 背景音乐 **************************************************/
 
     public void playEndBackgroundMusic() {
         underground.stop();

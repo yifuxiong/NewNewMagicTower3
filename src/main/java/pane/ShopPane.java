@@ -32,7 +32,7 @@ public class ShopPane extends JPanel {
     private static final int WIDTH = 80;
     private static final int HEIGHT = 25;
     private static final int MARGIN = 30;
-    private static final int LINE_BOUND = 2;
+    private static final int LINE_BOUND = 3;
     // 选择箭头大小
     private static final int SELECT_LABEL_SIZE = 30;
     // 字体设置
