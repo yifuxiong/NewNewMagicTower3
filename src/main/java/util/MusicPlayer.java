@@ -12,7 +12,7 @@ public final class MusicPlayer {
     private ExecutorService musicExecutor;
 
     private Thread openDoor, openSpecialDoor, upAndDown, specialStair, fall, dialogueSpace, getItem, getSpecialItem,
-                    fight, walk, mon3tManualSelect, floorTransferSelect, shopSelect, shopBuySuc, shopExpBuySuc, shopBuyFail,
+                    fight, walk, walkOnLava, mon3tManualSelect, floorTransferSelect, shopSelect, shopBuySuc, shopExpBuySuc, shopBuyFail,
                     fail, save, load, close, underground, undergroundEnd, undergroundPostScript;
 
     private String openDoorSoundURL = "/audio/OpenDoor.mp3";
@@ -25,6 +25,7 @@ public final class MusicPlayer {
     private String getSpecialItemSoundURL = "/audio/GetSpecialItem.mp3";
     private String fightSoundURL = "/audio/Fight.mp3";
     private String walkSoundURL = "/audio/Walk.mp3";
+    private String walkOnLavaSoundURL = "/audio/WalkOnLava.mp3";
     private String mon3tManualSelectSoundURL = "/audio/FloorTransferSelect.mp3";
     private String floorTransferSelectSoundURL = "/audio/FloorTransferSelect.mp3";
     private String shopSelectSoundURL = "/audio/ShopSelect.mp3";
@@ -59,6 +60,7 @@ public final class MusicPlayer {
         getSpecialItem = creatSoundThread(getClass().getResource(getSpecialItemSoundURL), false);
         fight = creatSoundThread(getClass().getResource(fightSoundURL), false);
         walk = creatSoundThread(getClass().getResource(walkSoundURL), false);
+        walkOnLava = creatSoundThread(getClass().getResource(walkOnLavaSoundURL), false);
         mon3tManualSelect = creatSoundThread(getClass().getResource(mon3tManualSelectSoundURL), false);
         floorTransferSelect = creatSoundThread(getClass().getResource(floorTransferSelectSoundURL), false);
         shopSelect = creatSoundThread(getClass().getResource(shopSelectSoundURL), false);
@@ -128,6 +130,11 @@ public final class MusicPlayer {
     public void walk() {
         musicExecutor.execute(walk);
         walk = creatSoundThread(getClass().getResource(walkSoundURL), false);
+    }
+
+    public void walkOnLava() {
+        musicExecutor.execute(walkOnLava);
+        walkOnLava = creatSoundThread(getClass().getResource(walkOnLavaSoundURL), false);
     }
 
     public void mon3tManualSelect() {

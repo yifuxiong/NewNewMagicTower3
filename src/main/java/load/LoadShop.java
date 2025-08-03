@@ -35,7 +35,7 @@ public final class LoadShop {
 
         List<String> attribute = new ArrayList<>(3);
         attribute.add("hp");
-        attribute.add("attack");
+        attribute.add("battle");
         attribute.add("defense");
 
         List<Short> val = new ArrayList<>(3);
@@ -69,7 +69,7 @@ public final class LoadShop {
 
         attribute = new ArrayList<>(3);
         attribute.add("hp");
-        attribute.add("attack");
+        attribute.add("battle");
         attribute.add("defense");
 
         val = new ArrayList<>(3);
@@ -94,7 +94,7 @@ public final class LoadShop {
 
         attribute = new ArrayList<>(3);
         attribute.add("lv");
-        attribute.add("attack");
+        attribute.add("battle");
         attribute.add("defense");
 
         val = new ArrayList<>(3);
@@ -124,7 +124,7 @@ public final class LoadShop {
 
         attribute = new ArrayList<>(3);
         attribute.add("lv");
-        attribute.add("attack");
+        attribute.add("battle");
         attribute.add("defense");
 
         val = new ArrayList<>(3);

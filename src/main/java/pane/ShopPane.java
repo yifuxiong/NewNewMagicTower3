@@ -188,7 +188,7 @@ public class ShopPane extends JPanel {
             java.util.List<Short> valList = shop.sell.val;
             if (attributeList.get(nowSelected).contains("hp")) {
                 tower.getPlayer().hp += valList.get(nowSelected);
-            } else if (attributeList.get(nowSelected).contains("attack")) {
+            } else if (attributeList.get(nowSelected).contains("battle")) {
                 tower.getPlayer().attack += valList.get(nowSelected);
             } else if (attributeList.get(nowSelected).contains("defense")) {
                 tower.getPlayer().defense += valList.get(nowSelected);
@@ -221,7 +221,7 @@ public class ShopPane extends JPanel {
                 tower.getPlayer().hp += 1000 * var;
                 tower.getPlayer().attack += 7 * var;
                 tower.getPlayer().defense += 7 * var;
-            } else if (attributeList.get(nowSelected).contains("attack")) {
+            } else if (attributeList.get(nowSelected).contains("battle")) {
                 tower.getPlayer().attack += valList.get(nowSelected);
             } else if (attributeList.get(nowSelected).contains("defense")) {
                 tower.getPlayer().defense += valList.get(nowSelected);

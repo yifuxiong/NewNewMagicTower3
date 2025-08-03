@@ -448,7 +448,18 @@ public final class TowerPanel extends JPanel implements Runnable {
         }
         if (layer3[y][x].contains("wall")) {
             return false;
-        } else if (layer3[y][x].contains("door") && !layer3[y][x].contains("open")) {
+        } else if (layer3[y][x].contains("floor")) {
+            String floorId = layer3[y][x];
+            switch (floorId) {
+                case "floor07":
+                    musicPlayer.walkOnLava();
+                    int hp = this.tower.getPlayer().getHp();
+                    this.tower.getPlayer().setHp(hp - 50);
+                default:
+                    break;
+            }
+            return true;
+        }else if (layer3[y][x].contains("door") && !layer3[y][x].contains("open")) {
             boolean open = false;
             switch (layer3[y][x]) {
                 case "door01":

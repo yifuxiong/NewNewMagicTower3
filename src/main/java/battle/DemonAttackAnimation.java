@@ -1,4 +1,4 @@
-package attack;
+package battle;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
