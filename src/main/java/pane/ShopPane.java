@@ -10,22 +10,43 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
 
+import static main.TowerPanel.CS;
+
 /**
  * 商店绘制类
- * @author xuehy
- * @since 2020/6/9
  */
-public class ShopPane {
-
+public class ShopPane extends JPanel {
     public static JLayeredPane shopPane = new JLayeredPane();
     private static JPanel showPanel;
-    private static JTextArea shopDialogue;
+    private static JTextArea shopContent;
     private static JLabel selectLabel;
     static byte nowSelected = 0;
 
-    static {
-        shopPane.setBounds(234, 71, 268, 227);
-        shopPane.setBackground(Color.black);
+    // 背景贴图
+    private static ImageIcon background;
+
+    // 对话框size
+    private static final int PANEL_SIZE_I = 7;
+    private static final int PANEL_SIZE_J = 8;
+    // 排布
+    private static final int WIDTH = 80;
+    private static final int HEIGHT = 25;
+    private static final int MARGIN = 30;
+    private static final int LINE_BOUND = 2;
+    // 选择箭头大小
+    private static final int SELECT_LABEL_SIZE = 30;
+    // 字体设置
+    private static final String FONT_FAMILY = "宋体";
+    private static final int FONT_SIZE = 20;
+    private static final int SMALL_SIZE = 16;
+
+    public ShopPane() {
+        background = new ImageIcon(ShopPane.class.getResource("/image/wall/floor01_1.png"));
+        background.setImage(background.getImage().getScaledInstance(CS, CS, Image.SCALE_DEFAULT));
+        // 商店主对界面
+        shopPane.setBounds(CS * 8 - LINE_BOUND, CS * 2 - LINE_BOUND, CS * PANEL_SIZE_I + LINE_BOUND * 2, CS * PANEL_SIZE_J + LINE_BOUND * 2);
+        shopPane.setBorder(BorderFactory.createLineBorder(new Color(0, 153, 204), LINE_BOUND));
+        shopPane.setVisible(false);
     }
 
     public static void showShop(Tower tower, String shopId) {
@@ -33,14 +54,12 @@ public class ShopPane {
         shopPane.removeAll();
         Shop shop = tower.getShopMap().get(shopId);
         init(shop);
-        //必须将监听器设置给shopDialogue 否则可能出现无法响应Key的情况
-        shopDialogue.addKeyListener(new KeyListener() {
+        // 必须将监听器设置给shopContent，否则可能出现无法响应Key的情况
+        shopContent.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent arg0) {
-
             }
 
             public void keyReleased(KeyEvent arg0) {
-
             }
 
             public void keyPressed(KeyEvent arg0) {
@@ -53,7 +72,7 @@ public class ShopPane {
                         }
                         TowerPanel.musicPlayer.shopSelect();
                         nowSelected--;
-                        selectLabel.setBounds(10, 100 + nowSelected * 30, 30, 30);
+                        selectLabel.setBounds(MARGIN, MARGIN * 6 + SELECT_LABEL_SIZE * nowSelected, SELECT_LABEL_SIZE, SELECT_LABEL_SIZE);
                         break;
                     case KeyEvent.VK_DOWN:
                         TowerPanel.input.clear();
@@ -62,7 +81,7 @@ public class ShopPane {
                         }
                         TowerPanel.musicPlayer.shopSelect();
                         nowSelected++;
-                        selectLabel.setBounds(10, 100 + nowSelected * 30, 30, 30);
+                        selectLabel.setBounds(MARGIN, MARGIN * 6 + SELECT_LABEL_SIZE * nowSelected, SELECT_LABEL_SIZE, SELECT_LABEL_SIZE);
                         break;
                     case KeyEvent.VK_ENTER:
                         if (shop.sell.name.get(nowSelected).contains("离开")) {
@@ -102,53 +121,69 @@ public class ShopPane {
         shopPane.add(showPanel);
         shopPane.setVisible(true);
         shopPane.repaint();
-        shopDialogue.requestFocus();
+        shopContent.requestFocus();
     }
 
     private static void init(Shop shop) {
-        showPanel = new JPanel(null);
-        showPanel.setSize(268, 227);
-        showPanel.setBackground(Color.black);
+        showPanel = new ShopPane();
+        showPanel.setLayout(null);
+        showPanel.setBounds(LINE_BOUND, LINE_BOUND, CS * PANEL_SIZE_I, CS * PANEL_SIZE_J);
+
         ImageIcon photo = new ImageIcon(shop.getIcon()[0].getImage());
+        photo.setImage(shop.getIcon()[0].getImage().getScaledInstance(CS, CS, Image.SCALE_DEFAULT));
         JLabel shopImg = new JLabel();
-        shopImg.setBounds(10, 8, TowerPanel.CS, TowerPanel.CS);
+        shopImg.setBounds(MARGIN, MARGIN, TowerPanel.CS, TowerPanel.CS);
+        shopImg.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), LINE_BOUND));
         shopImg.setIcon(photo);
-        shopDialogue = new JTextArea();
-        shopDialogue.setText(shop.dialogue.replaceFirst("%%", String.valueOf(shop.price)));
-        shopDialogue.setLineWrap(true);
-        shopDialogue.setEditable(false);
-        shopDialogue.setBounds(4, 48, 260, 40);
-        shopDialogue.setFont(new Font("宋体", Font.BOLD, 16));
-        shopDialogue.setBackground(Color.black);
-        shopDialogue.setForeground(Color.WHITE);
-        JLabel name = new JLabel(shop.getName());
-        name.setBounds(50, 12, 200, 25);
-        name.setFont(new Font("微软雅黑", Font.BOLD, 20));
-        name.setBackground(Color.white);
+
+        JLabel name = new JLabel();
+        name.setText(shop.getName());
+        name.setBounds(MARGIN * 4, MARGIN, WIDTH * 2, HEIGHT);
+        name.setFont(new Font(FONT_FAMILY, Font.BOLD, SMALL_SIZE));
         name.setForeground(Color.white);
+
+        shopContent = new JTextArea();
+        shopContent.setText(shop.dialogue.replaceFirst("%%", String.valueOf(shop.price)));
+        shopContent.setBounds(MARGIN * 2, MARGIN * 5 / 2, WIDTH * 5 / 2, HEIGHT * 3);
+        // 自动换行
+        shopContent.setLineWrap(true);
+        shopContent.setEditable(false);
+        // 禁用功能不透明
+        shopContent.setOpaque(false);
+        // 设置背景完全透明
+        shopContent.setBackground(new Color(0, 0, 0, 0));
+        shopContent.setFont(new Font(FONT_FAMILY, Font.BOLD, SMALL_SIZE));
+        shopContent.setForeground(Color.white);
+
+        // 选择箭头
         selectLabel = new JLabel();
         selectLabel.setIcon(new ImageIcon(ShopPane.class.getResource("/image/icon/selected.png")));
-        selectLabel.setBounds(10, 100, 30, 30);
+        // 初始位置和大小
+        selectLabel.setBounds(MARGIN, MARGIN * 6, SELECT_LABEL_SIZE, SELECT_LABEL_SIZE);
         selectLabel.setForeground(Color.white);
+
         showPanel.add(shopImg);
-        showPanel.add(shopDialogue);
         showPanel.add(name);
+        showPanel.add(shopContent);
         showPanel.add(selectLabel);
+
+        // 选项
         for (int i = 0; i < shop.sell.name.size(); i++) {
             JLabel label = new JLabel(shop.sell.name.get(i), JLabel.CENTER);
-            label.setBounds(34, 100 + 30 * i, 200, 30);
+            label.setBounds(MARGIN, MARGIN * 6 + SELECT_LABEL_SIZE * i, WIDTH * 3, SELECT_LABEL_SIZE);
             label.setForeground(Color.white);
-            label.setFont(new Font("微软雅黑", Font.BOLD, 16));
+            label.setFont(new Font(FONT_FAMILY, Font.BOLD, SMALL_SIZE));
             showPanel.add(label);
         }
     }
 
+    // 金币商店
     private static boolean buyItemByMoney(Tower tower, Shop shop, int price) {
         if (tower.getPlayer().money >= price) {
             TowerPanel.musicPlayer.shopBuySuc();
             tower.getPlayer().money -= price;
             shop.useNum++;
-            shopDialogue.setText(shop.dialogue.replaceFirst("%%", String.valueOf(shop.price)));
+            shopContent.setText(shop.dialogue.replaceFirst("%%", String.valueOf(shop.price)));
             java.util.List<String> attributeList = shop.sell.attribute;
             java.util.List<Short> valList = shop.sell.val;
             if (attributeList.get(nowSelected).contains("hp")) {
@@ -171,12 +206,13 @@ public class ShopPane {
         }
     }
 
+    // 经验商店
     private static boolean buyItemByExp(Tower tower, Shop shop, int price) {
         if (tower.getPlayer().exp >= price) {
             TowerPanel.musicPlayer.shopExpBuySuc();
             tower.getPlayer().exp -= price;
             shop.useNum++;
-            shopDialogue.setText(shop.dialogue.replaceFirst("%%", String.valueOf(shop.price)));
+            shopContent.setText(shop.dialogue.replaceFirst("%%", String.valueOf(shop.price)));
             java.util.List<String> attributeList = shop.sell.attribute;
             java.util.List<Short> valList = shop.sell.val;
             if (attributeList.get(nowSelected).contains("lv")) {
@@ -197,6 +233,7 @@ public class ShopPane {
         }
     }
 
+    // 出售钥匙商店
     private static boolean sellItem(Tower tower, Shop shop) {
         boolean sell = false;
         List<String> attributeList = shop.sell.attribute;
@@ -229,4 +266,19 @@ public class ShopPane {
         }
     }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        // 构造背景
+        for (int i = 0; i < PANEL_SIZE_I; i++) {
+            for (int j = 0; j < PANEL_SIZE_J; j++) {
+                g.drawImage(background.getImage(), i * CS, j * CS, CS, CS, this);
+            }
+        }
+        // 绘制一条蓝色线条
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(new Color(0, 155, 207));
+        g2d.setStroke(new BasicStroke(LINE_BOUND));
+        g2d.drawLine(0, CS * 4, CS * 8, CS * 4);
+    }
 }
