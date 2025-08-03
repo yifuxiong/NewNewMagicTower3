@@ -262,7 +262,7 @@ public final class MonsterManualPane extends JPanel {
             } else {
                 leftPicLabel.setIcon(new ImageIcon(FloorTransferPane.class.getResource("/image/icon/left_1.png")));
             }
-            leftPicLabel.setBounds(CS * 8 + 20, HEIGHT * 17 + 10, CS, CS * 3 / 2);
+            leftPicLabel.setBounds(CS * 8 + 20, HEIGHT * 14 + 10, CS, CS * 3 / 2);
             leftPicLabel.setForeground(Color.WHITE);
 
             JLabel rightPicLabel = new JLabel();
@@ -271,13 +271,13 @@ public final class MonsterManualPane extends JPanel {
             } else {
                 rightPicLabel.setIcon(new ImageIcon(FloorTransferPane.class.getResource("/image/icon/right_1.png")));
             }
-            rightPicLabel.setBounds(CS * 9 + 20, HEIGHT * 17 + 10, CS, CS * 3 / 2);
+            rightPicLabel.setBounds(CS * 9 + 20, HEIGHT * 14 + 10, CS, CS * 3 / 2);
             rightPicLabel.setForeground(Color.WHITE);
 
             JLabel enterLabel = new JLabel("-Enter-", JLabel.CENTER);
-            enterLabel.setBounds(CS * 8 + 20, HEIGHT * 19, WIDTH, CS * 3 / 2);
+            enterLabel.setBounds(CS * 8 + 20, HEIGHT * 15 + 10, WIDTH, CS * 3 / 2);
             enterLabel.setForeground(Color.GRAY);
-            enterLabel.setFont(new Font(FONT_FAMILY, Font.PLAIN, 20));
+            enterLabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
 
             /************************************************** 添加到画板 **************************************************/
 
@@ -308,7 +308,7 @@ public final class MonsterManualPane extends JPanel {
             showPanel.add(rightPicLabel);
             showPanel.add(enterLabel);
         }
-        showPanel.add(bgLabel, JLayeredPane.DEFAULT_LAYER);
+        showPanel.add(bgLabel);
         showPanel.repaint();
     }
 

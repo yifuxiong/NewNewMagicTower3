@@ -92,7 +92,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     // 是否可以使用楼层跳跃，初始状态为false
     public static boolean canUseFloorTransfer = false;
     // 是否可以查看怪物手册
-    public static boolean canUseMonsterManual = true;
+    public static boolean canUseMonsterManual = false;
     // 特殊楼层（若玩家处于特殊楼层，则使用这个变量记录当前所在楼层索引）
     public static String specialGameMapNo;
     // 结局
