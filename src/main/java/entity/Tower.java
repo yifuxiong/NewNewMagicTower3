@@ -17,6 +17,7 @@ import java.util.Map;
 public final class Tower implements Cloneable, Serializable {
     private Player player;
     // 1帧的贴图
+    private HashMap<String, Floor> floorMap;
     private HashMap<String, Wall> wallMap;
     private HashMap<String, Stair> stairMap;
     private HashMap<String, Item> itemMap;
@@ -26,9 +27,9 @@ public final class Tower implements Cloneable, Serializable {
     private HashMap<String, Shop> shopMap;
     private HashMap<String, NPC> npcMap;
 
-    private static final int FLOOR_NUM = 6;
+    private static final int FLOOR_NUM = 7;
     private Image[] floorImage = new Image[FLOOR_NUM];
-    private static final int WALL_NUM = 12;
+    private static final int WALL_NUM = 10;
     private Image[] wallImage = new Image[WALL_NUM];
 
     // 需要保存的东西
@@ -68,6 +69,7 @@ public final class Tower implements Cloneable, Serializable {
         itemMap = new LoadItem().initItem();
         stairMap = new LoadStair().initStair();
         // 2帧以上实体初始化
+        floorMap = new LoadFloor().initFloor();
         doorMap = new LoadDoor().initDoor();
         monsterMap = new LoadMonster().initMonster();
         npcMap = new LoadNPC().initNPC();
@@ -118,6 +120,10 @@ public final class Tower implements Cloneable, Serializable {
 
     public Map<String, Monster> getMonsterMap() {
         return monsterMap;
+    }
+
+    public Map<String, Floor> getFloorMap() {
+        return floorMap;
     }
 
     public Map<String, Wall> getWallMap() {

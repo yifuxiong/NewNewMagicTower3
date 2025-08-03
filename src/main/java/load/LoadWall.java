@@ -36,36 +36,32 @@ public final class LoadWall {
 
         // 熔岩
         wall = new Wall("wall06",
-                new ImageIcon(getClass().getResource("/image/wall/wall11_1.png")),
-                new ImageIcon(getClass().getResource("/image/wall/wall11_2.png")));
+                new ImageIcon(getClass().getResource("/image/wall/wall07_1.png")),
+                new ImageIcon(getClass().getResource("/image/wall/wall07_2.png")));
         wallMap.put(wall.getId(), wall);
 
+        // 水流
         wall = new Wall("wall07",
-                new ImageIcon(getClass().getResource("/image/wall/wall07_1.png")));
+                new ImageIcon(getClass().getResource("/image/wall/wall08_1.png")),
+                new ImageIcon(getClass().getResource("/image/wall/wall08_2.png")));
         wallMap.put(wall.getId(), wall);
 
+        // 黄金
         wall = new Wall("wall08",
-                new ImageIcon(getClass().getResource("/image/wall/wall08_1.png")));
+                new ImageIcon(getClass().getResource("/image/wall/wall06_1.png")),
+                new ImageIcon(getClass().getResource("/image/wall/wall06_2.png")));
         wallMap.put(wall.getId(), wall);
 
+        // 白银
         wall = new Wall("wall09",
-                new ImageIcon(getClass().getResource("/image/wall/wall05_1.png")));
+                new ImageIcon(getClass().getResource("/image/wall/wall05_1.png")),
+                new ImageIcon(getClass().getResource("/image/wall/wall05_2.png")));
         wallMap.put(wall.getId(), wall);
 
         // 星空浅色
         wall = new Wall("wall10",
                 new ImageIcon(getClass().getResource("/image/wall/wall10_1.png")),
                 new ImageIcon(getClass().getResource("/image/wall/wall10_2.png")));
-        wallMap.put(wall.getId(), wall);
-
-        wall = new Wall("wall11",
-                new ImageIcon(getClass().getResource("/image/wall/wall06_1.png")));
-        wallMap.put(wall.getId(), wall);
-
-        // 弱水
-        wall = new Wall("wall12",
-                new ImageIcon(getClass().getResource("/image/wall/wall12_1.png")),
-                new ImageIcon(getClass().getResource("/image/wall/wall12_2.png")));
         wallMap.put(wall.getId(), wall);
 
         return wallMap;

@@ -21,7 +21,7 @@ public final class LoadMap {
                 {"", "", "", "", "", "", "", "", "", "", ""},
                 {"", "", "", "", "", "", "", "", "npc03_3", "", ""},
                 {"", "", "", "", "", "", "", "", "", "", ""},
-                {"", "shop03_1", "shop04_1", "", "", "", "", "", "", "", ""},
+                {"", "", "", "", "", "", "", "", "", "", ""},
                 {"", "", "", "", "", "", "", "", "", "", ""},
                 {"", "", "", "", "", "", "", "", "", "", ""},
                 {"", "", "", "", "", "", "", "", "", "", ""},
@@ -44,17 +44,17 @@ public final class LoadMap {
                 {"", "", "", "", "", "", "", "", "", "", ""}};
 
         layer3 = new String[][]{
-                {"wall01", "wall01", "wall01", "wall01", "wall01", "stair02", "wall01", "wall01", "wall01", "wall01", "wall01"},
-                {"wall01", "wall01", "", "", "wall01", "door05", "wall01", "", "", "wall01", "wall01"},
-                {"wall01", "", "", "", "", "", "", "", "", "", "wall01"},
-                {"wall01", "", "", "", "", "", "", "", "", "", "wall01"},
-                {"wall01", "", "", "", "", "", "", "", "", "", "wall01"},
-                {"wall01", "", "", "", "", "", "", "", "", "", "wall01"},
-                {"wall01", "wall01", "", "", "", "", "", "", "", "wall01", "wall01"},
-                {"wall01", "wall01", "wall01", "wall01", "wall01", "door01", "wall01", "wall01", "wall01", "wall01", "wall01"},
-                {"wall06", "wall01", "wall06", "wall01", "", "", "", "wall01", "wall06", "wall01", "wall06"},
-                {"wall06", "wall06", "wall06", "wall06", "wall01", "", "wall01", "wall06", "wall06", "wall06", "wall06"},
-                {"wall06", "wall06", "wall06", "wall06", "wall01", "", "wall01", "wall06", "wall06", "wall06", "wall06"}};
+                {"wall09", "wall09", "wall09", "wall09", "wall09", "stair02", "wall09", "wall09", "wall09", "wall09", "wall09"},
+                {"wall09", "wall09", "", "", "wall09", "door05", "wall09", "", "", "wall09", "wall09"},
+                {"wall09", "", "", "", "", "", "", "", "", "", "wall09"},
+                {"wall09", "", "", "", "", "floor06", "", "", "", "", "wall09"},
+                {"wall09", "", "floor05", "", "", "", "", "", "", "", "wall09"},
+                {"wall09", "", "", "", "", "", "", "", "", "", "wall09"},
+                {"wall09", "wall09", "", "", "", "", "", "floor07", "", "wall09", "wall09"},
+                {"wall09", "wall09", "wall09", "wall09", "wall09", "door01", "wall09", "wall09", "wall09", "wall09", "wall09"},
+                {"wall06", "wall09", "wall06", "wall09", "", "", "", "wall09", "wall06", "wall09", "wall06"},
+                {"wall06", "wall06", "wall06", "wall06", "wall09", "", "wall09", "wall06", "wall06", "wall06", "wall06"},
+                {"wall06", "wall06", "wall06", "wall06", "wall09", "", "wall09", "wall06", "wall06", "wall06", "wall06"}};
 
         gameMap = new GameMap(0, layer1, layer2, layer3);
         gameMap.upPositionX = 5;

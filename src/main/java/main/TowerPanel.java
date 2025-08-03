@@ -1086,11 +1086,13 @@ public final class TowerPanel extends JPanel implements Runnable {
         rKeyLabel.setText(String.valueOf(this.tower.getPlayer().rKey));
     }
 
+    // 刷新频率
+    private static final byte INTERVAL_1 = 1;
+    private static final byte INTERVAL_2 = 2;
+
     /**
      * 绘制地图
      */
-    private static final byte INTERVAL_2 = 2;
-
     private void drawMap(Graphics g) {
         GameMap gameMap;
         if (isNormalFloor()) {
@@ -1101,13 +1103,17 @@ public final class TowerPanel extends JPanel implements Runnable {
         String[][] layer1 = gameMap.layer1;
         String[][] layer2 = gameMap.layer2;
         String[][] layer3 = gameMap.layer3;
-        int startX = 6 * CS;
-        int startY = 1 * CS;
+        int startX = CS * 6;
+        int startY = CS;
         for (int i = 0; i < GAME_ROW; i++) {
             for (int j = 0; j < GAME_COL; j++) {
                 if (layer3[i][j].contains("wall")) {
                     String wallId = this.tower.getWallMap().get(layer3[i][j]).getId();
                     g.drawImage(getImageFromIcons(this.tower.getWallMap().get(wallId).getIcon(), INTERVAL_2, frames), startX + j * CS, startY + i * CS, CS, CS, this);
+                } else if (layer3[i][j].contains("floor")) {
+                    // 添加特殊地板
+                    String floorId = this.tower.getFloorMap().get(layer3[i][j]).getId();
+                    g.drawImage(getImageFromIcons(this.tower.getFloorMap().get(floorId).getIcon(), INTERVAL_1, frames), startX + j * CS, startY + i * CS, CS, CS, this);
                 } else if (layer3[i][j].contains("door")) {
                     if (!layer3[i][j].contains("open")) {
                         String doorId = this.tower.getDoorMap().get(layer3[i][j]).getId();
