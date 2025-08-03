@@ -1,4 +1,4 @@
-package battle;
+package pane;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -9,7 +9,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class DemonAttackAnimation extends JPanel implements ActionListener {
+/**
+ * 战斗动画绘制类
+ */
+public class AttackAnimationPanel extends JPanel implements ActionListener {
     // 定时器控制动画帧
     private Timer timer;
     // 特效帧图片数组
@@ -21,7 +24,7 @@ public class DemonAttackAnimation extends JPanel implements ActionListener {
     // 攻击状态
     private boolean isAttacking = false;
 
-    public DemonAttackAnimation() {
+    public AttackAnimationPanel() {
         // 加载特效图片
         try{
             ClassLoader loader = this.getClass().getClassLoader();
@@ -90,7 +93,7 @@ public class DemonAttackAnimation extends JPanel implements ActionListener {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("魔王格勒第攻击特效");
-        DemonAttackAnimation animation = new DemonAttackAnimation();
+        AttackAnimationPanel animation = new AttackAnimationPanel();
         frame.add(animation);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
