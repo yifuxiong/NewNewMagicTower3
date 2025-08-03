@@ -54,6 +54,7 @@ public class DemonAttackAnimation extends JPanel implements ActionListener {
         }
     }
 
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (isAttacking && currentFrame < frames.length) {

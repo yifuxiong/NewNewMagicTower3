@@ -224,6 +224,7 @@ public final class TowerPanel extends JPanel implements Runnable {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
+        musicPlayer.save();
         showMesLabel.setText("数据保存成功");
     }
 
@@ -245,6 +246,7 @@ public final class TowerPanel extends JPanel implements Runnable {
         floor = this.tower.floor;
         DIRECTION = DIRECTION_DOWN;
         updateFloorNum();
+        musicPlayer.load();
         musicPlayer.playBackgroundMusic(floor);
         showMesLabel.setText("数据读取成功");
     }
@@ -815,8 +817,9 @@ public final class TowerPanel extends JPanel implements Runnable {
 
     /************************************************** 绘制方法 **************************************************/
 
+    // 描绘窗体，此处在默认JPanel基础上构建底层地图
     @Override
-    public void paintComponent(Graphics g) {// 描绘窗体，此处在默认JPanel基础上构建底层地图
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (RUNNING) {
             drawBackGround(g);

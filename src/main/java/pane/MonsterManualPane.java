@@ -25,7 +25,7 @@ public final class MonsterManualPane extends JPanel {
     // 怪物展示页面
     private static JPanel showPanel;
     // 背景图片
-    private static JLabel backgroundLabel;
+    private static JLabel bgLabel;
 
     // 每页显示怪物数量
     private static final int Mon3tNumPerPage = 3;
@@ -40,8 +40,8 @@ public final class MonsterManualPane extends JPanel {
     static {
         // 怪物展示时的背景图片
         ImageIcon bgIcon = new ImageIcon(MonsterManualPane.class.getResource("/image/icon/background_s_grey.png"));
-        backgroundLabel = new JLabel(bgIcon);
-        backgroundLabel.setBounds(0, 0, CS * 11, CS * 11);
+        bgLabel = new JLabel(bgIcon);
+        bgLabel.setBounds(0, 0, CS * 11, CS * 11);
         monsterManualPane.setBounds(CS * 6, CS, CS * 11, CS * 11);
         monsterManualPane.setBackground(Color.white);
     }
@@ -306,7 +306,7 @@ public final class MonsterManualPane extends JPanel {
             showPanel.add(rightPicLabel);
             showPanel.add(enterLabel);
         }
-        showPanel.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
+        showPanel.add(bgLabel, JLayeredPane.DEFAULT_LAYER);
         showPanel.repaint();
     }
 

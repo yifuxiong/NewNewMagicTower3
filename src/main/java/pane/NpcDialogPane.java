@@ -15,18 +15,14 @@ import static main.TowerPanel.CS;
 /**
  * NPC对话框绘制类
  */
-public class NpcDialogPane {
+public class NpcDialogPane extends JPanel {
     public static JLayeredPane npcDialogPane = new JLayeredPane();
     private static JPanel showPanel;
     private static JLabel name;
     private static JTextArea content;
     private static JLabel picture;
 
-    //秘籍彩蛋
-    private static String secretScript = "";
-    private static byte nowDialog = 0;
-    private static int dialogNum = 0;
-
+    // 排布和字体设置
     private static final int WIDTH = 80;
     private static final int HEIGHT = 25;
     private static final int MARGIN = 15;
@@ -35,18 +31,23 @@ public class NpcDialogPane {
     private static final int FONT_SIZE = 16;
     private static final int SMALL_SIZE = 14;
 
-    private static final ImageIcon background;
-    private static final JLabel backgroundLabel;
+    // NPC头像和背景框
+    private static ImageIcon background;
+    private static JLabel backgroundLabel;
 
-    static {
+    // 秘籍彩蛋
+    private static String secretScript = "";
+    private static byte nowDialog = 0;
+    private static int dialogNum = 0;
+
+    public NpcDialogPane() {
         background = new ImageIcon(NpcDialogPane.class.getResource("/image/wall/floor01_1.png"));
         background.setImage(background.getImage().getScaledInstance(CS, CS, Image.SCALE_DEFAULT));
         backgroundLabel = new JLabel();
-        backgroundLabel.setIcon(background);
+        // backgroundLabel.setIcon(background);
         backgroundLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 155, 207), LINE_BOUND));
-
+        // 主对话框设置
         npcDialogPane.setBounds(CS * 15 / 2 - LINE_BOUND, CS * 11 / 2 - LINE_BOUND, CS * 8 + LINE_BOUND * 2, CS * 4 + LINE_BOUND * 2);
-        npcDialogPane.setBackground(Color.black);
         npcDialogPane.setBorder(BorderFactory.createLineBorder(new Color(0, 153, 204), LINE_BOUND));
         npcDialogPane.setVisible(false);
     }
@@ -71,7 +72,7 @@ public class NpcDialogPane {
         npcDialogPane.removeAll();
         init(npc, tower.getPlayer().getPlayerIcon()[1][0].getImage());
         NPC finalNpc = npc;
-        //必须将监听器设置给content 否则可能出现无法响应Key的情况
+        // 必须将监听器设置给content，否则可能出现无法响应Key的情况
         content.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent arg0) {
             }
@@ -163,28 +164,31 @@ public class NpcDialogPane {
     private static void init(NPC npc, Image playerImg) {
         dialogNum = npc.dialogues.size();
 
-        showPanel = new JPanel(null);
+        showPanel = new NpcDialogPane();
+        showPanel.setLayout(null);
         showPanel.setBounds(LINE_BOUND, LINE_BOUND, CS * 8, CS * 4);
-        showPanel.setBackground(Color.black);
 
         name = new JLabel();
         name.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
-        name.setBackground(Color.white);
         name.setForeground(Color.white);
 
+        // 对话框内容
         content = new JTextArea();
         content.setBounds(CS * 2, CS + 10, WIDTH * 5 / 2, HEIGHT * 3 + 10);
-        content.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
-        content.setBackground(Color.black);
-        content.setForeground(Color.white);
+        // 自动换行
         content.setLineWrap(true);
         content.setEditable(false);
+        // 禁用功能不透明
+        content.setOpaque(false);
+        // 设置背景完全透明
+        content.setBackground(new Color(0, 0, 0, 0));
+        content.setFont(new Font(FONT_FAMILY, Font.BOLD, FONT_SIZE));
+        content.setForeground(Color.white);
 
         JLabel enterLabel = new JLabel("-Enter-");
         enterLabel.setBounds(CS * 6 + 10, CS * 3 + 10, WIDTH, HEIGHT);
         enterLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, SMALL_SIZE));
         enterLabel.setForeground(Color.white);
-        enterLabel.setBackground(Color.white);
 
         picture = new JLabel();
         updateDialog(npc, playerImg);
@@ -219,5 +223,17 @@ public class NpcDialogPane {
             // System.out.println(npc.getName() + ":\n" + dialogue.text);
         }
         picture.setIcon(photo);
+    }
+
+    // 描绘窗体，此处在默认JPanel基础上构建底层地图
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        // 构造背景
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 4; j++) {
+                g.drawImage(background.getImage(), i * CS, j * CS, CS, CS, this);
+            }
+        }
     }
 }
