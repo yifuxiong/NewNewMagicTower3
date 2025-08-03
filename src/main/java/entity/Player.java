@@ -63,7 +63,7 @@ public final class Player implements Cloneable {
 
     public Player() {
         this.name = "勇士";
-        this.hp = 2000;
+        this.hp = 1000;
         this.attack = 10;
         this.defense = 10;
         this.exp = 0;

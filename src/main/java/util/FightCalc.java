@@ -27,28 +27,31 @@ public final class FightCalc {
         int mHP = monster.getHp();
         int pHP = player.hp;
         int mDamage;
-        //魔法师系的怪物攻击玩家为真实伤害
+        // 魔法师系的怪物攻击玩家为真实伤害
         if (monster.getId().contains("monster04") && (monster.getId().equals("monster04_4") || monster.getId().equals("monster04_5") || monster.getId().equals("monster04_12"))) {
             mDamage = monster.getAttack();
         } else {
             mDamage = monster.getAttack() - player.defense;
         }
         int pDamage = player.attack - monster.getDefense();
-        //-20为怪物伤害临界值
+        // -20为怪物伤害临界值
         if (mDamage <= 0 && mDamage > -playerCriticalVal) {
             mDamage = 1;
         } else if (mDamage <= -playerCriticalVal) {
             mDamage = 0;
         }
-        if (pDamage <= 0 && pDamage > -playerCriticalVal) {
-            canAttack = true;
-            pDamage = 1;
-        } else if (pDamage <= -playerCriticalVal) {
+        // 判断是否可以攻击
+        if (pDamage <= -playerCriticalVal) {
             canAttack = false;
             pDamage = 0;
+        } else if (pDamage <= 0 && pDamage > -playerCriticalVal) {
+            canAttack = true;
+            pDamage = 1;
+        } else{
+            canAttack = true;
         }
-        //System.out.println("怪物攻击一次的伤害:" + mDamage);
-        //System.out.println("玩家攻击一次的伤害:" + pDamage);
+        // System.out.println("怪物攻击一次的伤害:" + mDamage);
+        // System.out.println("玩家攻击一次的伤害:" + pDamage);
         if (pDamage <= 0) {
             return;
         }
@@ -70,8 +73,8 @@ public final class FightCalc {
             }
             attackNo++;
         }
-        //System.out.println("玩家攻击次数:" + pAttackNo);
-        //System.out.println("怪物攻击次数:" + (attackNo - pAttackNo));
+        // System.out.println("玩家攻击次数:" + pAttackNo);
+        // System.out.println("怪物攻击次数:" + (attackNo - pAttackNo));
         if (monster.getId().equals("monster04_13") && (mDamageTotal == 0 || mDamage == 1)) {
             this.mDamageTotal = (int) Math.round(player.hp / 3.0);
         } else if (monster.getId().equals("monster10_1") && (mDamageTotal == 0 || mDamage == 1)) {
@@ -80,7 +83,6 @@ public final class FightCalc {
             this.mDamageTotal = mDamageTotal;
         }
         if (mDamageTotal < player.hp) {
-            canAttack = true;
             canWin = true;
         }
     }
