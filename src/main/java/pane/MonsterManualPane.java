@@ -55,7 +55,6 @@ public final class MonsterManualPane extends JPanel {
         monsterManualPane.removeAll();
         showPanel = new JPanel(null);
         showPanel.setSize(CS * 11, CS * 11);
-//        showPanel.setBackground(Color.black);
         update(fightCalcList, tower.getFloorImage()[0]);
         monsterManualPane.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent arg0) {
@@ -68,20 +67,22 @@ public final class MonsterManualPane extends JPanel {
                 boolean closeFlag = false;
                 boolean changeFlag = false;
                 switch (arg0.getKeyCode()) {
-                    case KeyEvent.VK_SPACE:
                     case KeyEvent.VK_D:
-                    case KeyEvent.VK_ESCAPE:
+                    case KeyEvent.VK_SPACE:
                     case KeyEvent.VK_ENTER:
+                    case KeyEvent.VK_ESCAPE:
                         closeFlag = true;
                         break;
                     case KeyEvent.VK_LEFT:
-                        if (TowerPanel.nowMonsterManual != 0) {
+                        if (TowerPanel.nowMonsterManual > 0) {
+                            TowerPanel.musicPlayer.mon3tManualSelect();
                             TowerPanel.nowMonsterManual--;
                             changeFlag = true;
                         }
                         break;
                     case KeyEvent.VK_RIGHT:
-                        if (TowerPanel.nowMonsterManual < fightCalcList.size() / Mon3tNumPerPage) {
+                        if (TowerPanel.nowMonsterManual < (fightCalcList.size() + Mon3tNumPerPage - 1) / Mon3tNumPerPage - 1) {
+                            TowerPanel.musicPlayer.mon3tManualSelect();
                             TowerPanel.nowMonsterManual++;
                             changeFlag = true;
                         }
@@ -109,7 +110,8 @@ public final class MonsterManualPane extends JPanel {
     private static void update(List<FightCalc> fightCalcList, Image floorImage) {
         showPanel.removeAll();
 
-        for (int i = TowerPanel.nowMonsterManual * Mon3tNumPerPage, length = fightCalcList.size(); i < length && i < (TowerPanel.nowMonsterManual + 1) * Mon3tNumPerPage; i++) {
+        for (int i = TowerPanel.nowMonsterManual * Mon3tNumPerPage, length = fightCalcList.size();
+             i < length && i < (TowerPanel.nowMonsterManual + 1) * Mon3tNumPerPage; i++) {
             Monster monster = fightCalcList.get(i).getMonster();
 
             /************************************************** 手册主页面 **************************************************/
@@ -260,7 +262,7 @@ public final class MonsterManualPane extends JPanel {
             } else {
                 leftPicLabel.setIcon(new ImageIcon(FloorTransferPane.class.getResource("/image/icon/left_1.png")));
             }
-            leftPicLabel.setBounds(CS * 9, HEIGHT * 17, CS, CS * 3 / 2);
+            leftPicLabel.setBounds(CS * 8 + 20, HEIGHT * 17 + 10, CS, CS * 3 / 2);
             leftPicLabel.setForeground(Color.WHITE);
 
             JLabel rightPicLabel = new JLabel();
@@ -269,11 +271,11 @@ public final class MonsterManualPane extends JPanel {
             } else {
                 rightPicLabel.setIcon(new ImageIcon(FloorTransferPane.class.getResource("/image/icon/right_1.png")));
             }
-            rightPicLabel.setBounds(CS * 10, HEIGHT * 17, CS, CS * 3 / 2);
+            rightPicLabel.setBounds(CS * 9 + 20, HEIGHT * 17 + 10, CS, CS * 3 / 2);
             rightPicLabel.setForeground(Color.WHITE);
 
             JLabel enterLabel = new JLabel("-Enter-", JLabel.CENTER);
-            enterLabel.setBounds(CS * 9, HEIGHT * 19, WIDTH, CS * 3 / 2);
+            enterLabel.setBounds(CS * 8 + 20, HEIGHT * 19, WIDTH, CS * 3 / 2);
             enterLabel.setForeground(Color.GRAY);
             enterLabel.setFont(new Font(FONT_FAMILY, Font.PLAIN, 20));
 
