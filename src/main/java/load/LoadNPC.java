@@ -122,10 +122,15 @@ public final class LoadNPC {
                 dialogues);
         npcMap.put(npc.getId(), npc);
 
-        dialogues = new ArrayList<>(0);
-        npc = new NPC("npc02_0", "老者", true, true,
-                new ImageIcon(getClass().getResource("/image/npc/npc02_1.png")),
-                new ImageIcon(getClass().getResource("/image/npc/npc02_2.png")),
+        dialogues = new ArrayList<>(3);
+        dialogues.add(new Dialogue("businessman", "\b如你所见，我是个商人\n\b我对奇珍异宝很感兴趣！你身上有什么稀奇玩意吗？"));
+        dialogues.add(new Dialogue("player", "\b宝物？\n\b我是来救公主的！\n\b哪会带上什么珍宝？"));
+        dialogues.add(new Dialogue("businessman", "\b呵呵呵\n\b没什么事就不要浪费我的时间"));
+        dialogues.add(new Dialogue("player", "\b真是莫名其妙的人"));
+        dialogues.add(new Dialogue("businessman", "\b哼！\n\b无聊的人"));
+        npc = new NPC("npc02_0", "奸商", true, false,
+                new ImageIcon(getClass().getResource("/image/npc/npc03_1.png")),
+                new ImageIcon(getClass().getResource("/image/npc/npc03_2.png")),
                 dialogues);
         npcMap.put(npc.getId(), npc);
 
@@ -172,14 +177,22 @@ public final class LoadNPC {
                 dialogues);
         npcMap.put(npc.getId(), npc);
 
-        dialogues = new ArrayList<>(6);
-        dialogues.add(new Dialogue("elder", "\b看到那个疯子了吗,据说他有不可告人的秘密!"));
-        dialogues.add(new Dialogue("player", "\b...???\n\b您还是快走吧,这里危险!"));
-        dialogues.add(new Dialogue("elder", "\b等等,你胸前这个是圣光徽吗?"));
-        dialogues.add(new Dialogue("player", "\b是这个吗?"));
-        dialogues.add(new Dialogue("elder", "\b对对对,我肯定不会看错。你可以按下\bD\b来用它查看怪物信息!"));
-        dialogues.add(new Dialogue("player", "\b明白了,谢谢!"));
+        dialogues = new ArrayList<>(5);
+        dialogues.add(new Dialogue("elder", "\b据说这个塔不止20层，但目前来的挑战者最高只达到20层"));
+        dialogues.add(new Dialogue("player", "\b...???\n\b您还是快走吧，这里危险!"));
+        dialogues.add(new Dialogue("elder", "\b等等，年轻人\n\b我可以提供你一些小的帮助"));
+        dialogues.add(new Dialogue("elder", "\b这是怪物手册，你可以按下\bD\b来用它查看怪物信息"));
+        dialogues.add(new Dialogue("player", "\b明白了，谢谢!"));
         npc = new NPC("npc02_4", "老者", true, true,
+                new ImageIcon(getClass().getResource("/image/npc/npc02_1.png")),
+                new ImageIcon(getClass().getResource("/image/npc/npc02_2.png")),
+                dialogues);
+        npcMap.put(npc.getId(), npc);
+
+        dialogues = new ArrayList<>(2);
+        dialogues.add(new Dialogue("elder", "\b年轻人，还有什么事吗？"));
+        dialogues.add(new Dialogue("player", "\b没有了，谢谢！"));
+        npc = new NPC("npc02_4_1", "老者", true, false,
                 new ImageIcon(getClass().getResource("/image/npc/npc02_1.png")),
                 new ImageIcon(getClass().getResource("/image/npc/npc02_2.png")),
                 dialogues);

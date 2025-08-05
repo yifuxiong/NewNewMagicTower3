@@ -6,6 +6,8 @@ import javax.swing.ImageIcon;
 import java.io.Serializable;
 import java.util.List;
 
+import static pane.SpecialItemPane.showSpecialItem;
+
 /**
  * NPC类
  */
@@ -82,7 +84,7 @@ public final class NPC extends Entity implements Cloneable, Serializable {
             tower.getPlayer().yKey++;
             tower.getPlayer().bKey++;
             tower.getPlayer().rKey++;
-            tower.getGameMapList().get(0).layer1[8][4] = "npc01_1_2";
+//            tower.getGameMapList().get(0).layer1[8][4] = "npc01_1_2";
         } else if (this.id.equals("npc01_1_2")) {
             tower.getPlayer().attack = tower.getPlayer().attack * 4 / 3;
             tower.getPlayer().defense = tower.getPlayer().defense * 4 / 3;
@@ -134,6 +136,13 @@ public final class NPC extends Entity implements Cloneable, Serializable {
             tower.getPlayer().y = 9;
         } else if (this.id.equals("npc02_3")) {
             tower.getPlayer().inventory.put("IceStick", 1);
+        } else if (this.id.equals("npc02_4") && !TowerPanel.canUseMonsterManual) {
+            TowerPanel.canUseMonsterManual = true;
+            TowerPanel.showMesLabel.setText("获得怪物手册，可以查看怪物信息");
+            Item item = tower.getItemMap().get("item09_6");
+            showSpecialItem(item);
+            TowerPanel.musicPlayer.getSpecialItem();
+            tower.getGameMapList().get(1).layer1[0][10] = "npc02_4_1";
         } else if (this.id.equals("npc04_1")) {
             tower.getDoorMap().get("door04_1").openable = true;
             tower.getGameMapList().get(4).layer1[0][5] = "npc04_2";

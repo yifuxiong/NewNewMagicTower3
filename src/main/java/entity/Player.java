@@ -64,14 +64,14 @@ public final class Player implements Cloneable {
     public Player() {
         this.name = "勇士";
         this.hp = 1000;
-        this.attack = 10;
-        this.defense = 10;
+        this.attack = 100;
+        this.defense = 100;
         this.exp = 0;
         this.money = 0;
         this.level = 1;
-        this.yKey = 0;
-        this.bKey = 0;
-        this.rKey = 0;
+        this.yKey = 10;
+        this.bKey = 1;
+        this.rKey = 1;
         this.maxFloor = 0;
         this.minFloor = 0;
         this.x = 0;

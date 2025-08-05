@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * 游戏地图类
@@ -22,6 +23,11 @@ public final class GameMap implements Cloneable, Serializable {
      */
     public byte downPositionX;
     public byte downPositionY;
+
+    /**
+     * 多个下楼梯和上楼梯
+     */
+    public HashMap<String, String> stairList = new HashMap<>();;
 
     /**
      * 上图层：玩家player，怪物monster，NPC，商店shop

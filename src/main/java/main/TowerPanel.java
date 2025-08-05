@@ -1,5 +1,6 @@
 package main;
 
+import cn.hutool.core.lang.hash.Hash;
 import end.NormalEnd;
 import entity.*;
 import score.ScoreApplication;
@@ -73,7 +74,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     JLabel rKeyPicLabel, rKeyLabel;
     JLabel monPicLabel, monLabel;
     // 最底下的信息框
-    JLabel showMesLabel;
+    public static JLabel showMesLabel;
     // fps信息框
     JLabel fpsLabel, showFpsLabel;
     JLabel imgLabel;
@@ -100,7 +101,7 @@ public final class TowerPanel extends JPanel implements Runnable {
     // 结局
     public static byte end;
     // 当前所在楼层
-    public static int floor = 0;
+    public static int floor = 1;
 
     // 线程池
     public static ExecutorService mainExecutor;
@@ -318,6 +319,37 @@ public final class TowerPanel extends JPanel implements Runnable {
                 this.tower.getStairMap().get(stair).script(this, this.tower, specialGameMapNo);
                 updateFloorNum();
                 return;
+            } else if ((stair.contains("stair01") || stair.contains("stair02")) && !doNotUpStairOrDownStair(this.tower.getPlayer().x, this.tower.getPlayer().y, this.tower.getPlayer().lastX, this.tower.getPlayer().lastY)) {
+                // 每层有多个上下楼梯
+                GameMap curMap = this.tower.getGameMapList().get(floor);
+                HashMap<String, String> stairList = curMap.stairList;
+                String curStair = curMap.layer3[this.tower.getPlayer().y][this.tower.getPlayer().x];
+                for (Map.Entry<String, String> entry : stairList.entrySet()) {
+                    if (entry.getKey().equals(curStair)) {
+                        String pos = entry.getValue();
+                        byte x = Byte.parseByte((pos.split("_")[0]));
+                        byte y = Byte.parseByte((pos.split("_")[1]));
+                        floorChangeScene(imgLabel);
+                        musicPlayer.upAndDown();
+                        if (stair.contains("stair01")) {
+                            floor--;
+                        } else {
+                            floor++;
+                        }
+                        this.tower.getPlayer().x = x;
+                        this.tower.getPlayer().y = y;
+                        // 到达新的楼层后，上一步位置重置，和当前位置保持一致
+                        this.tower.getPlayer().lastX = this.tower.getPlayer().x;
+                        this.tower.getPlayer().lastY = this.tower.getPlayer().y;
+                        updateFloorNum();
+                        DIRECTION = DIRECTION_DOWN;
+                        musicPlayer.playBackgroundMusic(floor);
+                        if (floor < this.tower.getPlayer().minFloor) {
+                            this.tower.getPlayer().minFloor = floor;
+                        }
+                        return;
+                    }
+                }
             }
         } else {
             String stair = this.tower.getSpecialMap().get(specialGameMapNo).layer3[this.tower.getPlayer().y][this.tower.getPlayer().x];
@@ -465,7 +497,7 @@ public final class TowerPanel extends JPanel implements Runnable {
                     break;
             }
             return true;
-        }else if (layer3[y][x].contains("door") && !layer3[y][x].contains("open")) {
+        } else if (layer3[y][x].contains("door") && !layer3[y][x].contains("open")) {
             boolean open = false;
             switch (layer3[y][x]) {
                 case "door01":
@@ -644,7 +676,7 @@ public final class TowerPanel extends JPanel implements Runnable {
                         flag = true;
                         break;
                     case "item04_3":
-                        showMesLabel.setText("获得武士剑,攻击+50");
+                        showMesLabel.setText("获得骑士剑,攻击+50");
                         this.tower.getPlayer().attack += 50;
                         flag = true;
                         break;
@@ -672,7 +704,7 @@ public final class TowerPanel extends JPanel implements Runnable {
                         flag = true;
                         break;
                     case "item05_3":
-                        showMesLabel.setText("获得武士盾,防御+50");
+                        showMesLabel.setText("获得骑士盾,防御+50");
                         this.tower.getPlayer().defense += 50;
                         flag = true;
                         break;

@@ -12,12 +12,30 @@ public final class LoadStair {
     public HashMap<String, Stair> initStair() {
         HashMap<String, Stair> stairMap = new HashMap<>(16);
 
+        /**
+         * 多个上下楼梯
+         */
         Stair stair = new Stair("stair01", new ImageIcon(getClass().getResource("/image/stair/stair01.png")));
+        stairMap.put(stair.getId(), stair);
+
+        stair = new Stair("stair01_1", new ImageIcon(getClass().getResource("/image/stair/stair01.png")));
+        stairMap.put(stair.getId(), stair);
+
+        stair = new Stair("stair01_2", new ImageIcon(getClass().getResource("/image/stair/stair01.png")));
         stairMap.put(stair.getId(), stair);
 
         stair = new Stair("stair02", new ImageIcon(getClass().getResource("/image/stair/stair02.png")));
         stairMap.put(stair.getId(), stair);
 
+        stair = new Stair("stair02_1", new ImageIcon(getClass().getResource("/image/stair/stair02.png")));
+        stairMap.put(stair.getId(), stair);
+
+        stair = new Stair("stair02_2", new ImageIcon(getClass().getResource("/image/stair/stair02.png")));
+        stairMap.put(stair.getId(), stair);
+
+        /**
+         * 传送阵
+         */
         stair = new Stair("stair03_1", new ImageIcon(getClass().getResource("/image/stair/stair03.png")));
         stairMap.put(stair.getId(), stair);
 

@@ -37,7 +37,7 @@ public class PostScript {
         programLabel.setForeground(Color.white);
         programLabel.setFont(new Font("微软雅黑", Font.BOLD, 20));
         programLabel.setVisible(true);
-        JLabel programValLabel = new JLabel("Vip、疯子", JLabel.LEFT);
+        JLabel programValLabel = new JLabel("啵啵", JLabel.LEFT);
         programValLabel.setForeground(Color.white);
         programValLabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
         programValLabel.setVisible(true);
@@ -105,7 +105,7 @@ public class PostScript {
         testLabel.setForeground(Color.white);
         testLabel.setFont(new Font("微软雅黑", Font.BOLD, 20));
         testLabel.setVisible(true);
-        JLabel testValLabel = new JLabel("Vip、疯子", JLabel.LEFT);
+        JLabel testValLabel = new JLabel("啵啵", JLabel.LEFT);
         testValLabel.setForeground(Color.white);
         testValLabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
         testValLabel.setVisible(true);
@@ -196,7 +196,7 @@ public class PostScript {
         emailLabel.setFont(new Font("微软雅黑", Font.BOLD, 30));
         emailLabel.setVisible(true);
         emailLabel.setBounds(155, 160, 300, 50);
-        JLabel emailValLabel = new JLabel("xuehy1999@qq.com", JLabel.LEFT);
+        JLabel emailValLabel = new JLabel("879951754@qq.com", JLabel.LEFT);
         emailValLabel.setForeground(Color.white);
         emailValLabel.setFont(new Font("微软雅黑", Font.PLAIN, 30));
         emailValLabel.setVisible(true);
@@ -230,7 +230,7 @@ public class PostScript {
         }
 
         //end
-        JLabel endLabel = new JLabel("二零二零年八月八日 · 宁波", JLabel.CENTER);
+        JLabel endLabel = new JLabel("二零二五年四月", JLabel.CENTER);
         endLabel.setForeground(Color.white);
         endLabel.setFont(new Font("微软雅黑", Font.BOLD, 30));
         endLabel.setVisible(true);
